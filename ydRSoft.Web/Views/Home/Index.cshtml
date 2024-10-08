@@ -1,0 +1,677 @@
+﻿@{
+    ViewBag.Title = "Smart Kitchen";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+
+    <link rel="shortcut icon" href="~/Content/Imagenes/Logos/paw.png">
+
+    <link href="@Url.Content("~/Content/css/bootstrap.min.css")" rel="stylesheet">
+    <link href="@Url.Content("~/Content/font-awesome/css/font-awesome.css")" rel="stylesheet">
+    <link href="@Url.Content("~/Content/css/animate.css")" rel="stylesheet">
+    <link href="@Url.Content("~/Content/css/estiloydR.css")" rel="stylesheet">
+    <link href="@Url.Content("~/Content/css/animate.css")" rel="stylesheet">
+
+    <link href="@Url.Content("~/Content/css/plugins/jasny/jasny-bootstrap.min.css")" rel="stylesheet">
+    <link href="@Url.Content("~/Content/css/plugins/sweetalert/sweetalert.css")" rel="stylesheet" />
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            font-size: 24px;
+            font-family: 'Lucida Console';
+        }
+
+
+        #canvasCorona {
+            display: block;
+        }
+
+        canvas {
+            border: 1px solid black;
+            display: block;
+            margin: auto;
+        }
+
+        .contenido-ydR {
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            margin: 20px 0 0 20px;
+        }
+
+
+        .floatingTiempo {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            z-index: 9999;
+            font-size: 24px;
+        }
+
+
+        #floatingTextTop {
+            position: fixed;
+            right: 10px;
+            color: red;
+            padding: 10px;
+            border-radius: 5px;
+            z-index: 9999;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="floatingTiempo">
+        <div style="display: flex; align-items: flex-end; justify-content: center;">
+            <img src="~/Content/Imagenes/Clima/clima11.png" width="90" alt="Clima" />
+            <p style="margin-left: 0px; margin-bottom: 15px; font-size:32px">18&deg;</p>
+        </div>
+        <div id="clockDiv"></div>
+        <div>@DateTime.Now.ToShortDateString()</div>
+    </div>
+
+    <div id="floatingTextTop" style="top:10px">
+        <button class="btn btn-circle btn-success" id="startCapture" onclick="IniciarCaptura()"><i class="fa fa-camera"></i></button>
+    </div>
+
+    <div id="floatingTextTop" style="top:50px">
+        <button class="btn btn-circle btn-primary" id="btnReceta" onclick="funRecetas()"><i class="fa fa-eye"></i></button>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-3">
+            <div class="contenido-ydR">
+                <div id="viewReceta"> </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <canvas id="canvasCorona"></canvas>
+        </div>
+    </div>
+
+    <div class="modal inmodal fade" id="modalCamara" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <button class="btn btn-circle btn-danger float-right" data-dismiss="modal"><i class="fa fa-close"></i></button>
+            <video id="video" width="1280" height="720" autoplay></video>
+            <canvas id="canvas" width="1280" height="720" style="display: none;"></canvas>
+        </div>
+    </div>
+
+
+    <script src="@Url.Content("~/Content/js/jquery-3.1.1.min.js")"></script>
+    <script src="@Url.Content("~/Content/js/popper.min.js")"></script>
+    <script src="@Url.Content("~/Content/js/bootstrap.js")"></script>
+    <script src="@Url.Content("~/Content/js/inspinia.js")"></script>
+
+    <script src="@Url.Content("~/Content/js/plugins/metisMenu/jquery.metisMenu.js")"></script>
+    <script src="@Url.Content("~/Content/js/plugins/slimscroll/jquery.slimscroll.min.js")"></script>
+    <script src="@Url.Content("~/Content/js/plugins/sweetalert/sweetalert.min.js")"></script>
+    <script src="@Url.Content("~/Content/js/plugins/jasny/jasny-bootstrap.min.js")"></script>
+
+</body>
+</html>
+
+<script>
+
+    /* Cargar voces disponibles
+
+    let voces = [];
+    function cargarVoces() {
+        voces = window.speechSynthesis.getVoices();
+    }
+
+    window.speechSynthesis.onvoiceschanged = cargarVoces;
+
+    function hablarTexto(texto) {
+        const utterance = new SpeechSynthesisUtterance(texto); // Crear una nueva instancia de SpeechSynthesisUtterance
+        //Microsoft Sabina - Spanish (Mexico)
+        //const vozSeleccionada = voces.find(voz => voz.name === "Microsoft Raul - Spanish (Mexico)");
+        const vozSeleccionada = voces.find(voz => voz.name === "Microsoft Sabina - Spanish (Mexico)");
+        if (vozSeleccionada) {
+            utterance.voice = vozSeleccionada; // Asignar la voz seleccionada
+        } else {
+            console.warn("La voz no está disponible.");
+        }
+
+        window.speechSynthesis.speak(utterance); // Hablar el texto
+    }
+
+    */
+
+    function hablarTexto(texto) {
+
+        const utterance = new SpeechSynthesisUtterance(texto); // Crear una nueva instancia de SpeechSynthesisUtterance
+        window.speechSynthesis.speak(utterance); // Hablar el texto
+    }
+</script>
+
+<script id="_Captura_de_voz_">
+   
+    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+
+    recognition.lang = 'es-ES';
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+
+    recognition.start();
+    function normalizarTexto(texto) {
+            // Reemplaza la "á" por "a" y convierte todo a minúsculas
+            return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+        }
+
+    recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript.toLowerCase();
+        //const textoNormalizado = normalizarTexto(transcript); // Normalizar el texto
+        console.log('Transcripción:', transcript); // Mostrar la transcripción en la consola
+
+        if (transcript === 'iniciar') {
+            console.log("entro a iniciar");
+
+            IniciarCaptura();
+        }
+
+        if (transcript === 'receta') {
+            funRecetas();
+            console.log("entro a receta");
+        }
+
+        if (transcript === 'cámara') {
+            console.log("entro a camara");
+            toggleModal();
+        }
+
+        if (transcript === 'hablar') {
+            console.log("entro a hablar");
+            hablarTexto("estamos probando el texto por aqui XD");
+        }
+    };
+
+    recognition.onerror = (event) => {
+        console.error('Error de reconocimiento de voz:', event.error);
+    };
+
+    recognition.onend = () => {
+        recognition.start();
+    };
+</script>
+
+<script id="_Control_mas_L_">
+    const modalCamara = new bootstrap.Modal(document.getElementById('modalCamara'));
+
+    document.addEventListener('keydown', (event) => {
+
+        if (event.ctrlKey && (event.key === 'l' || event.key === 'L')) {
+            event.preventDefault();
+            //alert('Has presionado Control + M');
+            
+            modalCamara.show();
+        }
+    });
+
+    function isModalOpen() {
+        const modal = document.getElementById('modalCamara');
+        return modal.classList.contains('show');
+    }
+
+    function toggleModal() {
+        if (isModalOpen()) {
+            modalCamara.hide(); // Cerrar modal
+            console.log('El modal se ha cerrado');
+        } else {
+            modalCamara.show(); // Abrir modal
+            console.log('El modal se ha abierto');
+        }
+    }
+
+</script>
+
+<script id="_vista_tiempo_">
+    // Función para actualizar la hora dentro del div
+    function startClock() {
+        const clockDiv = document.getElementById('clockDiv');
+
+        setInterval(() => {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            clockDiv.textContent = `${hours}:${minutes}:${seconds}`;
+        }, 1000); // Actualiza cada segundo
+    }
+
+    // Iniciar la función del reloj
+    startClock();
+</script>
+
+<script id="_Captura_de_camara">
+
+    (function () {
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+        const startCaptureButton = document.getElementById('startCapture');
+        let isCapturing = false;
+        let isSending = false; // Bandera para controlar el envío de la imagen
+        let captureInterval;
+
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => {
+                video.srcObject = stream;
+            })
+            .catch(err => {
+                alert("No se puede acceder a la cámara. Por favor, verifica que esté conectada.");
+            });
+
+        // Llamar a la función globalmente
+        window.IniciarCaptura = IniciarCaptura;
+
+        function IniciarCaptura() {
+            if (!isCapturing) {
+                isCapturing = true;
+
+                startCaptureButton.classList.remove('btn-success');
+                startCaptureButton.classList.add('btn-primary');
+                // Iniciar la captura cada 2 segundos
+                captureInterval = setInterval(() => {
+                    if (!isSending) {
+                        //captureAndSendImage();
+                        EnviarImagen();
+                    }
+                }, 1000);
+            } else {
+                isCapturing = false;
+                startCaptureButton.classList.remove('btn-primary');
+                startCaptureButton.classList.add('btn-success');
+
+                // Detener el intervalo de captura
+                clearInterval(captureInterval);
+            }
+        }
+
+
+        // Función para capturar la imagen y enviarla al servidor
+        async function captureAndSendImage() {
+            // Configurar el canvas solo cuando la cámara esté disponible
+            if (video.readyState === video.HAVE_ENOUGH_DATA) {
+                const context = canvas.getContext('2d');
+                context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                const imageData = canvas.toDataURL('image/png'); // Base64
+
+                isSending = true; // Marcar como enviando
+
+                // Medir el tiempo de inicio
+                const startTime = performance.now();
+
+                try {
+                    // Enviar la imagen al servidor
+                    const response = await fetch('/Home/UploadImage', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ image: imageData })
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Error en la respuesta del servidor');
+                    }
+
+                    const data = await response.json();
+                    console.log('Imagen enviada con éxito:', data);
+                    let idP = data.Id;
+                    if (idP > 0) {
+                        //dibujarProd();
+                    }
+                    // Mostrar los datos de la respuesta
+                    console.log(`ID: ${data.Id}`);
+                    console.log(`Nombre: ${data.Nombre}`);
+                    console.log(`PosX: ${data.PosX}`);
+                    console.log(`PosY: ${data.PosY}`);
+                    console.log(`Radio: ${data.Radio}`);
+
+                    // Ocultar el video y el canvas después de la primera captura
+                    //video.style.display = 'none';
+                    //canvas.style.display = 'none';
+                } catch (error) {
+                    console.error('Error al enviar la imagen:', error);
+                } finally {
+                    isSending = false; // Liberar la bandera al terminar
+                    const endTime = performance.now();
+                    const elapsedTime = endTime - startTime;
+                    console.log(`Tiempo de ejecución: ${elapsedTime.toFixed(2)} ms`);
+                }
+            }
+        }
+
+        async function EnviarImagen() {
+            console.log("Entro a enviar imagen");
+            // Configurar el canvas solo cuando la cámara esté disponible
+            if (video.readyState === video.HAVE_ENOUGH_DATA) {
+                const context = canvas.getContext('2d');
+                context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                const imageData = canvas.toDataURL('image/png'); // Base64
+
+                isSending = true; // Marcar como enviando
+
+                // Medir el tiempo de inicio
+                const startTime = performance.now();
+
+                try {
+                    // Enviar la imagen al servidor
+                    const response = await fetch('/AProducto/Producto/ConsultarApi', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ image64: imageData })
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Error en la respuesta del servidor');
+                    }
+
+                    const data = await response.json();
+                    console.log('Imagen enviada con éxito:', data);
+
+                    dibujarProd(data);
+                    let idP = data.Id;
+                    if (idP > 0) {
+                        // Mostrar los datos de la respuesta
+                        console.log(`ID: ${data.Id}`);
+                        console.log(`Nombre: ${data.Nombre}`);
+                        console.log(`PosX: ${data.PosX}`);
+                        console.log(`PosY: ${data.PosY}`);
+                        console.log(`Radio: ${data.Radio}`);
+                    } else {
+                        console.log("Producto no Valido");
+                    }
+
+
+                    // Ocultar el video y el canvas después de la primera captura
+                    //video.style.display = 'none';
+                    //canvas.style.display = 'none';
+                } catch (error) {
+                    console.error('Error al enviar la imagen:', error);
+                } finally {
+                    isSending = false; // Liberar la bandera al terminar
+                    const endTime = performance.now();
+                    const elapsedTime = endTime - startTime;
+                    console.log(`Tiempo de ejecución: ${elapsedTime.toFixed(2)} ms`);
+                }
+            }
+        }
+
+    })();
+
+</script>
+
+<script id="_fun_recetas">
+
+    async function funRecetas() {
+
+        var dataString = new FormData();
+
+        dataString.append("Pagina", 1);
+
+        const response = await fetch('/AReceta/Receta/verReceta', {
+            method: 'POST',
+            body: dataString,
+        });
+
+        if (response.ok) {
+            const data = await response.text();
+            $("#viewReceta").html(data);
+        } else {
+            divResult.innerHTML = '<h3> Ninguna receta Disponible </h3>';
+        }
+    }
+
+</script>
+
+
+<script id="_Dibujar_Corona_">
+    // Obtener el canvas y el contexto
+    const canvas = document.getElementById('canvasCorona');
+    const ctx = canvas.getContext('2d');
+    const anchoCorona = 50;
+    const Tipoletra = '"Lucida Console"';
+    const tamNombre = 28;
+    const tamInfo = 18;
+    const tamInfo2 = 14;
+
+    // Ajustar el tamaño del canvas al tamaño de la ventana
+    function ajustarCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        //hablarTexto("Bienvenido a Smart Kitchen");
+        //dibujarProd();
+    }
+    async function dibujarProd(productos) {
+        try {
+
+            // Limpiar el canvas solo una vez antes de dibujar todos los productos
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            productos.forEach(producto => {
+                mostrarProductos(producto); // Llamar a la función mostrarData para cada producto
+            });
+
+        } catch (error) {
+            console.error(error);
+        }
+
+    }
+    async function dibujarProd_test() {
+        try {
+
+            img64 = "holitas";
+
+            const response = await fetch('/AProducto/Producto/ListaProductos', {
+                method: 'POST', // Cambia el método a POST
+                headers: {
+                    'Content-Type': 'application/json' // Especifica el tipo de contenido
+                },
+                body: JSON.stringify({ Imgb64: img64, Radio: 150 }) // Envia img64 en el cuerpo de la solicitud
+            });
+
+            if (!response.ok) {
+                throw new Error('Error al obtener los productos');
+            }
+
+
+            const productos = await response.json();
+
+            // Limpiar el canvas solo una vez antes de dibujar todos los productos
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            productos.forEach(producto => {
+                mostrarProductos(producto); // Llamar a la función mostrarData para cada producto
+            });
+
+        } catch (error) {
+            console.error(error);
+        }
+
+    }
+
+    function mostrarProductos(producto) {
+
+        let nombre = producto.Nombre;
+        let posX = producto.PosX;
+        let posY = producto.PosY;
+        let radio = producto.Radio;
+
+        let minfo = [];
+        minfo.push(producto.Info.Calorias);
+        minfo.push(producto.Info.Proteinas);
+        minfo.push(producto.Info.Colesterol);
+        minfo.push(producto.Info.Fibra);
+        minfo.push(producto.Info.Azucares);
+        minfo.push(producto.Info.Sodio);
+
+        dibujarCorona(posX, posY, radio);
+        dibujarInfo(posX, posY, radio);
+        dibujarNombre(posX, posY, radio, nombre);
+        dibujarLinea(posX, posY, radio, minfo);
+    }
+
+    // Dibujar la corona
+    function dibujarCorona(x, y, radioExterior) {
+
+        // Cálculo del radio interior
+        const radioInterior = radioExterior - anchoCorona;
+
+
+
+        // Dibujar círculo exterior
+        ctx.beginPath();
+        ctx.arc(x, y, radioExterior, 0, Math.PI * 2, false);
+        ctx.fillStyle = 'rgb(64, 150, 84)';
+        ctx.fill();
+
+        // Dibujar círculo interior (eliminar el centro)
+        ctx.globalCompositeOperation = 'destination-out';
+        ctx.beginPath();
+        ctx.arc(x, y, radioInterior, 0, Math.PI * 2, false);
+        ctx.fill();
+
+        // Restaurar el modo de dibujo
+        ctx.globalCompositeOperation = 'source-over';
+
+    }
+
+    function dibujarNombre(x, y, radioExterior, texto) {
+
+        const radioInterior = radioExterior - anchoCorona;
+        // Configuración de la fuente
+        ctx.font = `${tamNombre}px ${Tipoletra}`;
+
+        ctx.fillStyle = 'white'; // Color del texto
+
+        const anguloInicio = 0.8; // Comienza desde el lado izquierdo de la corona
+        const anguloPaso = 0.25 * 100 / radioExterior; // Ángulo entre cada letra
+
+        // Ajustar el radio donde se dibuja el texto
+        const radioTexto = radioInterior + 35; // Ajustar el radio para el texto
+
+        const index = texto.length - 1;
+        let aux = 0;
+        // Dibujar texto a lo largo de la curva en forma de "U"
+        for (let i = index; i >= 0; i--) {
+            const angulo = anguloInicio + aux * anguloPaso; // Ángulo para cada letra
+            const letraX = x + (radioTexto * Math.cos(angulo)); // Coordenada x
+            const letraY = y + (radioTexto * Math.sin(angulo)); // Coordenada y
+
+            // Rotar el texto para que siga la curva
+            ctx.save();
+            ctx.translate(letraX, letraY);
+            ctx.rotate(angulo + 4.65); // Alinea el texto hacia arriba
+            ctx.fillText(texto[i], 0, 0); // Dibujar letra
+            ctx.restore();
+            aux++;
+        }
+    }
+
+    function dibujarInfo(x, y, radioExterior) {
+        const texto = "Tamaño de porcion 100g";
+        const radioInterior = radioExterior - anchoCorona;
+        // Configuración de la fuente
+        ctx.font = `${tamInfo}px ${Tipoletra}`;
+        ctx.fillStyle = 'white'; // Color del texto
+
+        const anguloInicio = 5.28 // Comienza desde el lado izquierdo de la corona
+        const anguloPaso = 0.13 * 100 / radioExterior;
+
+        // Ajustar el radio donde se dibuja el texto
+        const radioTexto = radioInterior + 20; // Ajustar el radio para el texto
+
+        const index = texto.length - 1;
+        // Dibujar texto a lo largo de la curva en forma de "U"
+        let aux = 0;
+        for (let i = index; i >= 0; i--) {
+            const angulo = anguloInicio - aux * anguloPaso; // Ángulo para cada letra
+            const letraX = x + (radioTexto * Math.cos(angulo)); // Coordenada x
+            const letraY = y + (radioTexto * Math.sin(angulo)); // Coordenada y
+            //alert("texto -> " + texto[i] + " Angulo -> " + angulo);
+            // Rotar el texto para que siga la curva
+            ctx.save();
+            ctx.translate(letraX, letraY);
+            ctx.rotate(angulo + Math.PI / 2); // Alinea el texto hacia arriba
+            ctx.fillText(texto[i], 0, 0); // Dibujar letra
+            ctx.restore();
+            aux++;
+        }
+    }
+
+    function dibujarLinea(x, y, radius, minfo) {
+
+        const centerX = x;
+        const centerY = y;
+        const anguloInicio = 5.52;
+        const anguloPaso = 0.4;
+
+
+        const listaInfo = ["Calorias", "Proteinas", "Colesterol", "Fibra", "Azucares", "Sodio"]
+
+        for (let i = 0; i < 4; i++) {
+            ctx.fillStyle = 'yellow';
+            const angle = anguloInicio + i * anguloPaso; // Calcula el ángulo para cada rayo
+
+            // Coordenadas del extremo de cada rayo en el borde
+            const x1 = centerX + (radius - 10) * Math.cos(angle);
+            const y1 = centerY + (radius - 10) * Math.sin(angle);
+
+            // Coordenadas del extremo del rayo hacia afuera
+            const x2 = centerX + (radius + 20) * Math.cos(angle); // Aumenta la longitud del rayo
+            const y2 = centerY + (radius + 20) * Math.sin(angle);
+
+            // Dibuja el rayo
+            ctx.beginPath();
+            ctx.moveTo(x1, y1); // Empieza desde el borde
+            ctx.lineTo(x2, y2); // Finaliza más allá del borde
+            ctx.lineWidth = 3; // Grosor de la línea
+            ctx.strokeStyle = 'yellow'; // Color de la línea
+            ctx.stroke();
+
+            // Dibuja los círculos en ambos extremos
+            ctx.beginPath();
+            ctx.arc(x1, y1, 4, 0, Math.PI * 2); // Círculo en el borde
+            ctx.fill();
+
+            ctx.beginPath();
+            ctx.arc(x2, y2, 3, 0, Math.PI * 2); // Círculo en el extremo
+            ctx.fill();
+
+
+            ctx.fillStyle = 'white'; // Color del texto
+            ctx.font = `bold ${tamInfo}px ${Tipoletra}`;
+            const texto = listaInfo[i];
+            ctx.fillText(texto, x2 + 10, y2 - 5);
+
+
+            // Texto adicional debajo
+            ctx.fillStyle = 'gray';
+            ctx.font = `bold ${tamInfo2}px ${Tipoletra}`;
+            const textoInferior = minfo[i].toFixed(2);
+            ctx.fillText(textoInferior, x2 + 10, y2 + 15);
+        }
+    }
+
+    window.addEventListener('load', ajustarCanvas);
+    window.addEventListener('resize', ajustarCanvas);
+</script>

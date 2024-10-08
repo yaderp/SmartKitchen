@@ -1,0 +1,113 @@
+﻿@using ydRSoft.Modelo
+
+@model RecetaModel
+
+@{
+    var receta = new RecetaModel();
+
+    if (Model != null)
+    {
+        receta = Model;
+    }
+}
+
+<style>
+    .floatingAbajoIzq {
+        width: 450px;
+        background-color: rgb(149,244,178);
+        position: fixed;
+        bottom: 50px;
+        left: 10px;
+        padding: 10px;
+        border-radius: 5px;
+        z-index: 9999;
+        font-size: 14px;
+    }
+
+    .color-dorado {
+        color: rgb(244,209,90);
+        align-items: center;
+        padding: 10px;
+        border-radius: 5px;
+        text-align: center;
+        font-size: 28px;
+    }
+
+    .color-ingredientes {
+        color: white;
+        align-items: center;
+        padding: 10px;
+        border-radius: 5px;
+        font-size: 18px;
+    }
+
+    .parte-superior {
+        background-color: rgb(149,244,178);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: black;
+        font-weight: bold;
+        box-sizing: border-box;
+        padding: 0 10px;
+        font-size: 24px;
+    }
+
+    .parte-inferior {
+        background-color: rgb(158, 158, 158);
+        height: calc(100% - 60px);
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        color: white;
+        box-sizing: border-box;
+    }
+
+    .floatingbtn {
+        position: fixed;
+        bottom: 15px;
+        left: 460px;
+        padding: 20px;
+        border-radius: 5px;
+        z-index: 9999;
+        font-size: 20px;
+        color:white;
+        font-weight:bold;
+    }
+</style>
+
+@if (receta.Id > 0)
+{
+    <div class="parte-superior">
+        <strong class="text-center">@receta.Nombre.ToUpper()</strong>
+    </div>
+    <div class="parte-inferior">
+        <div class="color-dorado">
+            <strong> INGREDIENTES </strong>
+        </div>
+        <div class="color-ingredientes">
+            <ul>
+                @foreach (var item in receta.Ingredientes)
+                {
+                    <li>@item </li>
+                }
+            </ul>
+        </div>
+    </div>
+
+
+    <div class="floatingAbajoIzq" style="left:10px">
+        <span style="font-size:18px">Receta Sugerida <i class="fa fa-hand-o-right"></i></span>
+        <div style="font-size:24px">@receta.Nombre</div>
+    </div>
+    <div class="floatingbtn">
+        <p>
+            <a class="btn btn-primary btn-circle btn-lg btn-outline active" style="font-size:28px;">1</a>
+            <a class="btn btn-primary btn-circle btn-lg btn-outline" style="font-size:28px;">2</a>
+            <a class="btn btn-primary btn-circle btn-lg btn-outline" style="font-size:28px;">3</a>
+            <a class="btn btn-primary btn-circle btn-lg btn-outline" style="font-size:28px;">4</a>
+        </p>
+    </div>
+}
+
+

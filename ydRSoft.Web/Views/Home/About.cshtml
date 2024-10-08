@@ -1,0 +1,101 @@
+﻿@{
+    ViewBag.Title = "About";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Texto en Circunferencia Inferior Antihorario</title>
+    <link rel="shortcut icon" href="~/Content/Imagenes/Logos/paw.png">
+
+    <link href="@Url.Content("~/Content/css/bootstrap.min.css")" rel="stylesheet">
+    <link href="@Url.Content("~/Content/font-awesome/css/font-awesome.css")" rel="stylesheet">
+    <link href="@Url.Content("~/Content/css/animate.css")" rel="stylesheet">
+    <link href="@Url.Content("~/Content/css/estiloydR.css")" rel="stylesheet">
+    <link href="@Url.Content("~/Content/css/animate.css")" rel="stylesheet">
+
+    <link href="@Url.Content("~/Content/css/plugins/jasny/jasny-bootstrap.min.css")" rel="stylesheet">
+    <link href="@Url.Content("~/Content/css/plugins/sweetalert/sweetalert.css")" rel="stylesheet" />
+
+    <style>
+        canvas {
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="row">
+        <div class="col-md-4">
+            Hola Mundo
+        </div>
+        <div class="col-md-8">
+            melas
+        </div>
+
+    </div>
+
+    <canvas id="canvas" width="400" height="400"></canvas>
+
+
+    <script src="@Url.Content("~/Content/js/ydrsoft/util.js")"></script>
+    <script src="@Url.Content("~/Content/js/jquery-3.1.1.min.js")"></script>
+    <script src="@Url.Content("~/Content/js/popper.min.js")"></script>
+    <script src="@Url.Content("~/Content/js/bootstrap.js")"></script>
+    <script src="@Url.Content("~/Content/js/inspinia.js")"></script>
+
+    <script src="@Url.Content("~/Content/js/plugins/metisMenu/jquery.metisMenu.js")"></script>
+    <script src="@Url.Content("~/Content/js/plugins/slimscroll/jquery.slimscroll.min.js")"></script>
+    <script src="@Url.Content("~/Content/js/plugins/sweetalert/sweetalert.min.js")"></script>
+    <script src="@Url.Content("~/Content/js/plugins/jasny/jasny-bootstrap.min.js")"></script>
+
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        // Datos
+        const text = "MUNDO"; // Cambia este texto según sea necesario
+        const radius = 100; // Radio de la circunferencia
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+        const n = text.length; // Número de letras
+
+        // Calcular los ángulos para la posición de cada letra (semicircunferencia inferior antihoraria)
+        const angles = [];
+        for (let i = 0; i < n; i++) {
+            // Distribuir los ángulos desde 0° hasta 180° (rango de radianes π a 0)
+            const angle = Math.PI - (Math.PI / (n - 1)) * i; // De π a 2π
+            angles.push(angle);
+        }
+
+        // Dibujar el texto en la circunferencia
+        ctx.font = 'bold 20px Arial';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+
+        for (let i = 0; i < n; i++) {
+            const angle = angles[i];
+            const x = centerX + radius * Math.cos(angle);
+            const y = centerY + radius * Math.sin(angle);
+
+            // Rotar el texto (ajustar la rotación para que esté derecha)
+            ctx.save(); // Guardar el estado del contexto
+            ctx.translate(x, y); // Mover el origen al punto de la letra
+            ctx.rotate(angle + Math.PI / 2); // Rotar el contexto 90 grados para orientarlas correctamente
+            ctx.fillText(text[i], 0, 0); // Dibujar la letra
+            ctx.restore(); // Restaurar el estado del contexto
+        }
+
+        // Dibujar la circunferencia
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, radius, 0, Math.PI, false); // Semicircunferencia inferior
+        ctx.strokeStyle = 'blue';
+        ctx.setLineDash([5, 3]); // Línea discontinua
+        ctx.stroke();
+    </script>
+</body>
+</html>

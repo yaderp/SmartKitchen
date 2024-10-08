@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sintetizador de Voz</title>
+</head>
+<body>
+    <h1>Sintetizador de Voz</h1>
+    <textarea id="texto" rows="4" cols="50" placeholder="Escribe el texto aquí..."></textarea><br>
+
+    <label for="voz">Selecciona una voz:</label>
+    <select id="voz"></select><br><br>
+
+    <button onclick="hablarTexto()">Escuchar Texto</button>
+
+    <script>
+        let voces = [];
+
+        // Cargar voces disponibles
+        function cargarVoces() {
+            voces = window.speechSynthesis.getVoices();
+            const select = document.getElementById('voz');
+            select.innerHTML = ''; // Limpiar opciones existentes
+
+            voces.forEach((voz) => {
+                const option = document.createElement('option');
+                option.value = voz.name;
+                option.textContent = voz.name; // Mostrar el nombre de la voz
+                select.appendChild(option); // Añadir la opción al select
+            });
+        }
+
+        // Llamar a cargarVoces cuando las voces están disponibles
+        window.speechSynthesis.onvoiceschanged = cargarVoces;
+
+        function hablarTexto() {
+            const texto = document.getElementById('texto').value;
+            const utterance = new SpeechSynthesisUtterance(texto);
+
+            // Obtener la voz seleccionada
+            const select = document.getElementById('voz');
+            console.log(select.value);
+            const vozSeleccionada = voces.find(voz => voz.name === select.value);
+            if (vozSeleccionada) {
+                utterance.voice = vozSeleccionada; // Asignar la voz seleccionada
+            }
+
+            window.speechSynthesis.speak(utterance); // Hablar el texto
+        }
+    </script>
+</body>
+</html>

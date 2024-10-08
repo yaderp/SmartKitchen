@@ -1,0 +1,75 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\TP02\\SmartKitchen\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{69C1FF2E-8799-4C15-8348-8846C91F3D4E}|ydRSoft.Web\\ydRSoft.Web.csproj|d:\\tp02\\smartkitchen\\ydrsoft.web\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{69C1FF2E-8799-4C15-8348-8846C91F3D4E}|ydRSoft.Web\\ydRSoft.Web.csproj|solutionrelative:ydrsoft.web\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{69C1FF2E-8799-4C15-8348-8846C91F3D4E}|ydRSoft.Web\\ydRSoft.Web.csproj|d:\\tp02\\smartkitchen\\ydrsoft.web\\views\\home\\contact.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{69C1FF2E-8799-4C15-8348-8846C91F3D4E}|ydRSoft.Web\\ydRSoft.Web.csproj|solutionrelative:ydrsoft.web\\views\\home\\contact.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\TP02\\SmartKitchen\\ydRSoft.Web\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "ydRSoft.Web\\Views\\Home\\Index.cshtml",
+              "ToolTip": "D:\\TP02\\SmartKitchen\\ydRSoft.Web\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "ydRSoft.Web\\Views\\Home\\Index.cshtml",
+              "ViewState": "AgIAAIUAAAAAAAAAAAAswJoAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-10-08T01:57:28.549Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "FloatingWindowState": {
+        "Id": "51078bcc-ce7f-4927-884f-d995eab0ec80",
+        "Display": 1,
+        "X": 222,
+        "Y": 120,
+        "Width": 1603,
+        "Height": 833,
+        "WindowState": 0
+      },
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Contact.cshtml",
+              "DocumentMoniker": "D:\\TP02\\SmartKitchen\\ydRSoft.Web\\Views\\Home\\Contact.cshtml",
+              "RelativeDocumentMoniker": "ydRSoft.Web\\Views\\Home\\Contact.cshtml",
+              "ToolTip": "D:\\TP02\\SmartKitchen\\ydRSoft.Web\\Views\\Home\\Contact.cshtml",
+              "RelativeToolTip": "ydRSoft.Web\\Views\\Home\\Contact.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAC4AAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-10-08T01:41:34.11Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

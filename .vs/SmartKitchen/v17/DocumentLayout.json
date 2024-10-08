@@ -3,12 +3,24 @@
   "WorkspaceRootPath": "D:\\TP02\\SmartKitchen\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{69C1FF2E-8799-4C15-8348-8846C91F3D4E}|ydRSoft.Web\\ydRSoft.Web.csproj|d:\\tp02\\smartkitchen\\ydrsoft.web\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{69C1FF2E-8799-4C15-8348-8846C91F3D4E}|ydRSoft.Web\\ydRSoft.Web.csproj|solutionrelative:ydrsoft.web\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{93AA943D-18E3-4016-A188-5FF089EEF0A7}|ydRSoft.BL\\ydRSoft.BL.csproj|d:\\tp02\\smartkitchen\\ydrsoft.bl\\usuariobl.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{93AA943D-18E3-4016-A188-5FF089EEF0A7}|ydRSoft.BL\\ydRSoft.BL.csproj|solutionrelative:ydrsoft.bl\\usuariobl.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{69C1FF2E-8799-4C15-8348-8846C91F3D4E}|ydRSoft.Web\\ydRSoft.Web.csproj|d:\\tp02\\smartkitchen\\ydrsoft.web\\views\\home\\contact.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{69C1FF2E-8799-4C15-8348-8846C91F3D4E}|ydRSoft.Web\\ydRSoft.Web.csproj|solutionrelative:ydrsoft.web\\views\\home\\contact.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{69C1FF2E-8799-4C15-8348-8846C91F3D4E}|ydRSoft.Web\\ydRSoft.Web.csproj|d:\\tp02\\smartkitchen\\ydrsoft.web\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{69C1FF2E-8799-4C15-8348-8846C91F3D4E}|ydRSoft.Web\\ydRSoft.Web.csproj|solutionrelative:ydrsoft.web\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{528001A3-7299-4149-A5CA-8C4E728791F1}|ydRSoft.BD\\ydRSoft.BD.csproj|d:\\tp02\\smartkitchen\\ydrsoft.bd\\mysqlconexion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{528001A3-7299-4149-A5CA-8C4E728791F1}|ydRSoft.BD\\ydRSoft.BD.csproj|solutionrelative:ydrsoft.bd\\mysqlconexion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{528001A3-7299-4149-A5CA-8C4E728791F1}|ydRSoft.BD\\ydRSoft.BD.csproj|d:\\tp02\\smartkitchen\\ydrsoft.bd\\usuariobd.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{528001A3-7299-4149-A5CA-8C4E728791F1}|ydRSoft.BD\\ydRSoft.BD.csproj|solutionrelative:ydrsoft.bd\\usuariobd.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4932ACE3-E17F-410F-B8F6-F7A4502489FE}|ydRSoft.Modelo\\ydRSoft.Modelo.csproj|d:\\tp02\\smartkitchen\\ydrsoft.modelo\\usuariomodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4932ACE3-E17F-410F-B8F6-F7A4502489FE}|ydRSoft.Modelo\\ydRSoft.Modelo.csproj|solutionrelative:ydrsoft.modelo\\usuariomodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,53 +30,71 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 2,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "MySqlConexion.cs",
+              "DocumentMoniker": "D:\\TP02\\SmartKitchen\\ydRSoft.BD\\MySqlConexion.cs",
+              "RelativeDocumentMoniker": "ydRSoft.BD\\MySqlConexion.cs",
+              "ToolTip": "D:\\TP02\\SmartKitchen\\ydRSoft.BD\\MySqlConexion.cs",
+              "RelativeToolTip": "ydRSoft.BD\\MySqlConexion.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-08T17:33:25.64Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "UsuarioModel.cs",
+              "DocumentMoniker": "D:\\TP02\\SmartKitchen\\ydRSoft.Modelo\\UsuarioModel.cs",
+              "RelativeDocumentMoniker": "ydRSoft.Modelo\\UsuarioModel.cs",
+              "ToolTip": "D:\\TP02\\SmartKitchen\\ydRSoft.Modelo\\UsuarioModel.cs",
+              "RelativeToolTip": "ydRSoft.Modelo\\UsuarioModel.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAABoAAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-08T17:28:42.026Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "D:\\TP02\\SmartKitchen\\ydRSoft.Web\\Views\\Home\\Index.cshtml",
-              "RelativeDocumentMoniker": "ydRSoft.Web\\Views\\Home\\Index.cshtml",
-              "ToolTip": "D:\\TP02\\SmartKitchen\\ydRSoft.Web\\Views\\Home\\Index.cshtml",
-              "RelativeToolTip": "ydRSoft.Web\\Views\\Home\\Index.cshtml",
-              "ViewState": "AgIAAIUAAAAAAAAAAAAswJoAAAAGAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-10-08T01:57:28.549Z",
+              "Title": "UsuarioBL.cs",
+              "DocumentMoniker": "D:\\TP02\\SmartKitchen\\ydRSoft.BL\\UsuarioBL.cs",
+              "RelativeDocumentMoniker": "ydRSoft.BL\\UsuarioBL.cs",
+              "ToolTip": "D:\\TP02\\SmartKitchen\\ydRSoft.BL\\UsuarioBL.cs",
+              "RelativeToolTip": "ydRSoft.BL\\UsuarioBL.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAcwBIAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-08T17:22:56.737Z",
               "EditorCaption": ""
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "Orientation": 0,
-      "VerticalTabListWidth": 256,
-      "FloatingWindowState": {
-        "Id": "51078bcc-ce7f-4927-884f-d995eab0ec80",
-        "Display": 1,
-        "X": 222,
-        "Y": 120,
-        "Width": 1603,
-        "Height": 833,
-        "WindowState": 0
-      },
-      "DocumentGroups": [
-        {
-          "DockedWidth": 200,
-          "SelectedChildIndex": 0,
-          "Children": [
+            },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "Contact.cshtml",
-              "DocumentMoniker": "D:\\TP02\\SmartKitchen\\ydRSoft.Web\\Views\\Home\\Contact.cshtml",
-              "RelativeDocumentMoniker": "ydRSoft.Web\\Views\\Home\\Contact.cshtml",
-              "ToolTip": "D:\\TP02\\SmartKitchen\\ydRSoft.Web\\Views\\Home\\Contact.cshtml",
-              "RelativeToolTip": "ydRSoft.Web\\Views\\Home\\Contact.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAC4AAAANAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-10-08T01:41:34.11Z",
+              "Title": "HomeController.cs",
+              "DocumentMoniker": "D:\\TP02\\SmartKitchen\\ydRSoft.Web\\Controllers\\HomeController.cs",
+              "RelativeDocumentMoniker": "ydRSoft.Web\\Controllers\\HomeController.cs",
+              "ToolTip": "D:\\TP02\\SmartKitchen\\ydRSoft.Web\\Controllers\\HomeController.cs",
+              "RelativeToolTip": "ydRSoft.Web\\Controllers\\HomeController.cs",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAAABkAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-08T17:22:27.839Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "UsuarioBD.cs",
+              "DocumentMoniker": "D:\\TP02\\SmartKitchen\\ydRSoft.BD\\UsuarioBD.cs",
+              "RelativeDocumentMoniker": "ydRSoft.BD\\UsuarioBD.cs",
+              "ToolTip": "D:\\TP02\\SmartKitchen\\ydRSoft.BD\\UsuarioBD.cs",
+              "RelativeToolTip": "ydRSoft.BD\\UsuarioBD.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAcwJQAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-08T16:42:13.695Z",
               "EditorCaption": ""
             }
           ]

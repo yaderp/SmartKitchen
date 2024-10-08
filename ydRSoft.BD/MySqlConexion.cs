@@ -11,7 +11,7 @@ namespace ydRSoft.BD
     {
         public static MySqlConnection MyConexion()
         {
-            string context = "Database=dbydrconta; Data Source = localhost; User Id=ydrsoft; Password=Palomita16";
+            string context = "Database=dbsk; Data Source = localhost; User Id=ydrsoft; Password=Palomita16";
             try
             {
                 MySqlConnection conexionBD = new MySqlConnection(context);

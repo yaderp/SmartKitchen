@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using ydRSoft.BL;
 using ydRSoft.Modelo;
 
 namespace ydRSoft.Web.Controllers
@@ -17,8 +18,13 @@ namespace ydRSoft.Web.Controllers
         private static readonly HttpClient client = new HttpClient();
 
 
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
+
+            var resultado = await UsuarioBL.SetUsuario(new UsuarioModel());
+
+            var lista = await UsuarioBL.getALl();
+
             return View();
         }
 

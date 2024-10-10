@@ -28,6 +28,20 @@ namespace ydRSoft.Web.Areas.AReceta.Controllers
             return View();
         }
 
+        public async Task<ActionResult> GetReceta()
+        {
+            string pregunta = "Genera 2 recetas que contengan " +
+                "zanahoria y brócoli" +
+                ". Proporciónalas en formato JSON que incluya un " +
+                "Id, Nombre, NivelDificultad (1 a 5), Tiempo (en minutos), " +
+                "una lista de Ingredientes, y una lista de PasosPreparacion. " +
+                "Devuelve solo el JSON. que comience y termine con corchetes ([y]) para indicar que es una lista y " +
+                "que no haya caracteres no deseados al principio o al final.";
+
+            var resultado = await PreguntaOpenAI(pregunta);
+            return View();
+        }
+
         public ActionResult verReceta(int Pagina)
         {
             var resultado = RecetaBL.GetReceta(Pagina);

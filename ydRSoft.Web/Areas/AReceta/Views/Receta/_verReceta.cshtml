@@ -9,9 +9,16 @@
     {
         receta = Model;
     }
+    int npaso = 1;
 }
 
 <style>
+
+    :root {
+        font-family: 'Franklin Gothic Medium','Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        --fuente-principal: 'Franklin Gothic Medium';
+    }
+
     .floatingAbajoIzq {
         width: 450px;
         background-color: rgb(149,244,178);
@@ -21,25 +28,35 @@
         padding: 10px;
         border-radius: 5px;
         z-index: 9999;
-        font-size: 14px;
+        font-size: 24px;
+        font-family: var(--fuente-principal);
     }
 
     .color-dorado {
         color: rgb(244,209,90);
         align-items: center;
-        padding: 10px;
+        padding: 0 0 0 10px;
         border-radius: 5px;
-        text-align: center;
-        font-size: 28px;
+        text-align: left;
+        font-size: 24px;
+        font-family: var(--fuente-principal);
     }
 
     .color-ingredientes {
         color: white;
         align-items: center;
-        padding: 10px;
-        border-radius: 5px;
+        padding: 0 10px 0 10px;
         font-size: 18px;
+        font-family: Arial;
     }
+
+    .contenido-ydR {
+        width: 100%;
+        position: relative;
+        overflow: hidden;
+        margin: 10px 0 0 10px;
+    }
+
 
     .parte-superior {
         background-color: rgb(149,244,178);
@@ -49,18 +66,20 @@
         color: black;
         font-weight: bold;
         box-sizing: border-box;
-        padding: 0 10px;
+        padding: 10px 10px 10px 10px;
         font-size: 24px;
+        font-family: var(--fuente-principal);
     }
 
     .parte-inferior {
-        background-color: rgb(158, 158, 158);
-        height: calc(100% - 60px);
+        background-color: rgb(108, 108, 108);
+        height: calc(100% - 20px);
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
         color: white;
         box-sizing: border-box;
+        padding: 5px 0 10px 0;
     }
 
     .floatingbtn {
@@ -71,30 +90,49 @@
         border-radius: 5px;
         z-index: 9999;
         font-size: 20px;
-        color:white;
-        font-weight:bold;
+        color: white;
+        font-weight: bold;
+        font-family: 'Lucida Console';
+    }
+
+    .text-VerdeF {
+        color: rgb(149,244,178);
+        font-size: 20px;
+    }
+    .texto-icon-VerdeF {
+        color: rgb(149,244,178);
+        font-size: 14px;
     }
 </style>
 
 @if (receta.Id > 0)
 {
-    <div class="parte-superior">
-        <strong class="text-center">@receta.Nombre.ToUpper()</strong>
-    </div>
-    <div class="parte-inferior">
-        <div class="color-dorado">
-            <strong> INGREDIENTES </strong>
-        </div>
-        <div class="color-ingredientes">
-            <ul>
-                @foreach (var item in receta.Ingredientes)
-                {
-                    <li>@item </li>
-                }
-            </ul>
-        </div>
-    </div>
 
+    <div class="contenido-ydR">
+        <div class="parte-superior">
+            <strong class="text-center">@receta.Nombre</strong>
+        </div>
+        <div class="parte-inferior">
+            <div class="color-dorado">
+                <strong> <i class="fa fa-bars text-VerdeF"></i> INGREDIENTES </strong>
+            </div>
+            <div class="color-ingredientes">                
+                    @foreach (var item in receta.Ingredientes)
+                    {
+                       <i class="fa fa-check-square-o texto-icon-VerdeF"> &nbsp;</i>   @item <br />
+                    }                
+            </div>
+            <div class="color-dorado">
+                <strong> <i class="fa fa-clock-o text-VerdeF"></i> PREPARACION @receta.Tiempo min </strong>
+            </div>
+            <div class="color-ingredientes">
+                @foreach (var item in receta.PasosPreparacion)
+                {
+                    <strong style="color: rgb(149,244,178)"> <i class="fa fa-hand-o-right texto-icon-VerdeF"></i> Paso @(npaso++): </strong> @item <br />
+                }
+            </div>            
+        </div>
+    </div>
 
     <div class="floatingAbajoIzq" style="left:10px">
         <span style="font-size:18px">Receta Sugerida <i class="fa fa-hand-o-right"></i></span>

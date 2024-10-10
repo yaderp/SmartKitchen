@@ -96,6 +96,7 @@
     <Compile Include="InfoBD.cs" />
     <Compile Include="MySqlConexion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RecetaBD.cs" />
     <Compile Include="UsuarioBD.cs" />
   </ItemGroup>
   <ItemGroup>

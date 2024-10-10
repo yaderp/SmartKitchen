@@ -21,9 +21,10 @@ namespace ydRSoft.Web.Controllers
         public async Task<ActionResult> Index()
         {
 
-            var resultado = await UsuarioBL.SetUsuario(new UsuarioModel());
+            //var resultado = await UsuarioBL.SetUsuario(new UsuarioModel());
+            //var lista = await UsuarioBL.getALl();
 
-            var lista = await UsuarioBL.getALl();
+            var receta = await RecetaBL.SetReceta(RecetaBL.GetReceta(2));
 
             return View();
         }

@@ -10,19 +10,25 @@ namespace ydRSoft.Modelo
     {
         public int Id { get; set; }
         public string Nombre { get; set; }
-        public decimal Calorias { get; set; }
-        public decimal Proteinas { get; set; }
-        public decimal Colesterol { get; set; }
-        public decimal Fibra { get; set; }
-        public decimal Azucares { get; set; }
-        public decimal Sodio { get; set; }
+        public string Calorias { get; set; }
+        public string Proteinas { get; set; }
+        public string Colesterol { get; set; }
+        public string Fibra { get; set; }
+        public string Azucares { get; set; }
+        public string Sodio { get; set; }
 
         public InfoModel() {
-            Id = 0;
-            Nombre = "";
+            Id = 1;
+            Nombre = "PLATANO";
+            Calorias = "89.0 Kcal";
+            Proteinas= "1.1 g";
+            Colesterol = "0.0 mg";
+            Fibra = "2.6 g";
+            Azucares = "12.2 g";
+            Sodio = "1.0 mg";
         }
 
-        public InfoModel(int id, string Nombre, decimal calorias, decimal proteinas, decimal colesterol, decimal fibra, decimal azucares, decimal sodio)
+        public InfoModel(int id, string Nombre, string calorias, string proteinas, string colesterol, string fibra, string azucares, string sodio)
         {
             Id = id;
             this.Nombre = Nombre;

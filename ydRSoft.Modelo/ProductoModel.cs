@@ -16,10 +16,10 @@ namespace ydRSoft.Modelo
         public InfoModel Info { get; set; }
 
         public ProductoModel() {
-            Id = 10;
-            Nombre = "Prod Nuevo";
-            PosX = 200;
-            PosY = 200;
+            Id = 1;
+            Nombre = "PLATANO";
+            PosX = 300;
+            PosY = 300;
             Radio = 100;
             Info = new InfoModel();
         }

@@ -21,9 +21,13 @@ namespace ydRSoft.Util
             {
                 'Id': 1,
                 'Nombre': 'Ensalada de zanahoria y manzana',
-                'Nivel': 1,
-                'Pasos': 1,
-                'Preparacion': 'Mezclar todos los ingredientes en un tazón grande. Ajustar la sal y el jugo de limón al gusto.',
+                'NivelDificultad': 4,
+                'Tiempo': 12,
+                'PasosPreparacion': [
+                    'Mezclar todos los ingredientes en un tazón grande.',
+                    'Ajustar la sal',
+                    'jugo de limón al gusto.'
+                ],
                 'Ingredientes': [
                     '2 zanahorias, ralladas',
                     '1 manzana, picada en cubos',
@@ -38,9 +42,15 @@ namespace ydRSoft.Util
             {
                 'Id': 2,
                 'Nombre': 'Sopa de zanahoria y manzana',
-                'Nivel': 2,
-                'Pasos': 5,
-                'Preparacion': 'En una olla, calentar el aceite y sofreír la cebolla. Agregar la zanahoria y la manzana, luego el caldo. Cocinar hasta que estén tiernos, luego licuar hasta obtener una crema suave. Ajustar sal y pimienta al gusto.',
+                'NivelDificultad': 2,
+                'Tiempo': 5,
+                'PasosPreparacion': [
+                    'En una olla, calentar el aceite y sofreír la cebolla.',
+                    'Agregar la zanahoria y la manzana, luego el caldo.',
+                    'Cocinar hasta que estén tiernos',
+                    'luego licuar hasta obtener una crema suave.',
+                    'Ajustar sal y pimienta al gusto.',
+                ],
                 'Ingredientes': [
                     '3 zanahorias, peladas y picadas',
                     '1 manzana, pelada y picada',

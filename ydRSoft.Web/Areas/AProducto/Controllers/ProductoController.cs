@@ -22,6 +22,16 @@ namespace ydRSoft.Web.Areas.AProducto.Controllers
         }
 
         [HttpPost]
+        public JsonResult Prueba(string image64)
+        {
+            List<ProductoModel> mLista = new List<ProductoModel>();
+            mLista.Add(new ProductoModel());
+            
+            return Json(mLista, JsonRequestBehavior.AllowGet);
+        }
+
+
+        [HttpPost]
         public async Task<JsonResult> ConsultarApi(string image64)
         {
             List<ProductoModel> mLista = new List<ProductoModel>();

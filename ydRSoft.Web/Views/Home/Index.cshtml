@@ -27,9 +27,7 @@
             overflow: hidden;
             width: 100%;
             height: 100%;
-            background-color: black;
-            font-size: 24px;
-            font-family: 'Lucida Console';
+            background-color: black;            
         }
 
 
@@ -43,12 +41,7 @@
             margin: auto;
         }
 
-        .contenido-ydR {
-            width: 100%;
-            position: relative;
-            overflow: hidden;
-            margin: 20px 0 0 20px;
-        }
+       
 
 
         .floatingTiempo {
@@ -72,10 +65,15 @@
             z-index: 9999;
             font-size: 14px;
         }
+
+        .letra-ydRp {
+            font-size: 24px;
+            font-family: 'Segoe UI', 'Lucida Console';
+            font-weight: bold;
+        }
     </style>
 </head>
-<body>
-
+<body>   
     <div class="floatingTiempo">
         <div style="display: flex; align-items: flex-end; justify-content: center;">
             <img src="~/Content/Imagenes/Clima/clima11.png" width="90" alt="Clima" />
@@ -96,9 +94,8 @@
 
     <div class="row">
         <div class="col-md-3">
-            <div class="contenido-ydR">
-                <div id="viewReceta"> </div>
-            </div>
+            <div id="viewReceta"> </div>
+           
         </div>
         <div class="col-md-9">
             <canvas id="canvasCorona"></canvas>
@@ -359,7 +356,6 @@
         }
 
         async function EnviarImagen() {
-            console.log("Entro a enviar imagen");
             // Configurar el canvas solo cuando la cámara esté disponible
             if (video.readyState === video.HAVE_ENOUGH_DATA) {
                 const context = canvas.getContext('2d');
@@ -373,7 +369,7 @@
 
                 try {
                     // Enviar la imagen al servidor
-                    const response = await fetch('/AProducto/Producto/ConsultarApi', {
+                    const response = await fetch('/AProducto/Producto/Prueba', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -450,10 +446,12 @@
     const ctx = canvas.getContext('2d');
     const anchoCorona = 50;
     const Tipoletra = '"Lucida Console"';
+    const letraInfo = '"Segoe UI"';
     const tamNombre = 28;
     const tamInfo = 18;
-    const tamInfo2 = 14;
-
+    const tamInfoN = 16;
+    const tamInfoV = 24; 
+    const CantInfo = 5;
     // Ajustar el tamaño del canvas al tamaño de la ventana
     function ajustarCanvas() {
         canvas.width = window.innerWidth;
@@ -476,38 +474,7 @@
         }
 
     }
-    async function dibujarProd_test() {
-        try {
-
-            img64 = "holitas";
-
-            const response = await fetch('/AProducto/Producto/ListaProductos', {
-                method: 'POST', // Cambia el método a POST
-                headers: {
-                    'Content-Type': 'application/json' // Especifica el tipo de contenido
-                },
-                body: JSON.stringify({ Imgb64: img64, Radio: 150 }) // Envia img64 en el cuerpo de la solicitud
-            });
-
-            if (!response.ok) {
-                throw new Error('Error al obtener los productos');
-            }
-
-
-            const productos = await response.json();
-
-            // Limpiar el canvas solo una vez antes de dibujar todos los productos
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            productos.forEach(producto => {
-                mostrarProductos(producto); // Llamar a la función mostrarData para cada producto
-            });
-
-        } catch (error) {
-            console.error(error);
-        }
-
-    }
+   
 
     function mostrarProductos(producto) {
 
@@ -516,27 +483,23 @@
         let posY = producto.PosY;
         let radio = producto.Radio;
 
-        let minfo = [];
-        minfo.push(producto.Info.Calorias);
-        minfo.push(producto.Info.Proteinas);
-        minfo.push(producto.Info.Colesterol);
-        minfo.push(producto.Info.Fibra);
-        minfo.push(producto.Info.Azucares);
-        minfo.push(producto.Info.Sodio);
+        let listaValor = [];
+        listaValor.push(producto.Info.Calorias);
+        listaValor.push(producto.Info.Proteinas);        
+        listaValor.push(producto.Info.Fibra);
+        listaValor.push(producto.Info.Azucares);
+        listaValor.push(producto.Info.Sodio);
+        listaValor.push(producto.Info.Colesterol);
 
         dibujarCorona(posX, posY, radio);
         dibujarInfo(posX, posY, radio);
         dibujarNombre(posX, posY, radio, nombre);
-        dibujarLinea(posX, posY, radio, minfo);
+        dibujarLinea(posX, posY, radio, listaValor);
     }
 
     // Dibujar la corona
     function dibujarCorona(x, y, radioExterior) {
-
-        // Cálculo del radio interior
         const radioInterior = radioExterior - anchoCorona;
-
-
 
         // Dibujar círculo exterior
         ctx.beginPath();
@@ -618,17 +581,15 @@
         }
     }
 
-    function dibujarLinea(x, y, radius, minfo) {
-
+    function dibujarLinea(x, y, radius, listValor) {
         const centerX = x;
         const centerY = y;
-        const anguloInicio = 5.52;
-        const anguloPaso = 0.4;
+        const anguloInicio = 5.46;
+        const anguloPaso = 0.37;
 
+        const listaInfo = ["Calorias", "Proteinas", "Fibra", "Azucares", "Sodio", "Colesterol"]
 
-        const listaInfo = ["Calorias", "Proteinas", "Colesterol", "Fibra", "Azucares", "Sodio"]
-
-        for (let i = 0; i < 4; i++) {
+        for (let i = 0; i < CantInfo; i++) {
             ctx.fillStyle = 'yellow';
             const angle = anguloInicio + i * anguloPaso; // Calcula el ángulo para cada rayo
 
@@ -658,17 +619,18 @@
             ctx.fill();
 
 
-            ctx.fillStyle = 'white'; // Color del texto
-            ctx.font = `bold ${tamInfo}px ${Tipoletra}`;
-            const texto = listaInfo[i];
-            ctx.fillText(texto, x2 + 10, y2 - 5);
+            const textoValor = listValor[i];
+            const textoNombre = listaInfo[i];
 
+            // texto cantidad Valor
+            ctx.fillStyle = 'white';
+            ctx.font = `bold ${tamInfoV}px ${letraInfo}`;
+            ctx.fillText(textoValor, x2 + 10, y2);
 
-            // Texto adicional debajo
+            // Texto nombre valor
             ctx.fillStyle = 'gray';
-            ctx.font = `bold ${tamInfo2}px ${Tipoletra}`;
-            const textoInferior = minfo[i].toFixed(2);
-            ctx.fillText(textoInferior, x2 + 10, y2 + 15);
+            ctx.font = `bold ${tamInfoN}px ${letraInfo}`;
+            ctx.fillText(textoNombre, x2 + 10, y2 + 15);
         }
     }
 

@@ -1,4 +1,5 @@
 ﻿using MySql.Data.MySqlClient;
+using Mysqlx.Session;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -170,5 +171,85 @@ namespace ydRSoft.BD
 
             return "Receta guardada " + recetaId;
         }
+    
+        public static async Task<RecetaModel> GetId(int Id)
+        {
+            RecetaModel objModel = new RecetaModel();
+
+            MySqlConnection connection = MySqlConexion.MyConexion();
+            if (connection != null)
+            {
+
+                try
+                {
+                    await connection.OpenAsync();
+
+                    string query = @"
+                    SELECT r.id, r.nombre, r.ndif, r.tiempo, r.fechareg, r.estado,
+                           i.detalle AS ingrediente, p.detalle AS paso
+                    FROM receta r
+                    LEFT JOIN ingredientes i ON r.id = i.idreceta
+                    LEFT JOIN preparacion p ON r.id = p.idreceta
+                    WHERE r.id = @recetaId
+                    ORDER BY r.id;";
+
+                    RecetaModel receta = null;
+
+                    using (MySqlCommand command = new MySqlCommand(query, connection))
+                    {
+                        // Parámetro para la receta con Id=1
+                        command.Parameters.AddWithValue("@recetaId", 1);
+
+                        using (MySqlDataReader reader = command.ExecuteReader())
+                        {
+
+                            while (await reader.ReadAsync())
+                            {
+                                if (receta == null)
+                                {
+                                    // Inicializar la receta cuando se encuentre el primer registro
+                                    receta = new RecetaModel
+                                    {
+                                        Id = reader.GetInt32("id"),
+                                        Nombre = reader.GetString("nombre"),
+                                        NivelDificultad = reader.GetInt32("ndif"),
+                                        Tiempo = reader.GetInt32("tiempo"),
+                                        FechaRegistro = reader.GetDateTime("fechareg"),
+                                        Estado = reader.GetInt32("estado")
+                                    };
+                                }
+
+                            }
+
+                            // Agregar ingrediente si existe
+                            if (!reader.IsDBNull(reader.GetOrdinal("ingrediente")))
+                            {
+                                receta.Ingredientes.Add(reader.GetString("ingrediente"));
+                            }
+
+                            // Agregar paso de preparación si existe
+                            if (!reader.IsDBNull(reader.GetOrdinal("paso")))
+                            {
+                                receta.PasosPreparacion.Add(reader.GetString("paso"));
+                            }
+
+                        }
+                    }
+
+                    if (receta != null) {
+                        objModel = receta;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await Util.LogError.SaveLog("Receta GetId | " + ex.Message);
+
+                }
+            }
+
+
+            return objModel;
+        }
+    
     }
 }

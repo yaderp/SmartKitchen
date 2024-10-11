@@ -73,7 +73,7 @@
         }
     </style>
 </head>
-<body>   
+<body>
     <div class="floatingTiempo">
         <div style="display: flex; align-items: flex-end; justify-content: center;">
             <img src="~/Content/Imagenes/Clima/clima11.png" width="90" alt="Clima" />
@@ -95,7 +95,6 @@
     <div class="row">
         <div class="col-md-3">
             <div id="viewReceta"> </div>
-           
         </div>
         <div class="col-md-9">
             <canvas id="canvasCorona"></canvas>
@@ -105,10 +104,12 @@
     <div class="modal inmodal fade" id="modalCamara" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <button class="btn btn-circle btn-danger float-right" data-dismiss="modal"><i class="fa fa-close"></i></button>
-            <video id="video" width="1280" height="720" autoplay></video>
+
+            <video id="video" autoplay style="object-fit: contain; width: 100%; height: auto;"></video>
             <canvas id="canvas" width="1280" height="720" style="display: none;"></canvas>
         </div>
     </div>
+
 
 
     <script src="@Url.Content("~/Content/js/jquery-3.1.1.min.js")"></script>
@@ -123,7 +124,23 @@
 
 </body>
 </html>
-
+<script>
+    navigator.mediaDevices.getUserMedia({
+        video: {
+            width: { ideal: 1280 },
+            height: { ideal: 720 }
+        }
+    }).then(function (stream) {
+        const video = document.getElementById('video');
+        video.srcObject = stream;
+        video.onloadedmetadata = function () {
+            // Ajusta el tamaño del video según la resolución de la cámara
+            video.play();
+        };
+    }).catch(function (err) {
+        console.error("Error al acceder a la cámara: " + err);
+    });
+</script>
 <script>
 
     /* Cargar voces disponibles
@@ -289,7 +306,7 @@
                         //captureAndSendImage();
                         EnviarImagen();
                     }
-                }, 1000);
+                }, 5000);
             } else {
                 isCapturing = false;
                 startCaptureButton.classList.remove('btn-primary');
@@ -369,7 +386,7 @@
 
                 try {
                     // Enviar la imagen al servidor
-                    const response = await fetch('/AProducto/Producto/Prueba', {
+                    const response = await fetch('/AProducto/Producto/ConsultarApi', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -439,6 +456,57 @@
 
 </script>
 
+<script>
+    function dibujarCirculo() {
+        var canvas = document.getElementById('canvasCorona');
+        if (canvas.getContext) {
+            var ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);  // Limpiar el canvas
+
+            xd = 250;
+            yd = 150;
+
+            xp = 812;
+            yp = 488;
+            ctx.beginPath();
+            ctx.arc(xp, yp, 30, 0, Math.PI * 2);  // platano
+            ctx.fillStyle = 'yellow';
+            ctx.fill();  // Rellena el círculo
+            
+            ctx.beginPath();
+            ctx.arc(xp - xd, yp + yd, 20, 0, Math.PI * 2);  // platano
+            ctx.fillStyle = 'yellow';
+            ctx.fill();  // Rellena el círculo
+
+            xz = 370;
+            yz = 341;
+            ctx.beginPath();
+            ctx.arc(xz, yz, 30, 0, Math.PI * 2);  // zanahoria
+            ctx.fillStyle = 'green';
+            ctx.fill();  // Rellena el círculo
+
+            ctx.beginPath();
+            ctx.arc(xz-xd, yz+yd, 20, 0, Math.PI * 2);  // zanahoria
+            ctx.fillStyle = 'green';
+            ctx.fill();  // Rellena el círculo
+
+            xm = 1122;
+            ym = 297;
+
+            ctx.beginPath();
+            ctx.arc(xm, ym, 30, 0, Math.PI * 2);  // manzana
+            ctx.fillStyle = 'red';
+            ctx.fill();  // Rellena el círculo
+
+            ctx.beginPath();
+            ctx.arc(xm-xd, ym+yd, 20, 0, Math.PI * 2);  // manzana
+            ctx.fillStyle = 'red';
+            ctx.fill();  // Rellena el círculo
+        }
+    }
+
+
+</script>
 
 <script id="_Dibujar_Corona_">
     // Obtener el canvas y el contexto
@@ -456,8 +524,10 @@
     function ajustarCanvas() {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-        //hablarTexto("Bienvenido a Smart Kitchen");
-        //dibujarProd();
+        // Llamada a la función para dibujar un cuadrado
+        //dibujarCuadrado(0, 0, 50);
+        dibujarCirculo();
+        
     }
     async function dibujarProd(productos) {
         try {
@@ -479,9 +549,9 @@
     function mostrarProductos(producto) {
 
         let nombre = producto.Nombre;
-        let posX = producto.PosX;
-        let posY = producto.PosY;
-        let radio = producto.Radio;
+        let posX = producto.PosX +100;
+        let posY = producto.PosY+240;
+        let radio = producto.Radio + 60;
 
         let listaValor = [];
         listaValor.push(producto.Info.Calorias);

@@ -82,13 +82,16 @@ namespace ydRSoft.Web.Areas.AProducto.Controllers
 
         private List<ProductoModel> ValidaPosXY(List<ProductoModel> listaModel)
         {
-
             List<ProductoModel> mLista = (List<ProductoModel>)Session["ListaXY"];
             if (mLista != null) {
                 try
                 {
                     for (int i = 0; i < listaModel.Count; i++)
                     {
+                        listaModel[i].PosX = GetPosX(listaModel[i].PosX);
+                        listaModel[i].PosY = GetPosY(listaModel[i].PosY);
+                        listaModel[i].Radio = listaModel[i].Radio + 90;
+
                         var model= mLista.Where(x => x.Nombre == listaModel[i].Nombre).FirstOrDefault();
                         if (model != null) {
 
@@ -102,7 +105,7 @@ namespace ydRSoft.Web.Areas.AProducto.Controllers
                                 listaModel[i].PosX = mLista[i].PosX;
                                 listaModel[i].PosY = mLista[i].PosY;
                                 listaModel[i].Radio = mLista[i].Radio;
-                            }                            
+                            }
                         }
                     }
                 }
@@ -110,9 +113,31 @@ namespace ydRSoft.Web.Areas.AProducto.Controllers
                 {
                 }
             }
+            else
+            {
+                for (int i = 0; i < listaModel.Count; i++)
+                {
+                    listaModel[i].PosX = GetPosX(listaModel[i].PosX);
+                    listaModel[i].PosY = GetPosY(listaModel[i].PosY);
+                    listaModel[i].Radio = listaModel[i].Radio + 90;
+                }
+            }
 
             Session["ListaXY"] = listaModel;
             return listaModel;
+        }
+
+
+        private int GetPosX(int PosX)
+        {
+            var difx = PosX + (PosX - 555) * 70 / 148;
+            return difx;
+        }
+
+        private int GetPosY(int PosY)
+        {
+            var dify = PosY + (PosY + 230) * 60/ 152;
+            return dify;
         }
     }
 }

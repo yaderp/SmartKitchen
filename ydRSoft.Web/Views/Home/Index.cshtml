@@ -306,7 +306,7 @@
                         //captureAndSendImage();
                         EnviarImagen();
                     }
-                }, 5000);
+                }, 3000);
             } else {
                 isCapturing = false;
                 startCaptureButton.classList.remove('btn-primary');
@@ -463,45 +463,23 @@
             var ctx = canvas.getContext('2d');
             ctx.clearRect(0, 0, canvas.width, canvas.height);  // Limpiar el canvas
 
-            xd = 250;
-            yd = 150;
-
-            xp = 812;
-            yp = 488;
             ctx.beginPath();
-            ctx.arc(xp, yp, 30, 0, Math.PI * 2);  // platano
-            ctx.fillStyle = 'yellow';
-            ctx.fill();  // Rellena el círculo
+            ctx.strokeStyle = 'white';
+            ctx.lineWidth = 5;  // Ancho del borde
+            ctx.strokeRect(0,75,1420,995);  //rectangulo
+
+            ctx.beginPath();
+            ctx.fillStyle = 'red';
+            ctx.fillRect(0, 70, 60, 60);
+
+            ctx.beginPath();
+            ctx.fillStyle = 'red';
+            ctx.fillRect(0, 70, 10, 995);
+
+            ctx.beginPath();
+            ctx.fillStyle = 'red';
+            ctx.fillRect(0, 70, 1420, 10);
             
-            ctx.beginPath();
-            ctx.arc(xp - xd, yp + yd, 20, 0, Math.PI * 2);  // platano
-            ctx.fillStyle = 'yellow';
-            ctx.fill();  // Rellena el círculo
-
-            xz = 370;
-            yz = 341;
-            ctx.beginPath();
-            ctx.arc(xz, yz, 30, 0, Math.PI * 2);  // zanahoria
-            ctx.fillStyle = 'green';
-            ctx.fill();  // Rellena el círculo
-
-            ctx.beginPath();
-            ctx.arc(xz-xd, yz+yd, 20, 0, Math.PI * 2);  // zanahoria
-            ctx.fillStyle = 'green';
-            ctx.fill();  // Rellena el círculo
-
-            xm = 1122;
-            ym = 297;
-
-            ctx.beginPath();
-            ctx.arc(xm, ym, 30, 0, Math.PI * 2);  // manzana
-            ctx.fillStyle = 'red';
-            ctx.fill();  // Rellena el círculo
-
-            ctx.beginPath();
-            ctx.arc(xm-xd, ym+yd, 20, 0, Math.PI * 2);  // manzana
-            ctx.fillStyle = 'red';
-            ctx.fill();  // Rellena el círculo
         }
     }
 
@@ -515,10 +493,10 @@
     const anchoCorona = 50;
     const Tipoletra = '"Lucida Console"';
     const letraInfo = '"Segoe UI"';
-    const tamNombre = 28;
-    const tamInfo = 18;
-    const tamInfoN = 16;
-    const tamInfoV = 24; 
+    const tamNombre = 30;
+    const tamInfo = 20;
+    const tamInfoN = 24;
+    const tamInfoV = 32; 
     const CantInfo = 5;
     // Ajustar el tamaño del canvas al tamaño de la ventana
     function ajustarCanvas() {
@@ -545,13 +523,12 @@
 
     }
    
-
     function mostrarProductos(producto) {
 
         let nombre = producto.Nombre;
-        let posX = producto.PosX +100;
-        let posY = producto.PosY+240;
-        let radio = producto.Radio + 60;
+        let posX = producto.PosX;
+        let posY = producto.PosY;
+        let radio = producto.Radio;
 
         let listaValor = [];
         listaValor.push(producto.Info.Calorias);
@@ -596,7 +573,7 @@
 
         ctx.fillStyle = 'white'; // Color del texto
 
-        const anguloInicio = 0.8; // Comienza desde el lado izquierdo de la corona
+        const anguloInicio = 1; // Comienza desde el lado izquierdo de la corona
         const anguloPaso = 0.25 * 100 / radioExterior; // Ángulo entre cada letra
 
         // Ajustar el radio donde se dibuja el texto
@@ -627,7 +604,7 @@
         ctx.font = `${tamInfo}px ${Tipoletra}`;
         ctx.fillStyle = 'white'; // Color del texto
 
-        const anguloInicio = 5.28 // Comienza desde el lado izquierdo de la corona
+        const anguloInicio = 5 // Comienza desde el lado izquierdo de la corona
         const anguloPaso = 0.13 * 100 / radioExterior;
 
         // Ajustar el radio donde se dibuja el texto
@@ -654,8 +631,8 @@
     function dibujarLinea(x, y, radius, listValor) {
         const centerX = x;
         const centerY = y;
-        const anguloInicio = 5.46;
-        const anguloPaso = 0.37;
+        const anguloInicio = 5.4;
+        const anguloPaso = 0.39;
 
         const listaInfo = ["Calorias", "Proteinas", "Fibra", "Azucares", "Sodio", "Colesterol"]
 
@@ -700,7 +677,7 @@
             // Texto nombre valor
             ctx.fillStyle = 'gray';
             ctx.font = `bold ${tamInfoN}px ${letraInfo}`;
-            ctx.fillText(textoNombre, x2 + 10, y2 + 15);
+            ctx.fillText(textoNombre, x2 + 10, y2 + 25);
         }
     }
 

@@ -72,22 +72,21 @@ def procesar_imagen_yolo(image_data):
     for resultado in resultados:
         for deteccion in resultado.boxes.data.tolist():
             x1, y1, x2, y2, confianza, clase = deteccion
-
-            #print(str(modelo.names[int(clase)])+" -> "+str(int(clase)))
+            px = int((x1 + x2) / 2)
+            py = int((y1 + y2) / 2)
+            radio = int(math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2) / 2)
+            print(str(modelo.names[int(clase)])+" -> "+str(int(px)))
             if int(clase) in ids_nombres:
                 nombre = ids_nombres[int(clase)]
-                px = (x1 + x2) / 2
-                py = (y1 + y2) / 2
-                radio = math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2) / 2
                 item = {
                     "Id": int(clase),
                     "Nombre": nombre,
-                    "PosX": int(px),
-                    "PosY": int(py),
-                    "Radio": int(radio),
+                    "PosX": px,
+                    "PosY": py,
+                    "Radio": radio,
                 }
                 #Consultar.guardarProductoTxt(item)
-                lprod = lprod + " - "+nombre
+                lprod = lprod + " - "+nombre+"("+str(px)+","+str(py)+ ",R"+str(radio) +") "
                 items.append(item)
 
     print("Productos : " + lprod)

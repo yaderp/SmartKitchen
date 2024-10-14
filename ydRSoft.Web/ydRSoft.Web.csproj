@@ -120,10 +120,14 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Areas\AConfiguracion\AConfiguracionAreaRegistration.cs" />
+    <Compile Include="Areas\AConfiguracion\Controllers\ConfiguracionController.cs" />
     <Compile Include="Areas\AProducto\AProductoAreaRegistration.cs" />
     <Compile Include="Areas\AProducto\Controllers\ProductoController.cs" />
     <Compile Include="Areas\AReceta\ARecetaAreaRegistration.cs" />
     <Compile Include="Areas\AReceta\Controllers\RecetaController.cs" />
+    <Compile Include="Areas\AUsuario\AUsuarioAreaRegistration.cs" />
+    <Compile Include="Areas\AUsuario\Controllers\UsuarioController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -165,7 +169,10 @@
     <Content Include="Content\Imagenes\Clima\clima11.png" />
     <Content Include="Content\Imagenes\Logos\logo.png" />
     <Content Include="Content\Imagenes\Logos\logohor.png" />
+    <Content Include="Content\Imagenes\Logos\logop.png" />
+    <Content Include="Content\Imagenes\Logos\logosk.png" />
     <Content Include="Content\Imagenes\Logos\logover.png" />
+    <Content Include="Content\Imagenes\Logos\logo_blanco.png" />
     <Content Include="Content\Imagenes\Logos\paw.png" />
     <Content Include="Content\Imagenes\sinimagen.png" />
     <Content Include="Content\js\bootstrap.js" />
@@ -179,7 +186,8 @@
     <Content Include="Content\js\plugins\slimscroll\jquery.slimscroll.min.js" />
     <Content Include="Content\js\plugins\sweetalert\sweetalert.min.js" />
     <Content Include="Content\js\popper.min.js" />
-    <Content Include="Content\js\ydrsoft\util.js" />
+    <Content Include="Content\ydrsoft\CSSutil.css" />
+    <Content Include="Content\ydrsoft\JSutil.js" />
     <Content Include="Content\Portada\banner.jpg" />
     <Content Include="Content\Site.css" />
     <Content Include="favicon.ico" />
@@ -269,6 +277,15 @@
     <Content Include="Areas\AReceta\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\AReceta\Views\Receta\_verReceta.cshtml" />
     <Content Include="Areas\AReceta\Views\Receta\Index.cshtml" />
+    <Content Include="Areas\AReceta\Views\Receta\_verPagina.cshtml" />
+    <Content Include="Areas\AConfiguracion\Views\web.config" />
+    <Content Include="Areas\AConfiguracion\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\AConfiguracion\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\AConfiguracion\Views\Configuracion\_verConfig.cshtml" />
+    <Content Include="Areas\AProducto\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\AProducto\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\AProducto\Views\Producto\_vistaProductos.cshtml" />
+    <Content Include="Areas\AUsuario\Views\web.config" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
@@ -294,13 +311,18 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\_verBotones.cshtml" />
+    <Content Include="Views\Home\_verComandos.cshtml" />
+    <Content Include="Views\Home\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\AConfiguracion\Data\" />
     <Folder Include="Areas\AProducto\Data\" />
-    <Folder Include="Areas\AProducto\Views\Producto\" />
-    <Folder Include="Areas\AProducto\Views\Shared\" />
     <Folder Include="Areas\AReceta\Data\" />
+    <Folder Include="Areas\AUsuario\Data\" />
+    <Folder Include="Areas\AUsuario\Views\Shared\" />
+    <Folder Include="Areas\AUsuario\Views\Usuario\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>

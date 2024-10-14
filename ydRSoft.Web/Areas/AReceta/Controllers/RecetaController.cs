@@ -14,61 +14,46 @@ namespace ydRSoft.Web.Areas.AReceta.Controllers
     public class RecetaController : Controller
     {
         // GET: AReceta/Receta
-        public async Task<ActionResult>  Index()
-        {
-            string pregunta = "Genera 2 recetas que contengan " +
-                "zanahoria y brócoli" +
-                ". Proporciónalas en formato JSON que incluya un " +
-                "Id, Nombre, NivelDificultad (1 a 5), Tiempo (en minutos), " +
-                "una lista de Ingredientes, y una lista de PasosPreparacion. " +
-                "Devuelve solo el JSON. que comience y termine con corchetes ([y]) para indicar que es una lista y " +
-                "que no haya caracteres no deseados al principio o al final.";
-
-            var resultado = await PreguntaOpenAI(pregunta);
+        public ActionResult  Index()
+        {            
             return View();
         }
 
-        public async Task<ActionResult> GetReceta()
+        public async Task<ActionResult> ObtenerRecetas()
         {
-            string pregunta = "Genera 2 recetas que contengan " +
-                "zanahoria y brócoli" +
-                ". Proporciónalas en formato JSON que incluya un " +
-                "Id, Nombre, NivelDificultad (1 a 5), Tiempo (en minutos), " +
-                "una lista de Ingredientes, y una lista de PasosPreparacion. " +
-                "Devuelve solo el JSON. que comience y termine con corchetes ([y]) para indicar que es una lista y " +
-                "que no haya caracteres no deseados al principio o al final.";
+            string txtNombre = TxtProductos();
+            //var resultado = new RecetaModel();
+            //if (txtNombre.Count() > 0) {
+            //    resultado = await RecetaBL.ObtenerRecetas(txtNombre);
+            //}
 
-            var resultado = await PreguntaOpenAI(pregunta);
-            return View();
+            var resultado = await RecetaBL.GetReceta(187);
+            resultado.ListaId = new List<int>() { 211, 214, 218 };
+
+            return PartialView("_verPagina", resultado);
         }
 
-        public ActionResult verReceta(int Pagina)
-        {
-            var resultado = RecetaBL.GetReceta(Pagina);
+        public async Task<ActionResult> verReceta(int Pagina)
+        {            
+            var resultado = await RecetaBL.GetReceta(Pagina);
 
             return PartialView("_verReceta", resultado);
         }
 
-        public async Task<JsonResult> PreguntarApi(string txtPregunta)
+        private string TxtProductos()
         {
-            var resultado = await PreguntaOpenAI(txtPregunta);
+            string txtProd = "";
 
-            return Json( resultado, JsonRequestBehavior.AllowGet);
-        }
+            List<ProductoModel> mLista = (List<ProductoModel>)Session["ListaXY"];
 
-        private async Task<string> PreguntaOpenAI(string txtPregunta)
-        {
-            
-            var resultado = await ApiOpenAI.PreguntaApi(txtPregunta);
-            string jsonResponse = ApiOpenAI.MensajeContent(resultado);
-            try {
-                List<RecetaModel> recetas = JsonConvert.DeserializeObject<List<RecetaModel>>(jsonResponse);
-            } catch { 
-                
+            if (mLista != null)
+            {
+                foreach (var item in mLista) {
+                    txtProd = txtProd+" " + item.Nombre;
+                }
             }
-            
 
-            return jsonResponse;
+            return txtProd;
         }
     }
 }

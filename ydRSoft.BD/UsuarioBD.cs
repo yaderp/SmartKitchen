@@ -12,9 +12,9 @@ namespace ydRSoft.BD
     {
 
 
-        public static async Task<string> GuardarUsuario(UsuarioModel objModel)
+        public static async Task<RpstaModel> GuardarUsuario(UsuarioModel objModel)
         {
-            string resultado = "Error de Conexion- verifique log";
+            RpstaModel model = new RpstaModel();
 
             string query = "INSERT INTO usuario (nombres, dni, correo, clave, idsexo, fechareg, estado) " +
                            "VALUES (@nombres, @dni, @correo, @clave, @idsexo, @fechareg, @estado)";
@@ -38,22 +38,158 @@ namespace ydRSoft.BD
                     var respuesta = await cmd.ExecuteNonQueryAsync();
                     if (respuesta > 0)
                     {
-                        resultado = "Correcto";
+                        model.Error=false;
+                        model.Mensaje = "Correcto";
                     }
                 }
                 catch (Exception ex)
                 {
-                    resultado = ex.Message;
+                    model.Mensaje = ex.Message;
                     await Util.LogError.SaveLog("Guardar USuario |");
                 }
                 finally
                 {
-                    resultado = resultado + " Finalizado";
                     await conexion.CloseAsync();
                 }                
             }
 
-            return resultado;
+            return model;
+        }
+
+        public static async Task<UsuarioModel> GetUsuario(string Nombre, string Clave)
+        {
+            string query = "SELECT * FROM usuario WHERE nombres = @nombres and clave = @clave";
+            UsuarioModel usuario = null;
+
+            MySqlConnection conexion = MySqlConexion.MyConexion();
+            if (conexion != null)
+            {
+                try
+                {
+                    await conexion.OpenAsync(); // Abrir la conexión de forma asíncrona
+
+                    MySqlCommand cmd = new MySqlCommand(query, conexion);
+                    cmd.Parameters.AddWithValue("@nombres", Nombre);
+                    cmd.Parameters.AddWithValue("@clave", Clave);
+
+                    using (MySqlDataReader reader = cmd.ExecuteReader()) // Ejecutar la lectura de forma asíncrona
+                    {
+                        if (await reader.ReadAsync()) // Leer los datos de forma asíncrona
+                        {
+                            usuario = new UsuarioModel
+                            {
+                                Id = reader.GetInt32("id"),
+                                Nombres = reader.GetString("nombres"),
+                                Dni = reader.GetString("dni"),
+                                Correo = reader.GetString("correo"),
+                                Clave = reader.GetString("clave"),
+                                IdSexo = reader.GetInt32("idsexo"),
+                                FechaReg = reader.GetDateTime("fechareg"),
+                                Estado = reader.GetInt32("estado")
+                            };
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error: " + ex.Message);
+                }
+                finally
+                {
+                    await conexion.CloseAsync(); // Cerrar la conexión de forma asíncrona
+                }
+            }
+            return usuario;
+        }
+
+        public static async Task<UsuarioModel> GetUsuarioId(int id)
+        {
+            string query = "SELECT * FROM usuario WHERE id = @id";
+            UsuarioModel usuario = null;
+
+            MySqlConnection conexion = MySqlConexion.MyConexion();
+            if (conexion != null)
+            {
+                try
+                {
+                    await conexion.OpenAsync(); // Abrir la conexión de forma asíncrona
+
+                    MySqlCommand cmd = new MySqlCommand(query, conexion);
+                    cmd.Parameters.AddWithValue("@id", id); // Asignar el valor de id al parámetro
+
+                    using (MySqlDataReader reader = cmd.ExecuteReader()) // Ejecutar la lectura de forma asíncrona
+                    {
+                        if (await reader.ReadAsync()) // Leer los datos de forma asíncrona
+                        {
+                            usuario = new UsuarioModel
+                            {
+                                Id = reader.GetInt32("id"),
+                                Nombres = reader.GetString("nombres"),
+                                Dni = reader.GetString("dni"),
+                                Correo = reader.GetString("correo"),
+                                Clave = reader.GetString("clave"),
+                                IdSexo = reader.GetInt32("idsexo"),
+                                FechaReg = reader.GetDateTime("fechareg"),
+                                Estado = reader.GetInt32("estado")
+                            };
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error: " + ex.Message);
+                }
+                finally
+                {
+                    await conexion.CloseAsync(); // Cerrar la conexión de forma asíncrona
+                }
+            }
+            return usuario;
+        }
+
+        public static async Task<UsuarioModel> GetUsuarioNom(string Nombre)
+        {
+            string query = "SELECT * FROM usuario WHERE nombres = @nombres";
+            UsuarioModel usuario = null;
+
+            MySqlConnection conexion = MySqlConexion.MyConexion();
+            if (conexion != null)
+            {
+                try
+                {
+                    await conexion.OpenAsync(); // Abrir la conexión de forma asíncrona
+
+                    MySqlCommand cmd = new MySqlCommand(query, conexion);
+                    cmd.Parameters.AddWithValue("@nombres", Nombre);
+
+                    using (MySqlDataReader reader = cmd.ExecuteReader()) // Ejecutar la lectura de forma asíncrona
+                    {
+                        if (await reader.ReadAsync()) // Leer los datos de forma asíncrona
+                        {
+                            usuario = new UsuarioModel
+                            {
+                                Id = reader.GetInt32("id"),
+                                Nombres = reader.GetString("nombres"),
+                                Dni = reader.GetString("dni"),
+                                Correo = reader.GetString("correo"),
+                                Clave = reader.GetString("clave"),
+                                IdSexo = reader.GetInt32("idsexo"),
+                                FechaReg = reader.GetDateTime("fechareg"),
+                                Estado = reader.GetInt32("estado")
+                            };
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error: " + ex.Message);
+                }
+                finally
+                {
+                    await conexion.CloseAsync(); // Cerrar la conexión de forma asíncrona
+                }
+            }
+            return usuario;
         }
 
         public static async Task<List<UsuarioModel>> LeerUsuariosAsync()
@@ -148,40 +284,5 @@ namespace ydRSoft.BD
             return listaUsuarios;
         }
 
-
-
-        public static UsuarioModel GetUsuario()
-        {
-            UsuarioModel objModel = new UsuarioModel();
-            MySqlConnection conexion = MySqlConexion.MyConexion();
-            conexion.Open();
-            try
-            {
-
-
-                MySqlDataReader leer = null;
-                string query = "select *from usuario limit 1";
-
-                MySqlCommand cmdsql = new MySqlCommand(query, conexion);
-
-                leer = cmdsql.ExecuteReader();
-                if (leer.HasRows)
-                {
-                    leer.Read();
-                    objModel.Id = leer.GetInt32(0);
-                    objModel.Nombres = leer.GetString(1);
-                    objModel.Correo = leer.GetString(2);
-                    objModel.Clave = leer.GetString(3);
-                    objModel.Correo = leer.GetString(4);
-                    objModel.IdSexo = leer.GetInt32(5);
-                }
-            }
-            catch
-            {
-
-            }
-            conexion.Close();
-            return objModel;
-        }
     }
 }

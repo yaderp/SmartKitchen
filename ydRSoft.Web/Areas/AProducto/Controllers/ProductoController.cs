@@ -26,8 +26,15 @@ namespace ydRSoft.Web.Areas.AProducto.Controllers
         {
             List<ProductoModel> mLista = new List<ProductoModel>();
             mLista.Add(new ProductoModel());
+            mLista.Add(new ProductoModel(2,"MANZANA",600,400,200));
             
             return Json(mLista, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult VistaProductos()
+        {
+
+            return PartialView("vistaProductos");
         }
 
 
@@ -73,7 +80,7 @@ namespace ydRSoft.Web.Areas.AProducto.Controllers
                 }
                 catch (Exception ex)
                 {
-                   
+                    await Util.LogError.SaveLog("->" + ex.Message);
                 }
             }
             return Json(mLista, JsonRequestBehavior.AllowGet);
@@ -109,8 +116,9 @@ namespace ydRSoft.Web.Areas.AProducto.Controllers
                         }
                     }
                 }
-                catch (Exception ex)
+                catch
                 {
+                    
                 }
             }
             else

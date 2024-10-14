@@ -14,97 +14,41 @@ namespace ydRSoft.Web.Controllers
 {
     public class HomeController : Controller
     {
-
-        private static readonly HttpClient client = new HttpClient();
-
-
         public async Task<ActionResult> Index()
         {
-
             //var resultado = await UsuarioBL.SetUsuario(new UsuarioModel());
             //var lista = await UsuarioBL.getALl();
 
-            var receta = await RecetaBL.SetReceta(RecetaBL.GetReceta(2));
+            //var receta = await RecetaBL.ObtenerRecetas("manzana zanahoria");  
+
+            var user1 = await UsuarioBL.GetUsuario("Invitado","1234");
+            var conexion = ConexionBL.GetConexion();
+            UsuarioModel model = (UsuarioModel)Session["objUser"];
+            if (model == null)
+            {
+                return RedirectToAction("Login");
+            }
+
+            return View(model);
+        }
+
+        public ActionResult Login()
+        {
 
             return View();
         }
 
-        private async Task ConsultarAPI()
-        {
-            string apiUrl = "http://127.0.0.1:5000/items";
-            List<Item> items = new List<Item>();
 
-            try
-            {
-                HttpResponseMessage response = await client.GetAsync(apiUrl);
 
-                if (response.IsSuccessStatusCode)
-                {
-                    var jsonResponse = await response.Content.ReadAsStringAsync();
-                    items = JsonConvert.DeserializeObject<List<Item>>(jsonResponse);
-                }
-                else
-                {
-                    ViewBag.Error = $"Error al obtener los items: {response.StatusCode}";
-                }
-            }
-            catch (Exception ex)
-            {
-                ViewBag.Error = "Ocurrió un error al intentar conectarse a la API: " + ex.Message;
-            }
-
-            //return View(items);
+        public ActionResult VerBotones()
+        {            
+            return PartialView("_verBotones");
         }
 
-        [HttpPost]
-        public async Task<JsonResult> UploadImage(string image)
+        public ActionResult VerComandos()
         {
-            ProductoModel mProd = new ProductoModel();
-
-            try
-            {
-                if (!string.IsNullOrEmpty(image))
-                {
-                    // Crear la carpeta UploadedImages si no existe
-                    string path = Server.MapPath("~/UploadedImages/");
-                    if (!Directory.Exists(path))
-                    {
-                        Directory.CreateDirectory(path);
-                    }
-
-                    // Eliminar el prefijo de la cadena base64
-                    string base64Data = image.Replace("data:image/png;base64,", "");
-                    byte[] imageBytes = Convert.FromBase64String(base64Data);
-
-                    using (MemoryStream ms = new MemoryStream(imageBytes))
-                    {
-                        using (System.Drawing.Image img = System.Drawing.Image.FromStream(ms))
-                        {
-                            // Guardar la imagen en el servidor en formato JPEG
-                            string fileName = "capturedImage_" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".jpg";
-                            string filePath = Path.Combine(path, fileName);
-
-                            // Guardar como JPEG con calidad estándar
-                            await Task.Run(() =>
-                            {
-                                img.Save(filePath, System.Drawing.Imaging.ImageFormat.Jpeg);
-                            });
-                        }
-                    }
-                }
-
-               
-            }
-            catch (Exception ex)
-            {
-                
-            }
-
-            return Json(mProd, JsonRequestBehavior.AllowGet);
+            return PartialView("_verComandos");
         }
-
-
-
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";

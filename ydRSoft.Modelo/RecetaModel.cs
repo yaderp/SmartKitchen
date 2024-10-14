@@ -17,10 +17,13 @@ namespace ydRSoft.Modelo
         public List<string> Ingredientes { get; set; }
         public List<string> PasosPreparacion { get; set; }
         
+        public List<int> ListaId { get; set; }
 
         public RecetaModel() {
             Id = 0;
             Ingredientes = new List<string>();
+            PasosPreparacion = new List<string>();
+            ListaId = new List<int>();
         }
     }
 }

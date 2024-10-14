@@ -13,35 +13,37 @@ namespace ydRSoft.BL
     public class RecetaBL
     {
 
-        public static RecetaModel GetReceta(int Pagina)
+        public static async Task<RecetaModel> ObtenerRecetas(string TxtProd)
         {
-            var receta = new RecetaModel();
+            var objModel = new RecetaModel();
 
-            try {
-                var lista = JsonConvert.DeserializeObject<List<RecetaModel>>(Util.Funciones.json);
+            var mLista = await ConsultarOpenAI(TxtProd);
+            var listaId = await Guardar(mLista);
 
-                receta = lista.Where(x => x.Id == Pagina).FirstOrDefault();
-
-                //var ingred = receta.Ingredientes;
-                //for(int i=0;i<ingred.Count;i++) {
-                //    ingred[i] = Util.Funciones.LetraMayuscula(ingred[i]);
-                //}
-
-                //receta.Ingredientes = ingred;
+            if (listaId != null)
+            {
+                if (listaId.Count > 0)
+                {
+                    objModel = await GetReceta(listaId[0]);
+                    objModel.ListaId = listaId;
+                }
             }
-            catch(Exception) { 
-            
-            } 
 
+            return objModel;
+         }
+
+        public static async Task<RecetaModel> GetReceta(int IdR)
+        {
+            var receta = await RecetaBD.GetReceta(IdR);
             return receta;
         }
 
-
-        public static async Task<List<RecetaModel>> Lista(string txtProducto)
+        public static async Task<List<RecetaModel>> ConsultarOpenAI(string txtProducto)
         {
             List<RecetaModel> mLista = new List<RecetaModel>();
 
-            string txtPregunta = "Genera 1 recetas que contengan " + txtProducto +
+            string txtPregunta = "Genera " + Util.Variables.CantRecetas +
+                " recetas que contengan " + txtProducto +
                 ". Proporciónalas en formato JSON que incluya un " +
                 "Id, Nombre, NivelDificultad (1 a 5), Tiempo (en minutos), " +
                 "una lista de Ingredientes, y una lista de PasosPreparacion. " +
@@ -62,15 +64,25 @@ namespace ydRSoft.BL
             return mLista;
         }
 
-
-        public static async Task<string> SetReceta(RecetaModel objModel)
+        public static async Task<List<int>> Guardar(List<RecetaModel> mLista)
         {
+            List<int> listaId = new List<int>();
+            try {
+                if (mLista != null)
+                {                    
+                    foreach (var item in mLista)
+                    {
+                        var Idpro = await RecetaBD.Guardar(item);
 
-            //var resultado = await RecetaBD.Set(objModel);
-            var resultado = await RecetaBD.SetAll(objModel);
+                        if (Idpro > 0) listaId.Add(Idpro);
+                    }
+                }
+            }
+            catch(Exception ex) {
+                await Util.LogError.SaveLog("Guardar Receta " + ex.Message);
+            }
 
-            return resultado;
+            return listaId;
         }
-
     }
 }

@@ -20,7 +20,7 @@ namespace ydRSoft.Modelo
             Nombre = "PLATANO";
             PosX = 300;
             PosY = 300;
-            Radio = 100;
+            Radio = 180;
             Info = new InfoModel();
         }
 

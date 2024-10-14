@@ -18,7 +18,8 @@ namespace ydRSoft.Modelo
         public int Estado { get; set; }
 
         public UsuarioModel() {
-            Nombres = "NOmbre Usuario";
+            Id = 1;
+            Nombres = "INVITADO";
             Dni = "12345678";
             Correo = "correo@corereo";
             Clave = "1234";

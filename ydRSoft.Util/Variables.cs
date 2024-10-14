@@ -1,0 +1,16 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ydRSoft.Util
+{
+    public class Variables
+    {
+        static public int CantRecetas = 2;
+
+        public static int HOMBRE = 1;
+        public static int MUJER = 2;
+    }
+}

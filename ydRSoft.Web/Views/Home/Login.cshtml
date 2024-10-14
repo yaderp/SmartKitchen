@@ -1,0 +1,239 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "Login";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title> SK |  @ViewBag.Title</title>
+
+    <link rel="shortcut icon" href="~/Content/Imagenes/Logos/paw.png">
+
+    <link href="@Url.Content("~/Content/css/bootstrap.min.css")" rel="stylesheet">
+    <link href="@Url.Content("~/Content/font-awesome/css/font-awesome.min.css")" rel="stylesheet">
+    <link href="@Url.Content("~/Content/css/animate.css")" rel="stylesheet">
+    <link href="@Url.Content("~/Content/css/estiloydR.css")" rel="stylesheet">
+
+</head>
+
+<body class="text-white" style="background-color: black; font-size: 24px">
+    <div class="middle-box text-center loginscreen animated fadeInDown">
+
+        <img src="~/Content/Imagenes/Logos/logo_blanco.png" height="200" />
+        <hr />
+        <strong style="font-size:32px">Bienvenido a Mesa Inteligente</strong>
+        <hr />
+        <div id="verLogin">
+            <div class="form-group text-left">
+                <i class="fa fa-microphone"> Usuario</i>
+                <input id="mUser" class="form-control text-navy" style="font-size:28px" autocomplete="off" placeholder="Usuario" maxlength="25" />
+            </div>
+            <div class="form-group text-left">
+                <i class="fa fa-microphone"> Clave</i>
+                <input type="password" id="mClave" class="form-control text-navy" style="font-size:28px" autocomplete="off" placeholder="Contraseña" />
+            </div>
+
+            <button class="btn btn-lg btnydR-Primario block full-width m-b" onclick="funIngresar(1)" id="btnIngresar" style="font-size:24px"> <i class="fa fa-microphone"> Ingresar</i> &nbsp; &nbsp; <i class='fa fa-arrow-right'></i></button>
+
+            <button class="btn btn-lg btn-primary block full-width m-b" onclick="funIngresar(2)" id="btnRegistro" style="font-size:20px"> <i class="fa fa-microphone"> Registrar</i> &nbsp; &nbsp; <i class='fa fa-arrow-right'></i></button>
+            <button class="btn btn-lg btn-danger block full-width m-b" onclick="funIngresar(0)" id="btnInvitado" style="font-size:20px"> <i class="fa fa-microphone"> Invitado</i> &nbsp; &nbsp; <i class='fa fa-arrow-right'></i></button>
+            <span id="mMensaje1a" class="text-danger"></span>
+
+        </div>
+    </div>
+    <div>
+
+    </div>
+    <div id="clockDiv" class=" text-center"></div>
+    <!-- Mainly scripts -->
+    <script src="@Url.Content("~/Content/ydrsoft/JSutil.js")"></script>
+    <script src="@Url.Content("~/Content/js/jquery-3.1.1.min.js")"></script>
+    <script src="@Url.Content("~/Content/js/popper.min.js")"></script>
+    <script src="@Url.Content("~/Content/js/bootstrap.js")"></script>
+
+</body>
+</html>
+
+<script id="_Captura_de_voz_">
+
+    function VozTextoYdR(texto) {
+        const utterance1a = new SpeechSynthesisUtterance(texto); // Crear una nueva instancia de SpeechSynthesisUtterance
+        window.speechSynthesis.speak(utterance1a); // Hablar el texto
+    }
+
+    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+
+    recognition.lang = 'es-ES';
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+
+    recognition.start();
+    function normalizarTexto(texto) {
+        // Reemplaza la "á" por "a" y convierte todo a minúsculas
+        return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+    }
+
+    recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript.toLowerCase();
+        //const textoNormalizado = normalizarTexto(transcript); // Normalizar el texto
+        console.log('Transcripción:', transcript); // Mostrar la transcripción en la consola
+
+
+        if (transcript === 'usuario') {            
+            setFocus('mUser');
+        } else {
+            if (transcript === 'clave') {
+                setFocus('mClave');
+            } else {                
+                if (transcript === 'ingresar') {
+                    funIngresar(1);
+                } else {
+                    if (transcript === 'invitado') {
+                        funIngresar(0);
+                    } else {
+                        if (transcript === 'registrar') {
+                            funIngresar(2);
+                        } else {
+                            EscribirTexto(transcript);
+                        }
+                    }
+                }
+            }
+        }
+    };
+
+    recognition.onerror = (event) => {
+        console.error('Error de reconocimiento de voz:', event.error);
+    };
+
+    recognition.onend = () => {
+        recognition.start();
+    };
+</script>
+
+
+<script>
+    setFocus('mUser');
+    function EscribirTexto(txtLetra) {
+        const elementoActivo = document.activeElement;
+
+        // Verifica si el elemento activo es un input de texto
+        if (elementoActivo.tagName === "INPUT") {
+            // Reemplaza cualquier texto anterior con el nuevo texto
+            elementoActivo.value = txtLetra;
+        } else {
+            console.log("No hay ningún input de texto enfocado.");
+        }
+
+    }
+
+    async function funIngresar(opc) {
+        console.log("ingreso");        
+        let nombre = document.getElementById('mUser').value;
+        let clave = document.getElementById('mClave').value;
+
+        let tamnom = nombre.length;
+        let tamcla = clave.length;
+
+        if (opc != 0) {
+
+            if (tamnom == 0) {
+                setTextIn('mMensaje1a', "Por favor, Ingrese un Nombre");
+                VozTextoYdR("Por favor, Ingrese un Nombre");
+                setFocus('mUser');
+                return;
+            } 
+
+            if (tamcla == 0) {
+                setTextIn('mMensaje1a', "Por favor, Ingrese una Contraseña");
+                VozTextoYdR("Por favor, Ingrese una Contraseña");
+                setFocus('mClave');
+                return;
+            }
+        }
+
+        initUsuario(opc);
+
+        console.log("salio");
+    }
+
+    async function initUsuario(opc) {
+        
+        let nombre = document.getElementById('mUser').value;
+        let clave = document.getElementById('mClave').value;       
+
+        //setDisabled(entrada, true);
+        var dataString = new FormData();
+        dataString.append("Nombre", nombre);
+        dataString.append("Clave", clave);
+        dataString.append("Opcion", opc);
+
+        const response = await fetch('/AUsuario/Usuario/InicioUsuario', {
+            method: 'POST',
+            body: dataString,
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            if (data.Error) {
+                setTextIn('mMensaje1a', data.Mensaje)
+                VozTextoYdR(data.Mensaje);
+            } else {
+                window.location.href = '/Home/Index';
+            }
+
+        } else {
+            console.log('Error en la respuesta: ' + response.status, response.statusText);
+        }
+
+        //setDisabled(entrada, false);
+    }
+
+
+    function setFocus(entrada) {
+        let outInput = document.getElementById(entrada);
+        if (outInput && typeof outInput.focus === 'function') {
+            outInput.focus();
+        }
+    }
+
+    function setDisabled(entrada, activo) {
+        let outInput = document.getElementById(entrada);
+        let contenidoHTML = outInput.innerHTML; 
+        console.log(contenidoHTML);
+        outInput.disabled = activo;
+
+        if (activo) {
+            outInput.innerHTML = "CARGANDO &nbsp; &nbsp; <i class='fa fa-spinner'></i>";
+        } else {
+            outInput.innerHTML = contenidoHTML;
+        }
+    }
+
+    function setTextIn(entrada, texto) {
+        let outInput = document.getElementById(entrada);
+        outInput.innerHTML = texto;
+    }
+
+
+    function validarFoco(entrada) {
+        const input = document.getElementById(entrada);
+        if (document.activeElement === input) {
+            alert("El input está enfocado.");
+        } else {
+            alert("El input NO está enfocado.");
+        }
+    }
+
+   
+</script>
+
+
+
+
+

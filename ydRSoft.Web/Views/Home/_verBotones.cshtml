@@ -1,0 +1,33 @@
+﻿<div class="floatingBotones">
+    <button class="btn btn-circle btn-success" id="startCapture" onclick="IniciarCaptura()"><i class="fa fa-camera"></i></button>
+    <button class="btn btn-circle btn-primary" id="btnReceta" onclick="funRecetas()"><i class="fa fa-eye"></i></button>
+    <button class="btn btn-circle btn-primary" id="btnMenu" onclick="funMenu()"><i class="fa fa-bars"></i></button>
+    <button class="btn btn-circle btn-primary" id="btnFavoritos" onclick="funFavoritos()"><i class="fa fa-star"></i></button>
+    <button class="btn btn-circle btn-primary" id="btnComandos" onclick="funComandos()"><i class="fa fa-microphone"></i></button>
+    <button class="btn btn-circle btn-primary" id="btnConfiguracion" onclick="funConfiguracion()"><i class="fa fa-gears"></i></button>
+    <button class="btn btn-circle btn-primary" id="btnBotones" onclick="funBotones()"><i class="fa fa-toggle-on"></i></button>
+    <button class="btn btn-circle btn-danger" id="btnReiniciar" onclick="funReiniciar()"><i class="fa fa-window-minimize"></i></button>
+    <button class="btn btn-circle btn-danger" id="btnCerrar" onclick="funCerrar()"><i class="fa fa-window-close-o"></i></button>
+</div>
+
+<script>
+
+
+    function funMenu() {
+        if (esVisible('vistaMenu')) {
+            
+            setOcultar('vistaMenu', true);
+        } else {
+            console.log(listaProd1a);
+            setOcultar('vistaMenu', false);
+        }
+    }
+
+    function funBotones() {
+        if (esVisible('vistaBtones')) {
+            setOcultar('vistaBtones', true);
+        } else {
+            setOcultar('vistaBtones', false);
+        }
+    } 
+</script>

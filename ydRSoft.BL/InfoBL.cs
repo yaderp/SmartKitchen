@@ -20,7 +20,7 @@ namespace ydRSoft.BL
                     mLista[i].Info = InfoBD.GetInfo(mLista[i].Nombre);
                 }
             
-            } catch (Exception e) { 
+            } catch{ 
             
             }
 

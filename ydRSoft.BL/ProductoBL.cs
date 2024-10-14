@@ -43,7 +43,7 @@ namespace ydRSoft.BL
             }
             catch (Exception ex)
             {
-                
+                await Util.LogError.SaveLog("->" + ex.Message);
             }
         }
     }

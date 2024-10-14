@@ -1,151 +1,100 @@
 ﻿@using ydRSoft.Modelo
-
 @model RecetaModel
 
 @{
     var receta = new RecetaModel();
-
+    List<int> listaId = new List<int> { 16 };
     if (Model != null)
     {
         receta = Model;
+        if (receta.ListaId.Count > 0)
+        {
+            listaId = receta.ListaId;
+        }
     }
     int npaso = 1;
+
+    string vozIngredientes = "LISTA DE INGREDIENTES.";
+
+    string vozPasos = "TIEMPO DE PREPARACION " + receta.Tiempo + "minutos. INICIAMOS. ";
+
+    string vozNombre = receta.Nombre + ". Nivel de dificultad. " + receta.NivelDificultad;
 }
 
-<style>
 
-    :root {
-        font-family: 'Franklin Gothic Medium','Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-        --fuente-principal: 'Franklin Gothic Medium';
-    }
-
-    .floatingAbajoIzq {
-        width: 450px;
-        background-color: rgb(149,244,178);
-        position: fixed;
-        bottom: 50px;
-        left: 10px;
-        padding: 10px;
-        border-radius: 5px;
-        z-index: 9999;
-        font-size: 24px;
-        font-family: var(--fuente-principal);
-    }
-
-    .color-dorado {
-        color: rgb(244,209,90);
-        align-items: center;
-        padding: 0 0 0 10px;
-        border-radius: 5px;
-        text-align: left;
-        font-size: 28px;
-        font-family: var(--fuente-principal);
-    }
-
-    .color-ingredientes {
-        color: white;
-        align-items: center;
-        padding: 0 10px 0 10px;
-        font-size: 24px;
-        font-family: Arial;
-    }
-
-    .contenido-ydR {
-        width: 100%;
-        position: relative;
-        overflow: hidden;
-        margin: 10px 0 0 10px;
-    }
-
-
-    .parte-superior {
-        background-color: rgb(149,244,178);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: black;
-        font-weight: bold;
-        box-sizing: border-box;
-        padding: 10px 10px 10px 10px;
-        font-size: 24px;
-        font-family: var(--fuente-principal);
-    }
-
-    .parte-inferior {
-        background-color: rgb(108, 108, 108);
-        height: calc(100% - 20px);
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        color: white;
-        box-sizing: border-box;
-        padding: 5px 0 10px 0;
-    }
-
-    .floatingbtn {
-        position: fixed;
-        bottom: 15px;
-        left: 460px;
-        padding: 20px;
-        border-radius: 5px;
-        z-index: 9999;
-        font-size: 20px;
-        color: white;
-        font-weight: bold;
-        font-family: 'Lucida Console';
-    }
-
-    .text-VerdeF {
-        color: rgb(149,244,178);
-        font-size: 20px;
-    }
-    .texto-icon-VerdeF {
-        color: rgb(149,244,178);
-        font-size: 14px;
-    }
-</style>
 
 @if (receta.Id > 0)
 {
 
     <div class="contenido-ydR">
         <div class="parte-superior">
-            <strong class="text-center">@receta.Nombre</strong>
+            <strong class="text-center" id="nomReceta1">@receta.Nombre</strong>
         </div>
         <div class="parte-inferior">
             <div class="color-dorado">
-                <strong> <i class="fa fa-bars text-VerdeF"></i> INGREDIENTES </strong>
+                <strong>INGREDIENTES  </strong> &nbsp; &nbsp;<i class="text-VerdeF">Nivel : @receta.NivelDificultad </i>
             </div>
-            <div class="color-ingredientes">                
-                    @foreach (var item in receta.Ingredientes)
-                    {
-                       <i class="fa fa-check-square-o texto-icon-VerdeF"> &nbsp;</i>   @item <br />
-                    }                
+            <div class="texto-Ingredientes">
+                @foreach (var item in receta.Ingredientes)
+                {
+                    vozIngredientes = vozIngredientes + " " + item + ".";
+
+                    <i class="fa fa-check-square-o texto-icon-VerdeF"> &nbsp;</i> @item <br />
+                }
+
+
             </div>
             <div class="color-dorado">
-                <strong> <i class="fa fa-clock-o text-VerdeF"></i> PREPARACION @receta.Tiempo min </strong>
+                <strong>PREPARACION  &nbsp;&nbsp;<i class="fa fa-clock-o text-VerdeF">  @receta.Tiempo min.</i></strong>
             </div>
-            <div class="color-ingredientes">
+            <div>
                 @foreach (var item in receta.PasosPreparacion)
                 {
-                    <strong style="color: rgb(149,244,178)"> <i class="fa fa-hand-o-right texto-icon-VerdeF"></i> Paso @(npaso++): </strong> @item <br />
+                    vozPasos = vozPasos + " Paso " + npaso + ": " + item + ". ";
+
+                    <div class="texto-largo">
+                        <span class="label">P@(npaso++):</span>
+                        <span class="contenido01">@item</span>
+                    </div>
                 }
-            </div>            
+            </div>
         </div>
     </div>
-
-    <div class="floatingAbajoIzq" style="left:10px">
+    <input id="idIngred1a" value="@vozIngredientes" hidden />
+    <input id="idPasos1a" value="@vozPasos" hidden />
+    <input id="idNombre1a" value="@vozNombre" hidden />
+    <div class="recetaSugerida">
         <span style="font-size:18px">Receta Sugerida <i class="fa fa-hand-o-right"></i></span>
-        <div style="font-size:24px">@receta.Nombre</div>
-    </div>
-    <div class="floatingbtn">
-        <p>
-            <a class="btn btn-primary btn-circle btn-lg btn-outline active" style="font-size:28px;">1</a>
-            <a class="btn btn-primary btn-circle btn-lg btn-outline" style="font-size:28px;">2</a>
-            <a class="btn btn-primary btn-circle btn-lg btn-outline" style="font-size:28px;">3</a>
-            <a class="btn btn-primary btn-circle btn-lg btn-outline" style="font-size:28px;">4</a>
-        </p>
+        <div style="font-size:24px">@receta.Nombre (Nivel-@receta.NivelDificultad)</div>
     </div>
 }
+else
+{
+
+    <div class="recetaSugerida">
+        <span style="font-size:18px">No se detecto Ningun Producto <i class="fa fa-bug"></i></span>
+    </div>
+}
+
+<script>
+
+    hablarNombre();
+
+    
+    function hablarNombre() {
+        var txtletra = document.getElementById("idNombre1a").value
+        hablarTexto(txtletra);
+    }
+
+    function hablarIngredientes() {
+        var txtletra = document.getElementById("idIngred1a").value
+        hablarTexto(txtletra);
+    }
+
+    function hablarPasos() {
+        var txtletra = document.getElementById("idPasos1a").value
+        hablarTexto(txtletra);
+    }
+</script>
 
 

@@ -1,0 +1,96 @@
+﻿@using ydRSoft.Modelo
+@model RecetaModel
+
+@{ 
+    var receta = new RecetaModel();
+    List<int> listaId = new List<int>();
+    if (Model != null)
+    {
+        receta = Model;
+        if (receta.ListaId.Count > 0)
+        {
+            listaId = receta.ListaId;
+        }
+    }
+
+    int Index = 1;
+}
+
+<style>
+    
+
+    .floatingbtn {
+    position: fixed;
+    bottom: 15px;
+    left: 460px;
+    padding: 20px;
+    border-radius: 5px;
+    z-index: 9999;
+    font-size: 20px;
+    color: white;
+    font-weight: bold;
+    font-family: 'Lucida Console';
+}
+</style>
+
+<input id="IdUno" value="@receta.Id" hidden/>
+
+
+<div class="floatingbtn">
+    <p>
+        @foreach (var item in listaId)
+        {
+            var ActItem = Index == 1 ? "active" : "";
+
+            <a class="clsbtnRe btn btn-primary btn-circle btn-lg btn-outline @ActItem" style="font-size:28px;" onclick="funPagina(this,@item)" id="@("btnPag"+Index)">@(Index++)</a>
+        }
+    </p>
+</div>
+
+
+<script>
+
+    funVerReceta(document.getElementById("IdUno").value);
+
+    async function funVerReceta(idr) {
+        var dataString = new FormData();
+
+        dataString.append("Pagina", idr);
+
+        const response = await fetch('/AReceta/Receta/verReceta', {
+            method: 'POST',
+            body: dataString,
+        });
+
+        if (response.ok) {
+            const data = await response.text();
+            $("#viewReceta").html(data);            
+        } else {
+            divResult.innerHTML = '<h3> Ninguna receta Disponible </h3>';
+        }
+    }
+
+    function funPagina(boton,pagina) {
+        funVerReceta(pagina);
+        document.querySelectorAll('.clsbtnRe').forEach(function (btn) {
+            btn.classList.remove('active');
+        });
+
+        boton.classList.add('active');
+    }
+    indexDeseado = 1;
+    
+    function moverPagina(num) {
+        indexDeseado = indexDeseado + num;
+        if (indexDeseado > 3) {
+            indexDeseado = 1;
+        } else {
+            if (indexDeseado < 1) {
+                indexDeseado = 3;
+            }
+        }
+        
+        var boton = document.getElementById("btnPag" + indexDeseado);
+        boton.click();    
+    }
+</script>

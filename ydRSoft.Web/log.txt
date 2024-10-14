@@ -1,2 +1,13 @@
-﻿08/10/2024 12:32:57 | Guardar USuario |
-08/10/2024 12:33:49 | Guardar USuario |
+﻿12/10/2024 15:02:45 | ->Error al enviar la solicitud.
+12/10/2024 15:02:48 | ->Error al enviar la solicitud.
+12/10/2024 15:02:51 | ->Error al enviar la solicitud.
+12/10/2024 15:02:54 | ->Error al enviar la solicitud.
+13/10/2024 11:33:04 | ->Error al enviar la solicitud.
+13/10/2024 11:33:07 | ->Error al enviar la solicitud.
+13/10/2024 14:09:34 | ->Error al enviar la solicitud.
+13/10/2024 14:09:37 | ->Error al enviar la solicitud.
+13/10/2024 14:09:40 | ->Error al enviar la solicitud.
+13/10/2024 14:09:43 | ->Error al enviar la solicitud.
+13/10/2024 14:09:46 | ->Error al enviar la solicitud.
+13/10/2024 14:09:49 | ->Error al enviar la solicitud.
+13/10/2024 14:09:52 | ->Error al enviar la solicitud.

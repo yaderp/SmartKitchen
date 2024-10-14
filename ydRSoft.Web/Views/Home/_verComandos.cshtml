@@ -3,33 +3,43 @@
     var mLista = ydRSoft.BL.ConexionBL.ListaCom();
 }
 
-<div class="panel panel-success">
-    <div class="panel-heading">
-        <h1 class="text-center"> <strong>Comandos de voz</strong></h1>
-    </div>
-    <div class="panel-body">
-        <table class="table text-navy" style="font-size:21px; font-weight:bold">
-            <thead>
-                <tr>
-                    <th width="1">#</th>
-                    <th width="1">Icono</th>
-                    <th width="1">Comando</th>
-                    <th>Descripcion</th>
-                </tr>
-            </thead>
-            <tbody>
-                
-                @foreach (var item in mLista)
-                {
-                    <tr>
-                        <td class="text-default">@item.Id</td>
-                        <td>@Html.Raw(item.Icono)</td>
-                        <td class="text-Verde">@item.Nombre</td>
-                        <td>@item.Detalle</td>
-                    </tr>
-                }
 
-            </tbody>
-        </table>
+<div class="modal inmodal fade" id="modalComandos" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <button class="btn btn-circle btn-danger float-right" data-dismiss="modal"><i class="fa fa-close"></i></button>
+
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <h1 class="text-center"> <strong>Comandos de voz</strong></h1>
+            </div>
+            <div class="panel-body">
+                <table class="table text-navy" style="font-size:21px; font-weight:bold">
+                    <thead>
+                        <tr>
+                            <th width="1">#</th>
+                            <th width="1">Icono</th>
+                            <th width="1">Comando</th>
+                            <th>Descripcion</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (var item in mLista)
+                        {
+                            <tr>
+                                <td class="text-default">@item.Id</td>
+                                <td>@Html.Raw(item.Icono)</td>
+                                <td class="text-Verde">@item.Nombre</td>
+                                <td>@item.Detalle</td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
     </div>
 </div>
+
+

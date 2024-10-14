@@ -24,7 +24,7 @@ namespace ydRSoft.BL
             {
                 if (listaId.Count > 0)
                 {
-                    objModel = await GetReceta(listaId[0]);
+                    objModel = await GetRecetaId(listaId[0]);
                     objModel.ListaId = listaId;
                 }
             }
@@ -32,9 +32,21 @@ namespace ydRSoft.BL
             return objModel;
          }
 
-        public static async Task<RecetaModel> GetReceta(int IdR)
+        public static async Task<RecetaModel> GetRecetaId(int IdR)
         {
-            var receta = await RecetaBD.GetReceta(IdR);
+            var receta = await RecetaBD.GetRecetaId(IdR);
+            return receta;
+        }
+
+        public static async Task<List<RecetaModel>> GetRecetaCat(string Categoria)
+        {
+            var mlista = await RecetaBD.GetRecetaCat(Categoria);
+            return mlista;
+        }
+
+        public static async Task<RecetaModel> GetRecetaFav(int IdUser)
+        {
+            var receta = await RecetaBD.GetRecetaId(IdUser);
             return receta;
         }
 
@@ -45,7 +57,7 @@ namespace ydRSoft.BL
             string txtPregunta = "Genera " + Util.Variables.CantRecetas +
                 " recetas que contengan " + txtProducto +
                 ". Proporciónalas en formato JSON que incluya un " +
-                "Id, Nombre, NivelDificultad (1 a 5), Tiempo (en minutos), " +
+                "Id, Nombre, NivelDificultad (1 a 5), Tiempo (en minutos), Categoria (entrada o sopa o principal o postre ) " +
                 "una lista de Ingredientes, y una lista de PasosPreparacion. " +
                 "Devuelve solo el JSON. que comience y termine con corchetes ([y]) para indicar que es una lista y " +
                 "que no haya caracteres no deseados al principio o al final.";

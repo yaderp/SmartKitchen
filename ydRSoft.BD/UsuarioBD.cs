@@ -10,14 +10,12 @@ namespace ydRSoft.BD
 {
     public class UsuarioBD
     {
-
-
         public static async Task<RpstaModel> GuardarUsuario(UsuarioModel objModel)
         {
             RpstaModel model = new RpstaModel();
 
-            string query = "INSERT INTO usuario (nombres, dni, correo, clave, idsexo, fechareg, estado) " +
-                           "VALUES (@nombres, @dni, @correo, @clave, @idsexo, @fechareg, @estado)";
+            string query = "INSERT INTO usuario (nombres, dni, correo, clave, idsexo, idcargo, fechareg, estado) " +
+                           "VALUES (@nombres, @dni, @correo, @clave, @idsexo, @idcargo, @fechareg, @estado)";
 
             MySqlConnection conexion = MySqlConexion.MyConexion();
             if (conexion != null)
@@ -32,6 +30,7 @@ namespace ydRSoft.BD
                     cmd.Parameters.AddWithValue("@correo", objModel.Correo);
                     cmd.Parameters.AddWithValue("@clave", objModel.Clave);
                     cmd.Parameters.AddWithValue("@idsexo", objModel.IdSexo);
+                    cmd.Parameters.AddWithValue("@idcargo", objModel.IdCargo);
                     cmd.Parameters.AddWithValue("@fechareg", DateTime.Now);
                     cmd.Parameters.AddWithValue("@estado", 1);
 

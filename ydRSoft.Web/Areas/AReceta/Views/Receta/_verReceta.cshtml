@@ -3,14 +3,22 @@
 
 @{
     var receta = new RecetaModel();
-    List<int> listaId = new List<int> { 16 };
+    List<int> listaId = new List<int>();
+    string vozNombre = "Ninguna Receta Disponible";
     if (Model != null)
     {
         receta = Model;
-        if (receta.ListaId.Count > 0)
+        if (receta.Id > 0)
         {
-            listaId = receta.ListaId;
+
+            if (receta.ListaId.Count > 0)
+            {
+                listaId = receta.ListaId;
+            }
+
+            vozNombre = receta.Nombre + ". Categoría. " + receta.Categoria + ". " + ". Nivel de dificultad. " + receta.NivelDificultad;
         }
+
     }
     int npaso = 1;
 
@@ -18,11 +26,10 @@
 
     string vozPasos = "TIEMPO DE PREPARACION " + receta.Tiempo + "minutos. INICIAMOS. ";
 
-    string vozNombre = receta.Nombre + ". Nivel de dificultad. " + receta.NivelDificultad;
 }
 
-
-
+<input id="idNombre1a" value="@vozNombre" hidden />
+<input id="idReceta1a" value="@receta.Id" hidden />
 @if (receta.Id > 0)
 {
 
@@ -32,7 +39,7 @@
         </div>
         <div class="parte-inferior">
             <div class="color-dorado">
-                <strong>INGREDIENTES  </strong> &nbsp; &nbsp;<i class="text-VerdeF">Nivel : @receta.NivelDificultad </i>
+                <strong>INGREDIENTES</strong><i class="text-VerdeF">(@receta.Categoria)  &nbsp; Nivel: @receta.NivelDificultad </i>
             </div>
             <div class="texto-Ingredientes">
                 @foreach (var item in receta.Ingredientes)
@@ -62,10 +69,10 @@
     </div>
     <input id="idIngred1a" value="@vozIngredientes" hidden />
     <input id="idPasos1a" value="@vozPasos" hidden />
-    <input id="idNombre1a" value="@vozNombre" hidden />
+    
     <div class="recetaSugerida">
         <span style="font-size:18px">Receta Sugerida <i class="fa fa-hand-o-right"></i></span>
-        <div style="font-size:24px">@receta.Nombre (Nivel-@receta.NivelDificultad)</div>
+        <div style="font-size:24px">@receta.Nombre <small>(Nivel-@receta.NivelDificultad)</small></div>
     </div>
 }
 else
@@ -78,8 +85,7 @@ else
 
 <script>
 
-    hablarNombre();
-
+    //hablarNombre();
     
     function hablarNombre() {
         var txtletra = document.getElementById("idNombre1a").value
@@ -95,6 +101,49 @@ else
         var txtletra = document.getElementById("idPasos1a").value
         hablarTexto(txtletra);
     }
+
+    function funAddFavorito() {
+        console.log("ingreso add favoritos x2");
+        let iduser = document.getElementById("IdInydRc").value;
+        if (iduser > 1) {
+            let id = document.getElementById("idReceta1a").value
+
+            if (id > 0) {
+                AgregarFavoritos(iduser, id);
+            } else {
+                console.log("no hay receta");
+            }
+            
+
+        } else {
+            console.log("No puede agregar");
+            hablarTexto("Tiene q iniciar sesion para agregar favoritos");
+        }
+        
+    }
+
+    async function AgregarFavoritos(idu,idr) {
+        var dataString = new FormData();
+
+        dataString.append("IdUser", idu);
+        dataString.append("IdRe", idr);
+
+        document.getElementById("idLoad1").innerHTML = "<i class='fa fa-spinner'> Cargando Recetas ...</i>";
+        const response = await fetch('/AReceta/Receta/AddFavoritos', {
+            method: 'POST',
+            body: dataString
+        });
+        if (response.ok) {
+            const data = await response.json();
+            hablarTexto(data.Mensaje);
+            console.log(data.Mensaje);
+        }
+
+        document.getElementById("idLoad1").innerHTML = "Bienvenido : " + ydR1bNom;
+    }
+
+
+    
 </script>
 
 

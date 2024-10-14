@@ -3,32 +3,32 @@
   "WorkspaceRootPath": "D:\\TP02\\SmartKitchen\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{69C1FF2E-8799-4C15-8348-8846C91F3D4E}|ydRSoft.Web\\ydRSoft.Web.csproj|d:\\tp02\\smartkitchen\\ydrsoft.web\\areas\\ausuario\\controllers\\usuariocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{69C1FF2E-8799-4C15-8348-8846C91F3D4E}|ydRSoft.Web\\ydRSoft.Web.csproj|solutionrelative:ydrsoft.web\\areas\\ausuario\\controllers\\usuariocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{69C1FF2E-8799-4C15-8348-8846C91F3D4E}|ydRSoft.Web\\ydRSoft.Web.csproj|d:\\tp02\\smartkitchen\\ydrsoft.web\\areas\\areceta\\views\\receta\\_verreceta.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{69C1FF2E-8799-4C15-8348-8846C91F3D4E}|ydRSoft.Web\\ydRSoft.Web.csproj|solutionrelative:ydrsoft.web\\areas\\areceta\\views\\receta\\_verreceta.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{93AA943D-18E3-4016-A188-5FF089EEF0A7}|ydRSoft.BL\\ydRSoft.BL.csproj|d:\\tp02\\smartkitchen\\ydrsoft.bl\\usuariobl.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{93AA943D-18E3-4016-A188-5FF089EEF0A7}|ydRSoft.BL\\ydRSoft.BL.csproj|solutionrelative:ydrsoft.bl\\usuariobl.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{69C1FF2E-8799-4C15-8348-8846C91F3D4E}|ydRSoft.Web\\ydRSoft.Web.csproj|d:\\tp02\\smartkitchen\\ydrsoft.web\\areas\\areceta\\controllers\\recetacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{69C1FF2E-8799-4C15-8348-8846C91F3D4E}|ydRSoft.Web\\ydRSoft.Web.csproj|solutionrelative:ydrsoft.web\\areas\\areceta\\controllers\\recetacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{69C1FF2E-8799-4C15-8348-8846C91F3D4E}|ydRSoft.Web\\ydRSoft.Web.csproj|d:\\tp02\\smartkitchen\\ydrsoft.web\\views\\home\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{69C1FF2E-8799-4C15-8348-8846C91F3D4E}|ydRSoft.Web\\ydRSoft.Web.csproj|solutionrelative:ydrsoft.web\\views\\home\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{69C1FF2E-8799-4C15-8348-8846C91F3D4E}|ydRSoft.Web\\ydRSoft.Web.csproj|d:\\tp02\\smartkitchen\\ydrsoft.web\\areas\\areceta\\views\\receta\\_verpagina.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{69C1FF2E-8799-4C15-8348-8846C91F3D4E}|ydRSoft.Web\\ydRSoft.Web.csproj|solutionrelative:ydrsoft.web\\areas\\areceta\\views\\receta\\_verpagina.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{69C1FF2E-8799-4C15-8348-8846C91F3D4E}|ydRSoft.Web\\ydRSoft.Web.csproj|d:\\tp02\\smartkitchen\\ydrsoft.web\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{69C1FF2E-8799-4C15-8348-8846C91F3D4E}|ydRSoft.Web\\ydRSoft.Web.csproj|solutionrelative:ydrsoft.web\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{69C1FF2E-8799-4C15-8348-8846C91F3D4E}|ydRSoft.Web\\ydRSoft.Web.csproj|d:\\tp02\\smartkitchen\\ydrsoft.web\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{69C1FF2E-8799-4C15-8348-8846C91F3D4E}|ydRSoft.Web\\ydRSoft.Web.csproj|solutionrelative:ydrsoft.web\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{69C1FF2E-8799-4C15-8348-8846C91F3D4E}|ydRSoft.Web\\ydRSoft.Web.csproj|d:\\tp02\\smartkitchen\\ydrsoft.web\\content\\ydrsoft\\jsutil.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{69C1FF2E-8799-4C15-8348-8846C91F3D4E}|ydRSoft.Web\\ydRSoft.Web.csproj|solutionrelative:ydrsoft.web\\content\\ydrsoft\\jsutil.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+      "AbsoluteMoniker": "D:0:0:{528001A3-7299-4149-A5CA-8C4E728791F1}|ydRSoft.BD\\ydRSoft.BD.csproj|d:\\tp02\\smartkitchen\\ydrsoft.bd\\favoritobd.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{528001A3-7299-4149-A5CA-8C4E728791F1}|ydRSoft.BD\\ydRSoft.BD.csproj|solutionrelative:ydrsoft.bd\\favoritobd.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{69C1FF2E-8799-4C15-8348-8846C91F3D4E}|ydRSoft.Web\\ydRSoft.Web.csproj|d:\\tp02\\smartkitchen\\ydrsoft.web\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{69C1FF2E-8799-4C15-8348-8846C91F3D4E}|ydRSoft.Web\\ydRSoft.Web.csproj|solutionrelative:ydrsoft.web\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{93AA943D-18E3-4016-A188-5FF089EEF0A7}|ydRSoft.BL\\ydRSoft.BL.csproj|d:\\tp02\\smartkitchen\\ydrsoft.bl\\favoritobl.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{93AA943D-18E3-4016-A188-5FF089EEF0A7}|ydRSoft.BL\\ydRSoft.BL.csproj|solutionrelative:ydrsoft.bl\\favoritobl.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{528001A3-7299-4149-A5CA-8C4E728791F1}|ydRSoft.BD\\ydRSoft.BD.csproj|d:\\tp02\\smartkitchen\\ydrsoft.bd\\usuariobd.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{528001A3-7299-4149-A5CA-8C4E728791F1}|ydRSoft.BD\\ydRSoft.BD.csproj|solutionrelative:ydrsoft.bd\\usuariobd.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{69C1FF2E-8799-4C15-8348-8846C91F3D4E}|ydRSoft.Web\\ydRSoft.Web.csproj|d:\\tp02\\smartkitchen\\ydrsoft.web\\views\\home\\_verbotones.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{69C1FF2E-8799-4C15-8348-8846C91F3D4E}|ydRSoft.Web\\ydRSoft.Web.csproj|solutionrelative:ydrsoft.web\\views\\home\\_verbotones.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -38,118 +38,97 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "HomeController.cs",
-              "DocumentMoniker": "D:\\TP02\\SmartKitchen\\ydRSoft.Web\\Controllers\\HomeController.cs",
-              "RelativeDocumentMoniker": "ydRSoft.Web\\Controllers\\HomeController.cs",
-              "ToolTip": "D:\\TP02\\SmartKitchen\\ydRSoft.Web\\Controllers\\HomeController.cs",
-              "RelativeToolTip": "ydRSoft.Web\\Controllers\\HomeController.cs",
-              "ViewState": "AgIAABMAAAAAAAAAAAAgwBoAAAAMAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-14T02:05:22.288Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "_Layout.cshtml",
-              "DocumentMoniker": "D:\\TP02\\SmartKitchen\\ydRSoft.Web\\Views\\Shared\\_Layout.cshtml",
-              "RelativeDocumentMoniker": "ydRSoft.Web\\Views\\Shared\\_Layout.cshtml",
-              "ToolTip": "D:\\TP02\\SmartKitchen\\ydRSoft.Web\\Views\\Shared\\_Layout.cshtml",
-              "RelativeToolTip": "ydRSoft.Web\\Views\\Shared\\_Layout.cshtml",
-              "ViewState": "AgIAAA8AAAAAAAAAAAAAABwAAAAIAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-10-14T01:44:39.747Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "UsuarioBD.cs",
-              "DocumentMoniker": "D:\\TP02\\SmartKitchen\\ydRSoft.BD\\UsuarioBD.cs",
-              "RelativeDocumentMoniker": "ydRSoft.BD\\UsuarioBD.cs",
-              "ToolTip": "D:\\TP02\\SmartKitchen\\ydRSoft.BD\\UsuarioBD.cs",
-              "RelativeToolTip": "ydRSoft.BD\\UsuarioBD.cs",
-              "ViewState": "AgIAADkAAAAAAAAAAAAswKIAAABEAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-14T01:38:34.232Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "UsuarioBL.cs",
-              "DocumentMoniker": "D:\\TP02\\SmartKitchen\\ydRSoft.BL\\UsuarioBL.cs",
-              "RelativeDocumentMoniker": "ydRSoft.BL\\UsuarioBL.cs",
-              "ToolTip": "D:\\TP02\\SmartKitchen\\ydRSoft.BL\\UsuarioBL.cs",
-              "RelativeToolTip": "ydRSoft.BL\\UsuarioBL.cs",
-              "ViewState": "AgIAAAoAAAAAAAAAAAAswBYAAAANAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-14T01:37:29.201Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "UsuarioController.cs",
-              "DocumentMoniker": "D:\\TP02\\SmartKitchen\\ydRSoft.Web\\Areas\\AUsuario\\Controllers\\UsuarioController.cs",
-              "RelativeDocumentMoniker": "ydRSoft.Web\\Areas\\AUsuario\\Controllers\\UsuarioController.cs",
-              "ToolTip": "D:\\TP02\\SmartKitchen\\ydRSoft.Web\\Areas\\AUsuario\\Controllers\\UsuarioController.cs",
-              "RelativeToolTip": "ydRSoft.Web\\Areas\\AUsuario\\Controllers\\UsuarioController.cs",
-              "ViewState": "AgIAABEAAAAAAAAAAAAlwCAAAABIAAAAAAAAAA==",
+              "Title": "_verReceta.cshtml",
+              "DocumentMoniker": "D:\\TP02\\SmartKitchen\\ydRSoft.Web\\Areas\\AReceta\\Views\\Receta\\_verReceta.cshtml",
+              "RelativeDocumentMoniker": "ydRSoft.Web\\Areas\\AReceta\\Views\\Receta\\_verReceta.cshtml",
+              "ToolTip": "D:\\TP02\\SmartKitchen\\ydRSoft.Web\\Areas\\AReceta\\Views\\Receta\\_verReceta.cshtml",
+              "RelativeToolTip": "ydRSoft.Web\\Areas\\AReceta\\Views\\Receta\\_verReceta.cshtml",
+              "ViewState": "AgIAAEIAAAAAAAAAAAAAAE0AAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-10-14T20:37:53.591Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\TP02\\SmartKitchen\\ydRSoft.Web\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "ydRSoft.Web\\Views\\Home\\Index.cshtml",
+              "ToolTip": "D:\\TP02\\SmartKitchen\\ydRSoft.Web\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "ydRSoft.Web\\Views\\Home\\Index.cshtml",
+              "ViewState": "AgIAAJsAAAAAAAAAAAAawNAAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-10-14T19:43:35.291Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "FavoritoBD.cs",
+              "DocumentMoniker": "D:\\TP02\\SmartKitchen\\ydRSoft.BD\\FavoritoBD.cs",
+              "RelativeDocumentMoniker": "ydRSoft.BD\\FavoritoBD.cs",
+              "ToolTip": "D:\\TP02\\SmartKitchen\\ydRSoft.BD\\FavoritoBD.cs",
+              "RelativeToolTip": "ydRSoft.BD\\FavoritoBD.cs",
+              "ViewState": "AgIAAGgAAAAAAAAAAAAkwEsAAAAuAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-14T01:37:05.266Z",
+              "WhenOpened": "2024-10-14T19:41:14.68Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "Login.cshtml",
-              "DocumentMoniker": "D:\\TP02\\SmartKitchen\\ydRSoft.Web\\Views\\Home\\Login.cshtml",
-              "RelativeDocumentMoniker": "ydRSoft.Web\\Views\\Home\\Login.cshtml",
-              "ToolTip": "D:\\TP02\\SmartKitchen\\ydRSoft.Web\\Views\\Home\\Login.cshtml",
-              "RelativeToolTip": "ydRSoft.Web\\Views\\Home\\Login.cshtml",
-              "ViewState": "AgIAAIMAAAAAAAAAAAAAAJUAAAAnAAAAAAAAAA==",
+              "Title": "_verPagina.cshtml",
+              "DocumentMoniker": "D:\\TP02\\SmartKitchen\\ydRSoft.Web\\Areas\\AReceta\\Views\\Receta\\_verPagina.cshtml",
+              "RelativeDocumentMoniker": "ydRSoft.Web\\Areas\\AReceta\\Views\\Receta\\_verPagina.cshtml",
+              "ToolTip": "D:\\TP02\\SmartKitchen\\ydRSoft.Web\\Areas\\AReceta\\Views\\Receta\\_verPagina.cshtml",
+              "RelativeToolTip": "ydRSoft.Web\\Areas\\AReceta\\Views\\Receta\\_verPagina.cshtml",
+              "ViewState": "AgIAABYAAAAAAAAAAAAAAGEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-10-14T01:35:41.608Z",
+              "WhenOpened": "2024-10-14T19:30:32.503Z",
               "EditorCaption": ""
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "Orientation": 0,
-      "VerticalTabListWidth": 256,
-      "FloatingWindowState": {
-        "Id": "6dd1a47a-fc52-40b4-8948-53c0b2cfef79",
-        "Display": 1,
-        "X": 302,
-        "Y": 131,
-        "Width": 1484,
-        "Height": 839,
-        "WindowState": 0
-      },
-      "DocumentGroups": [
-        {
-          "DockedWidth": 200,
-          "SelectedChildIndex": 0,
-          "Children": [
+            },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "JSutil.js",
-              "DocumentMoniker": "D:\\TP02\\SmartKitchen\\ydRSoft.Web\\Content\\ydrsoft\\JSutil.js",
-              "RelativeDocumentMoniker": "ydRSoft.Web\\Content\\ydrsoft\\JSutil.js",
-              "ToolTip": "D:\\TP02\\SmartKitchen\\ydRSoft.Web\\Content\\ydrsoft\\JSutil.js",
-              "RelativeToolTip": "ydRSoft.Web\\Content\\ydrsoft\\JSutil.js",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2024-10-14T01:44:29.845Z",
+              "DocumentIndex": 6,
+              "Title": "_verBotones.cshtml",
+              "DocumentMoniker": "D:\\TP02\\SmartKitchen\\ydRSoft.Web\\Views\\Home\\_verBotones.cshtml",
+              "RelativeDocumentMoniker": "ydRSoft.Web\\Views\\Home\\_verBotones.cshtml",
+              "ToolTip": "D:\\TP02\\SmartKitchen\\ydRSoft.Web\\Views\\Home\\_verBotones.cshtml",
+              "RelativeToolTip": "ydRSoft.Web\\Views\\Home\\_verBotones.cshtml",
+              "ViewState": "AgIAADYAAAAAAAAAAAAqwEgAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-10-14T19:28:57.422Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "FavoritoBL.cs",
+              "DocumentMoniker": "D:\\TP02\\SmartKitchen\\ydRSoft.BL\\FavoritoBL.cs",
+              "RelativeDocumentMoniker": "ydRSoft.BL\\FavoritoBL.cs",
+              "ToolTip": "D:\\TP02\\SmartKitchen\\ydRSoft.BL\\FavoritoBL.cs",
+              "RelativeToolTip": "ydRSoft.BL\\FavoritoBL.cs",
+              "ViewState": "AgIAABQAAAAAAAAAAAAmwBoAAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-14T19:10:59.706Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "RecetaController.cs",
+              "DocumentMoniker": "D:\\TP02\\SmartKitchen\\ydRSoft.Web\\Areas\\AReceta\\Controllers\\RecetaController.cs",
+              "RelativeDocumentMoniker": "ydRSoft.Web\\Areas\\AReceta\\Controllers\\RecetaController.cs",
+              "ToolTip": "D:\\TP02\\SmartKitchen\\ydRSoft.Web\\Areas\\AReceta\\Controllers\\RecetaController.cs",
+              "RelativeToolTip": "ydRSoft.Web\\Areas\\AReceta\\Controllers\\RecetaController.cs",
+              "ViewState": "AgIAACQAAAAAAAAAAAAowFkAAAA4AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-14T19:19:17.83Z",
               "EditorCaption": ""
             }
           ]

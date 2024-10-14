@@ -19,10 +19,8 @@ namespace ydRSoft.Web.Controllers
             //var resultado = await UsuarioBL.SetUsuario(new UsuarioModel());
             //var lista = await UsuarioBL.getALl();
 
-            //var receta = await RecetaBL.ObtenerRecetas("manzana zanahoria");  
-
-            var user1 = await UsuarioBL.GetUsuario("Invitado","1234");
-            var conexion = ConexionBL.GetConexion();
+            var receta = await RecetaBL.GetRecetaCat("entradas");
+            
             UsuarioModel model = (UsuarioModel)Session["objUser"];
             if (model == null)
             {
@@ -38,8 +36,6 @@ namespace ydRSoft.Web.Controllers
             return View();
         }
 
-
-
         public ActionResult VerBotones()
         {            
             return PartialView("_verBotones");
@@ -49,6 +45,8 @@ namespace ydRSoft.Web.Controllers
         {
             return PartialView("_verComandos");
         }
+
+        
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";

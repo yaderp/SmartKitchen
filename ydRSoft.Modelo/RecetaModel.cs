@@ -12,6 +12,7 @@ namespace ydRSoft.Modelo
         public string Nombre { get; set; }
         public int NivelDificultad { get; set; }
         public int Tiempo { get; set; }
+        public string Categoria { get; set; }
         public DateTime FechaRegistro { get; set; }
         public int Estado { get; set; }
         public List<string> Ingredientes { get; set; }

@@ -11,13 +11,13 @@ namespace ydRSoft.BL
     public class InfoBL
     {
 
-        public static List<ProductoModel> CargarInfo(List<ProductoModel> mLista)
+        public static async Task<List<ProductoModel>> CargarInfo(List<ProductoModel> mLista)
         {
             try {
 
                 for(int i = 0; i < mLista.Count; i++)
                 {
-                    mLista[i].Info = InfoBD.GetInfo(mLista[i].Nombre);
+                    mLista[i].Info = await InfoBD.GetInfo(mLista[i].Nombre);
                 }
             
             } catch{ 

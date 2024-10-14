@@ -50,16 +50,19 @@
 </html>
 <script>
     window.onload = function () {
+        ydR1bNom = document.getElementById('nomInydRc').value;       
         //funModales('modalComandos');
-        vozBienvenida();
+        //vozBienvenida();
     };
 </script>
 
 <script id="_Control_mas_Letra_">
-    
+
 </script>
 
 <script>
+    let ydR1bNom = "";
+
     function isModalOpen(entrada) {
         const modal = document.getElementById(entrada);
         return modal.classList.contains('show');
@@ -100,22 +103,17 @@
         //const textoNormalizado = normalizarTexto(transcript); // Normalizar el texto
         console.log('Transcripción:', transcript); // Mostrar la transcripción en la consola
 
-
-
-
         if (transcript === 'iniciar') {
             console.log("entro a iniciar");
             IniciarCaptura();
         }
 
         if (transcript === 'receta') {
-            console.log("entro a receta");
             var boton = document.getElementById("btnReceta");
 
             if (boton.disabled) {
                 console.log("El botón está deshabilitado.");
             } else {
-                console.log("El botón está habilitado.");
                 funRecetas();
             }
         }
@@ -130,6 +128,11 @@
             funModales('modalComandos');
         }
 
+        if (transcript === 'mostrar categorías' || transcript === 'cerrar categorías') {
+            console.log("entro a categoria");
+            funModales('modalCategoria');
+        }
+
         if (transcript === 'botones') {
             console.log("entro a botones");
             funBotones();
@@ -138,6 +141,11 @@
         if (transcript === 'productos') {
             console.log("entro a menu");
             funMenu();
+        }
+
+        if (transcript === 'mostrar favoritos') {
+            console.log("entro a favoritos");
+            funFavoritos();
         }
 
         if (transcript === 'siguiente') {            
@@ -166,6 +174,31 @@
             hablarPasos();
         }
 
+        if (transcript === 'categoría entradas') {
+            console.log("entro a entradas");
+            cargarCategoria(1);
+        }
+
+        if (transcript === 'categoría sopas') {
+            console.log("entro a Sopas");
+            cargarCategoria(2);
+
+        }
+        if (transcript === 'categoría principal') {
+            console.log("entro a principal");
+            cargarCategoria(3);
+
+        }
+
+        if (transcript === 'categoría postres') {
+            console.log("entro a postres");
+            cargarCategoria(4);
+        }
+
+        if (transcript === 'agregar favorito') {
+            console.log("entro a add favorito");
+            funAddFavorito();
+        }
 
         if (transcript === 'reiniciar') {
             console.log("entro a reiniciar");

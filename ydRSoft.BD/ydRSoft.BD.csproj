@@ -93,6 +93,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FavoritoBD.cs" />
     <Compile Include="InfoBD.cs" />
     <Compile Include="MySqlConexion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -12,5 +12,9 @@ namespace ydRSoft.Util
 
         public static int HOMBRE = 1;
         public static int MUJER = 2;
+
+        public static int ADMIN = 1;
+        public static int USUARIO = 2;
+        public static int INVITADO = 0;
     }
 }

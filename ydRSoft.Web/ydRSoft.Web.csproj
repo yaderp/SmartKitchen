@@ -286,6 +286,7 @@
     <Content Include="Areas\AProducto\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\AProducto\Views\Producto\_vistaProductos.cshtml" />
     <Content Include="Areas\AUsuario\Views\web.config" />
+    <Content Include="Areas\AReceta\Views\Receta\_verCategorias.cshtml" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />

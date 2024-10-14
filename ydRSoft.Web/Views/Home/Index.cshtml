@@ -17,12 +17,14 @@
             <strong> <i class="fa fa-shopping-cart"></i> PRODUCTOS  </strong>
         </div>
         <div class="menu-inferior">
-            <div id="vistaProd">                
+            <div id="vistaProd">
             </div>
         </div>
     </div>
 </div>
-<input id="nomydR" value="Bienvenido a SmartKitchen. @mUser.Nombres" hidden/>
+<input id="nomydR" value="Bienvenido a SmartKitchen. @mUser.Nombres" hidden />
+<input id="nomInydRc" value="@mUser.Nombres.ToUpper()" hidden/>
+<input id="IdInydRc" value="@mUser.Id" hidden />
 <div class="row">
     <div class="col-md-3">
         <div class="ydRNombres text-success">
@@ -65,15 +67,9 @@
     </div>
 </div>
 
+@Html.Partial("_verComandos")
 
-<div class="modal inmodal fade" id="modalComandos" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <button class="btn btn-circle btn-danger float-right" data-dismiss="modal"><i class="fa fa-close"></i></button>
-
-        @Html.Partial("_verComandos")
-
-    </div>
-</div>
+@Html.Partial("~/Areas/AReceta/Views/Receta/_verCategorias.cshtml")
 
 
 <script>
@@ -160,7 +156,8 @@
 
                 try {
                     // Enviar la imagen al servidor
-                    const response = await fetch('/AProducto/Producto/ConsultarApi', {
+                    //ConsultarApi
+                    const response = await fetch('/AProducto/Producto/Prueba', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -199,6 +196,7 @@
         $("#viewPaginas").html("");
         document.getElementById("idLoad1").innerHTML = "<i class='fa fa-spinner'> Cargando Recetas ...</i>";
         document.getElementById("btnReceta").disabled = true;
+
         const response = await fetch('/AReceta/Receta/ObtenerRecetas', {
             method: 'POST',
         });
@@ -210,7 +208,7 @@
             divResult.innerHTML = '<h3> Ninguna receta Disponible </h3>';
         }
 
-        document.getElementById("idLoad1").innerHTML = "Bienvenido : YADER";
+        document.getElementById("idLoad1").innerHTML = "Bienvenido : " + ydR1bNom;
         document.getElementById("btnReceta").disabled = false;
     }
 
@@ -281,7 +279,7 @@
         }
 
     }
-    
+
     function MostrarMenu(productos) {
 
         const vistaMenu = document.getElementById("vistaProd");
@@ -289,7 +287,7 @@
 
         // Iterar sobre la lista de productos y mostrarlos
         productos.forEach((producto, index) => {
-            
+
             vistaMenu.innerHTML += `<div> <i class="fa fa-hand-o-right texto-icon-VerdeF"></i> ${producto.Id} ${producto.Nombre}</div>`;
         });
     }

@@ -22,12 +22,15 @@ namespace ydRSoft.Web.Areas.AProducto.Controllers
         }
 
         [HttpPost]
-        public JsonResult Prueba(string image64)
+        public async  Task<JsonResult> Prueba(string image64)
         {
             List<ProductoModel> mLista = new List<ProductoModel>();
-            mLista.Add(new ProductoModel());
-            mLista.Add(new ProductoModel(2,"MANZANA",600,400,200));
-            
+            mLista.Add(new ProductoModel(21,"PLATANO",300,280,250));
+            mLista.Add(new ProductoModel(34,"MANZANA",900,220,180));
+            mLista.Add(new ProductoModel(12, "ZANAHORIA", 750, 650, 200));
+
+            mLista = await InfoBL.CargarInfo(mLista);
+
             return Json(mLista, JsonRequestBehavior.AllowGet);
         }
 
@@ -70,7 +73,7 @@ namespace ydRSoft.Web.Areas.AProducto.Controllers
 
                             mLista= JsonConvert.DeserializeObject<List<ProductoModel>>(responseBody);
                             mLista = ValidaPosXY(mLista);
-                            mLista = InfoBL.CargarInfo(mLista);
+                            mLista = await InfoBL.CargarInfo(mLista);
                         }
                         else
                         {

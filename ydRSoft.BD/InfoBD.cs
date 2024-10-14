@@ -9,7 +9,7 @@ namespace ydRSoft.BD
 {
     public class InfoBD
     {
-        public static InfoModel GetInfo(string Nombre)
+        public static async Task<InfoModel> GetInfo(string Nombre)
         {
             InfoModel modelo = new InfoModel();
 
@@ -35,8 +35,8 @@ namespace ydRSoft.BD
                     }
                 }
 
-            } catch (Exception e) { 
-            
+            } catch (Exception ex) {
+                await Util.LogError.SaveLog("getInfo"+ex.Message);
             }
 
             return modelo;

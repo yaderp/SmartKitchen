@@ -1,8 +1,13 @@
-﻿<div class="floatingBotones">
+﻿
+
+<div class="floatingBotones">
+    <button class="btn btn-circle btn-success" onclick="funFavoritos()"><i class="fa fa-car"></i></button>
+    <hr />
     <button class="btn btn-circle btn-success" id="startCapture" onclick="IniciarCaptura()"><i class="fa fa-camera"></i></button>
     <button class="btn btn-circle btn-primary" id="btnReceta" onclick="funRecetas()"><i class="fa fa-eye"></i></button>
     <button class="btn btn-circle btn-primary" id="btnMenu" onclick="funMenu()"><i class="fa fa-bars"></i></button>
     <button class="btn btn-circle btn-primary" id="btnFavoritos" onclick="funFavoritos()"><i class="fa fa-star"></i></button>
+    <button class="btn btn-circle btn-warning" id="btnBotones" onclick="funCategoria()"><i class="fa fa-send"></i></button>
     <button class="btn btn-circle btn-primary" id="btnComandos" onclick="funComandos()"><i class="fa fa-microphone"></i></button>
     <button class="btn btn-circle btn-primary" id="btnConfiguracion" onclick="funConfiguracion()"><i class="fa fa-gears"></i></button>
     <button class="btn btn-circle btn-primary" id="btnBotones" onclick="funBotones()"><i class="fa fa-toggle-on"></i></button>
@@ -12,13 +17,15 @@
 
 <script>
 
+    function funCerrar() {
+        cerrarSesion();
+    }
 
     function funMenu() {
         if (esVisible('vistaMenu')) {
-            
+
             setOcultar('vistaMenu', true);
         } else {
-            console.log(listaProd1a);
             setOcultar('vistaMenu', false);
         }
     }
@@ -29,5 +36,55 @@
         } else {
             setOcultar('vistaBtones', false);
         }
-    } 
+    }
+
+    function funCategoria() {
+        funModales('modalCategoria');
+    }
+
+    function funFavoritos() {
+
+        console.log("ver favoritos XD");
+        funVerFavorito();
+    }
+
+</script>
+
+
+<script id="_favoritos_">
+    function funVerFavorito() {
+        console.log("ingreso ver favoritos x2");
+        let iduser = document.getElementById("IdInydRc").value;
+        if (iduser > 1) {
+            console.log("entro aqui");
+            mostrarFavoritos(iduser);            
+        } else {
+            console.log("No puede agregar");
+            hablarTexto("Tiene que iniciar sesion para ver favoritos");
+        }
+    }
+
+    async function mostrarFavoritos(idu) {
+        console.log("mostrar favoritos");
+
+        $("#viewPaginas").html("");
+        
+        var dataString = new FormData();
+        dataString.append("IdUser", idu);
+
+        document.getElementById("idLoad1").innerHTML = "<i class='fa fa-spinner'> Cargando Recetas ...</i>";
+
+        const response = await fetch('/AReceta/Receta/VerFavoritos', {
+            method: 'POST',
+            body: dataString
+        });
+        if (response.ok) {
+            const data = await response.text();
+            $("#viewPaginas").html(data);
+            console.log("exito ver fav");
+        }
+
+        document.getElementById("idLoad1").innerHTML = "Bienvenido : " + ydR1bNom;
+    }
+
 </script>

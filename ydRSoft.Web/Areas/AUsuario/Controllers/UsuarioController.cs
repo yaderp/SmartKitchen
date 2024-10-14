@@ -42,7 +42,10 @@ namespace ydRSoft.Web.Areas.AUsuario.Controllers
                     usuarioModel.Clave = Clave;
 
                     resultado = await UsuarioBL.SetUsuario(usuarioModel);
-
+                    if (!resultado.Error)
+                    {
+                        Session["objUser"] = usuarioModel;
+                    }
                     //registars
                 }
                 else

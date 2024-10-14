@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="ChatCompletion.cs" />
     <Compile Include="ConexionModel.cs" />
+    <Compile Include="FavoritoModel.cs" />
     <Compile Include="InfoModel.cs" />
     <Compile Include="ProductoModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

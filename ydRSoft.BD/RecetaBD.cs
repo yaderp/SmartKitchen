@@ -26,8 +26,8 @@ namespace ydRSoft.BD
                 {
                     transaction = await connection.BeginTransactionAsync();
 
-                    string insertRecetaQuery = @"INSERT INTO receta (nombre, ndif, tiempo, fechareg, estado) 
-                                             VALUES (@nombre, @ndif, @tiempo, @fechareg, @estado);
+                    string insertRecetaQuery = @"INSERT INTO receta (nombre, ndif, tiempo,categoria, fechareg, estado) 
+                                             VALUES (@nombre, @ndif, @tiempo,@categoria, @fechareg, @estado);
                                              SELECT LAST_INSERT_ID();";
 
 
@@ -37,6 +37,7 @@ namespace ydRSoft.BD
                         command.Parameters.AddWithValue("@nombre", objModel.Nombre);
                         command.Parameters.AddWithValue("@ndif", objModel.NivelDificultad);
                         command.Parameters.AddWithValue("@tiempo", objModel.Tiempo);
+                        command.Parameters.AddWithValue("@categoria", objModel.Categoria);
                         command.Parameters.AddWithValue("@fechareg", DateTime.Now);
                         command.Parameters.AddWithValue("@estado", 1);
 
@@ -93,8 +94,65 @@ namespace ydRSoft.BD
 
             return recetaId;
         }
-                
-        public static async Task<RecetaModel> GetReceta(int recetaId)
+
+        public static async Task<List<RecetaModel>> GetRecetaCat(string Categoria)
+        {
+            List<RecetaModel> mLista = new List<RecetaModel>();
+
+            MySqlConnection connection = MySqlConexion.MyConexion();
+            if (connection != null)
+            {
+                try
+                {
+                    await connection.OpenAsync();
+
+                    // Consulta para obtener solo la receta
+                    string query = @"
+                    SELECT r.id, r.nombre, r.ndif, r.tiempo, r.categoria, r.fechareg, r.estado
+                    FROM receta r
+                    WHERE r.categoria = @categoria;";
+
+                    RecetaModel receta = null;
+
+                    using (MySqlCommand command = new MySqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@categoria", Categoria);
+
+                        using (MySqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (await reader.ReadAsync())
+                            {
+                                receta = new RecetaModel
+                                {
+                                    Id = reader.GetInt32("id"),
+                                    Nombre = reader.GetString("nombre"),
+                                    NivelDificultad = reader.GetInt32("ndif"),
+                                    Tiempo = reader.GetInt32("tiempo"),
+                                    Categoria = reader.GetString("categoria"),
+                                    FechaRegistro = reader.GetDateTime("fechareg"),
+                                    Estado = reader.GetInt32("estado")
+                                };
+
+                                mLista.Add(receta);
+                            }
+                        }
+                    }                   
+                }
+                catch (Exception ex)
+                {
+                    await Util.LogError.SaveLog("Receta Getcat | " + ex.Message);
+                }
+                finally
+                {
+                    await connection.CloseAsync();
+                }
+            }
+
+            return mLista;
+        }
+        
+
+        public static async Task<RecetaModel> GetRecetaId(int recetaId)
         {
             RecetaModel objModel = new RecetaModel();
 
@@ -107,7 +165,7 @@ namespace ydRSoft.BD
 
                     // Consulta para obtener solo la receta
                     string query = @"
-                    SELECT r.id, r.nombre, r.ndif, r.tiempo, r.fechareg, r.estado
+                    SELECT r.id, r.nombre, r.ndif, r.tiempo, r.categoria, r.fechareg, r.estado
                     FROM receta r
                     WHERE r.id = @recetaId;";
 
@@ -128,6 +186,7 @@ namespace ydRSoft.BD
                                     Nombre = reader.GetString("nombre"),
                                     NivelDificultad = reader.GetInt32("ndif"),
                                     Tiempo = reader.GetInt32("tiempo"),
+                                    Categoria = reader.GetString("categoria"),
                                     FechaRegistro = reader.GetDateTime("fechareg"),
                                     Estado = reader.GetInt32("estado")
                                 };

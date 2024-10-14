@@ -1,0 +1,71 @@
+﻿
+
+<div class="modal inmodal fade" id="modalCategoria" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <button class="btn btn-circle btn-danger float-right" data-dismiss="modal"><i class="fa fa-close"></i></button>
+
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <h1 class="text-center"> <strong>Categoria </strong></h1>
+            </div>
+            <div class="panel-body">
+                <table class="table text-navy" style="font-size:21px; font-weight:bold">
+                    <thead>
+                        <tr class="text-default">
+                            <th width="50">#</th>
+                            <th width="20"></th>
+                            <th>Comando</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="text-default text-center">1</td>
+                            <td class="text-success text-center"><i class="fa fa-microphone"></i></td>
+                            <td class="text-navy">Categoria Entradas</td>
+                        </tr>
+                        <tr>
+                            <td class="text-default  text-center">2</td>
+                            <td class="text-success text-center"><i class="fa fa-microphone"></i></td>
+                            <td class="text-navy">Categoria Sopas</td>
+                        </tr>
+                        <tr>
+                            <td class="text-default  text-center">3</td>
+                            <td class="text-success text-center"><i class="fa fa-microphone"></i></td>
+                            <td class="text-navy">Categoria Principal</td>
+                        </tr>
+                        <tr>
+                            <td class="text-default  text-center">4</td>
+                            <td class="text-success text-center"><i class="fa fa-microphone"></i></td>
+                            <td class="text-navy">Categoria Postres</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<script>
+    async function cargarCategoria(opc) {
+        $("#viewPaginas").html("");
+        console.log("Categoria " + opc);
+
+        var dataString = new FormData();
+        dataString.append("Opc", opc);
+        
+        document.getElementById("idLoad1").innerHTML = "<i class='fa fa-spinner'> Cargando Recetas ...</i>";
+        const response = await fetch('/AReceta/Receta/GetCategorias', {
+            method: 'POST',
+            body: dataString
+        });
+        if (response.ok) {
+            const data = await response.text();
+            $("#viewPaginas").html(data);
+        }
+
+        document.getElementById("idLoad1").innerHTML = "Bienvenido : " + ydR1bNom;
+    }
+
+</script>

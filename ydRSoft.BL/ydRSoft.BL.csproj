@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="ApiOpenAI.cs" />
     <Compile Include="ConexionBL.cs" />
+    <Compile Include="FavoritoBL.cs" />
     <Compile Include="InfoBL.cs" />
     <Compile Include="InfoSing.cs" />
     <Compile Include="ProductoBL.cs" />

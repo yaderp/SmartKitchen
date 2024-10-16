@@ -7,63 +7,95 @@
 
 @if (Model != null)
 {
-    <div class="content">
+    <div class="text-navy">
+
+        <h3 class="text-center"> <strong> Configuracion de Usuario </strong> &nbsp; &nbsp; <small>@objUser.Nombres</small></h3>
+        <hr />
 
         <div class="row">
             <div class="col-md-4">
-                <hr />
-                <h3 class="text-center"> <small> Editar Usuario </small> &nbsp; &nbsp; <strong>@objUser.Nombres</strong></h3>
-                <hr />
-                <input id="editId" class="form-control text-navy" value="@objUser.Id" hidden />
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="text-center text-navy"> Informacion Personal &nbsp; @Html.Raw(ydRSoft.Util.Funciones.GetPrivacidad(objUser.Estado))</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group row">
+                            <label class="col-md-3 text-right">DNI:</label>
+                            <div class="col-md-9">
+                                <input id="mDni" class="form-control text-navy" autocomplete="off" placeholder="DNI" value="@objUser.Dni" />
+                            </div>
+                        </div>
 
-                <div class="form-group row">
-                    <label class="col-md-3 text-right">DNI:</label>
-                    <div class="col-md-9">
-                        <input id="mDni" class="form-control text-navy" autocomplete="off" placeholder="DNI" value="@objUser.Dni" />
+                        <div class="form-group row">
+                            <label class="col-md-3 text-right">Correo:</label>
+                            <div class="col-md-9">
+                                <input id="mCorreo" class="form-control text-navy" autocomplete="off" placeholder="Correo" value="@objUser.Correo" />
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-3 text-right">Contraseña:</label>
+                            <div class="col-md-9">
+                                <input type="password" id="mClave" class="form-control text-navy" autocomplete="off" placeholder="Contraseña" value="@objUser.Clave" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-3 text-right">Cargo:</label>
+                            <div class="col-md-9">
+                                <select id="mCargo" class="form-control">
+                                    <option value="0">INVITADO</option>
+                                    <option value="2">ADMIN</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-3 text-right">Sexo:</label>
+                            <div class="col-md-9">
+                                <select id="mSexo" class="form-control">
+                                    <option value="1">HOMBRE</option>
+                                    <option value="2">MUJER</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-3 text-right">Estado:</label>
+                            <div class="col-md-9">
+                                <select id="mEstado" class="form-control">
+                                    <option value="1">PRIVADO</option>
+                                    <option value="2">PUBLICO</option>
+                                </select>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="form-group row">
+                            <div class="col-md-3"></div>
+                            <div class="col-md-6">
+                                <button class="btn btn-block btn-success" onclick="funEditar()"> <i class="fa fa-save"></i> &nbsp; Guardar Cambios  </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
-
-                <div class="form-group row">
-                    <label class="col-md-3 text-right">Correo:</label>
-                    <div class="col-md-9">
-                        <input id="mCorreo" class="form-control text-navy" autocomplete="off" placeholder="Correo" value="@objUser.Correo" />
+            </div>
+            
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="text-center text-navy"> Privacidad </h3>
                     </div>
-                </div>
-
-                <div class="form-group row">
-                    <label class="col-md-3 text-right">Contraseña:</label>
-                    <div class="col-md-9">
-                        <input type="password" id="mClave" class="form-control text-navy" autocomplete="off" placeholder="Contraseña" value="@objUser.Clave" />
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-md-3 text-right">Cargo:</label>
-                    <div class="col-md-9">
-                        <select id="mCargo" class="form-control">
-                            <option value="0">INVITADO</option>
-                            <option value="2">ADMIN</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <label class="col-md-3 text-right">Sexo:</label>
-                    <div class="col-md-9">
-                        <select id="mSexo" class="form-control">
-                            <option value="1">HOMBRE</option>
-                            <option value="2">MUJER</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <div class="col-md-4"></div>
-                    <div class="col-md-4">
-                        <button class="btn btn-block btn-success" onclick="funEditar()"> GUARDAR <i class="fa fa-save"></i></button>
+                    <div class="panel-body">                       
+                                             
+                        <br />
+                        <div class="form-group">
+                            <div class="ydRDiv-centrado-40">
+                                <button class="btn btn-block btn-success" onclick="funSetEstado()"> <i class="fa fa-save"></i> &nbsp; Guardar Cambios  </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+
     </div>
 }
 else
@@ -73,20 +105,15 @@ else
 }
 
 <script>
-
     console.log("sexo -> " + "@objUser.IdSexo");
     console.log("cargo -> " + "@objUser.IdCargo");
     document.getElementById('mSexo').value = "@objUser.IdSexo";
     document.getElementById('mCargo').value = "@objUser.IdCargo";
-
-
 </script>
 
 <script>
     async function funEditar() {
         console.log("entro edit usuario");
-        
-
         var dataString = new FormData();
         dataString.append("Id", document.getElementById('editId').value);
         dataString.append("Clave", document.getElementById('mClave').value);
@@ -94,7 +121,8 @@ else
         dataString.append("Dni", document.getElementById('mDni').value);
         dataString.append("IdSexo", document.getElementById('mSexo').value);
         dataString.append("IdCargo", document.getElementById('mCargo').value);
-
+        dataString.append("Estado", document.getElementById('mEstado').value);
+        console.log("cargo usuario");
         const response = await fetch('/AUsuario/Usuario/EditarUsuario', {
             method: 'POST',
             body: dataString,
@@ -102,11 +130,16 @@ else
 
         if (response.ok) {
             const data = await response.json();
-            console.log(data.Mensaje);
+            if (data.Error) {
+                console.log("error -> " + data.Mensaje);
+            } else {
+                console.log("Exito " + data.Mensaje);
+                funVerUsuario();
+            }
+            
         } else {
             alert('Error en la respuesta: ' + response.status, response.statusText);
         }
-
     }
 </script>
 

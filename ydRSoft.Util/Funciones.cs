@@ -9,7 +9,15 @@ namespace ydRSoft.Util
 {
     public class Funciones
     {
+        public static string GetPrivacidad(int Id)
+        {
+            if (Id == Variables.PRIVADO)
+            {
+                return "<small class='text-success'>(PRIVADO)</small>";
+            }
 
+            return "<small class='text-danger'>(PUBLICO)</small>";
+        }
         public static string LetraMayuscula(string input)
         {
             if (string.IsNullOrEmpty(input))

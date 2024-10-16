@@ -16,5 +16,10 @@ namespace ydRSoft.Util
         public static int ADMIN = 1;
         public static int USUARIO = 2;
         public static int INVITADO = 0;
+
+
+        public static int ELIMINADO = 0;
+        public static int PRIVADO = 1;
+        public static int PUBLICO = 0;
     }
 }

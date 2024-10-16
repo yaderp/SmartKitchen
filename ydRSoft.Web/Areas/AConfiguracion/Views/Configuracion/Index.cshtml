@@ -1,20 +1,23 @@
-﻿
+﻿@using ydRSoft.Modelo
+@model UsuarioModel
+
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Configuracion";
+
+    UsuarioModel objUser = Model == null ? new UsuarioModel() : Model;
 }
 
+<input id="editId" class="form-control text-navy" value="@objUser.Id" />
 
 <div id="resulVista"></div>
 
 
 <script>
 
-    async function funVerUsuario(entrada){
-
-        console.log("entro usuario");
-        let iduser = 2;
+    async function funVerUsuario(entrada) {
+        console.log("entro usuario");;
         var dataString = new FormData();
-        dataString.append("IdUser", iduser);
+        dataString.append("IdUser", document.getElementById('editId').value);
         const response = await fetch('/AUsuario/Usuario/LoadUsuario', {
             method: 'POST',
             body: dataString,

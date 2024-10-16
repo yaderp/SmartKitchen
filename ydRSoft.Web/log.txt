@@ -11,3 +11,6 @@
 13/10/2024 14:09:46 | ->Error al enviar la solicitud.
 13/10/2024 14:09:49 | ->Error al enviar la solicitud.
 13/10/2024 14:09:52 | ->Error al enviar la solicitud.
+16/10/2024 12:51:42 | Editar Usuario | Fatal error encountered during command execution.
+16/10/2024 12:53:06 | Editar Usuario | Fatal error encountered during command execution.
+16/10/2024 12:53:30 | Editar Usuario | Fatal error encountered during command execution.

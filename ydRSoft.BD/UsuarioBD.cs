@@ -128,6 +128,7 @@ namespace ydRSoft.BD
                                 Correo = reader.GetString("correo"),
                                 Clave = reader.GetString("clave"),
                                 IdSexo = reader.GetInt32("idsexo"),
+                                IdCargo = reader.GetInt32("idcargo"),
                                 FechaReg = reader.GetDateTime("fechareg"),
                                 Estado = reader.GetInt32("estado")
                             };
@@ -288,7 +289,7 @@ namespace ydRSoft.BD
             RpstaModel model = new RpstaModel();
 
             string query = "UPDATE usuario SET nombres = @nombres, dni = @dni, correo = @correo, " +
-                           "clave = @clave, idsexo = @idsexo, idcargo = @idcargo " +
+                           "clave = @clave, idsexo = @idsexo, idcargo = @idcargo, estado = @estado " +
                            "WHERE id = @id";
 
             MySqlConnection conexion = MySqlConexion.MyConexion();
@@ -305,6 +306,7 @@ namespace ydRSoft.BD
                     cmd.Parameters.AddWithValue("@clave", objModel.Clave);
                     cmd.Parameters.AddWithValue("@idsexo", objModel.IdSexo);
                     cmd.Parameters.AddWithValue("@idcargo", objModel.IdCargo);
+                    cmd.Parameters.AddWithValue("@estado", objModel.Estado);
                     cmd.Parameters.AddWithValue("@id", objModel.Id); // Añadir el ID del usuario
 
                     var respuesta = await cmd.ExecuteNonQueryAsync();

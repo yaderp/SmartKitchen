@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using ydRSoft.BL;
+using ydRSoft.Modelo;
 
 namespace ydRSoft.Web.Areas.AConfiguracion.Controllers
 {
@@ -13,7 +14,13 @@ namespace ydRSoft.Web.Areas.AConfiguracion.Controllers
         // GET: AConfiguracion/Configuracion
         public ActionResult Index()
         {
-            return View();
+            UsuarioModel model = (UsuarioModel)Session["objUser"];
+            if (model == null)
+            {
+                return RedirectToAction("Login", "Home", new { Area = string.Empty });
+            }
+
+            return View(model);
         }
 
         public  ActionResult VerConfig()

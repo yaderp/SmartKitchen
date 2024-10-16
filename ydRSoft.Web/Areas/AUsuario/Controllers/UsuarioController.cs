@@ -74,5 +74,29 @@ namespace ydRSoft.Web.Areas.AUsuario.Controllers
             return Json(rpstaModel, JsonRequestBehavior.AllowGet);
         }
 
+
+        public async Task<ActionResult> LoadUsuario(int IdUser)
+        {
+            var objModel = await UsuarioBL.GetUsuarioId(IdUser);
+
+            return PartialView("_loadUsuario", objModel);
+        }
+
+
+        public async Task<JsonResult> EditarUsuario(UsuarioModel objModel)
+        {
+            RpstaModel rpstaModel = new RpstaModel();
+            try
+            {
+                rpstaModel = await UsuarioBL.Editar(objModel);
+            }
+            catch (Exception ex)
+            {
+                rpstaModel.Error = true;
+                await Util.LogError.SaveLog("Cerrar Sesion " + ex.Message);
+            }
+
+            return Json(rpstaModel, JsonRequestBehavior.AllowGet);
+        }
     }
 }

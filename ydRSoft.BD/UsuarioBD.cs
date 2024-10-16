@@ -283,5 +283,54 @@ namespace ydRSoft.BD
             return listaUsuarios;
         }
 
+        public static async Task<RpstaModel> EditarUsuario(UsuarioModel objModel)
+        {
+            RpstaModel model = new RpstaModel();
+
+            string query = "UPDATE usuario SET nombres = @nombres, dni = @dni, correo = @correo, " +
+                           "clave = @clave, idsexo = @idsexo, idcargo = @idcargo " +
+                           "WHERE id = @id";
+
+            MySqlConnection conexion = MySqlConexion.MyConexion();
+            if (conexion != null)
+            {
+                try
+                {
+                    await conexion.OpenAsync(); // Abrir la conexión de forma asíncrona
+
+                    MySqlCommand cmd = new MySqlCommand(query, conexion);
+                    cmd.Parameters.AddWithValue("@nombres", objModel.Nombres);
+                    cmd.Parameters.AddWithValue("@dni", objModel.Dni);
+                    cmd.Parameters.AddWithValue("@correo", objModel.Correo);
+                    cmd.Parameters.AddWithValue("@clave", objModel.Clave);
+                    cmd.Parameters.AddWithValue("@idsexo", objModel.IdSexo);
+                    cmd.Parameters.AddWithValue("@idcargo", objModel.IdCargo);
+                    cmd.Parameters.AddWithValue("@id", objModel.Id); // Añadir el ID del usuario
+
+                    var respuesta = await cmd.ExecuteNonQueryAsync();
+                    if (respuesta > 0)
+                    {
+                        model.Error = false;
+                        model.Mensaje = "Usuario actualizado correctamente.";
+                    }
+                    else
+                    {
+                        model.Error = true;
+                        model.Mensaje = "No se encontró el usuario.";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    model.Mensaje = ex.Message;
+                    await Util.LogError.SaveLog("Editar Usuario | " + ex.Message);
+                }
+                finally
+                {
+                    await conexion.CloseAsync();
+                }
+            }
+
+            return model;
+        }
     }
 }

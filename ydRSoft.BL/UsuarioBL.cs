@@ -17,8 +17,9 @@ namespace ydRSoft.BL
             if (objModel != null)
             {
                 var muser = await UsuarioBD.GetUsuarioNom(objModel.Nombres);
-                if (muser != null) {
-                    return new RpstaModel(true,"Nombre ya Registrado");
+                if (muser != null)
+                {
+                    return new RpstaModel(true, "Nombre ya Registrado");
                 }
             }
 
@@ -47,6 +48,12 @@ namespace ydRSoft.BL
 
             var aux = await UsuarioBD.LeerUsuarios();
 
+            return resultado;
+        }
+
+        public static async Task<RpstaModel> Editar(UsuarioModel model)
+        {
+            var resultado = await UsuarioBD.EditarUsuario(model);
             return resultado;
         }
     }

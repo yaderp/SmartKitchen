@@ -287,6 +287,10 @@
     <Content Include="Areas\AProducto\Views\Producto\_vistaProductos.cshtml" />
     <Content Include="Areas\AUsuario\Views\web.config" />
     <Content Include="Areas\AReceta\Views\Receta\_verCategorias.cshtml" />
+    <Content Include="Areas\AConfiguracion\Views\Configuracion\Index.cshtml" />
+    <Content Include="Areas\AUsuario\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\AUsuario\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\AUsuario\Views\Usuario\_loadUsuario.cshtml" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
@@ -322,8 +326,6 @@
     <Folder Include="Areas\AProducto\Data\" />
     <Folder Include="Areas\AReceta\Data\" />
     <Folder Include="Areas\AUsuario\Data\" />
-    <Folder Include="Areas\AUsuario\Views\Shared\" />
-    <Folder Include="Areas\AUsuario\Views\Usuario\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>

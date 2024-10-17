@@ -69,6 +69,39 @@ ADD FOREIGN KEY (idreceta) REFERENCES receta(id) ON DELETE CASCADE ON UPDATE CAS
 ALTER TABLE favoritos
 ADD FOREIGN KEY (iduser) REFERENCES usuario(id) ON DELETE CASCADE ON UPDATE CASCADE;
 
+
+CREATE TABLE producto (
+    id INT PRIMARY KEY, 
+	nombre VARCHAR(100),
+    calorias VARCHAR(100),
+    proteinas VARCHAR(100),
+    colesterol VARCHAR(100),
+    fibra VARCHAR(100),
+    carbohidratos VARCHAR(100),
+    azucares VARCHAR(100),    
+    sodio VARCHAR(100),
+    calcio VARCHAR(100),
+    grasa VARCHAR(100),
+	fechareg DATETIME,
+    estado INT NOT NULL
+);
+
+
+-- Estado 0: Eliminado 1: Preferido 2: Alergia
+CREATE TABLE preferencias (
+    id INT PRIMARY KEY AUTO_INCREMENT, 
+	iduser INT NOT NULL,
+    idprod INT NOT NULL,
+	fechareg DATETIME,
+    estado INT NOT NULL
+);
+
+ALTER TABLE preferencias
+ADD FOREIGN KEY (iduser) REFERENCES usuario(id);
+
+ALTER TABLE preferencias
+ADD FOREIGN KEY (idprod) REFERENCES producto(id);
+
 select *from usuario;
 select *from receta;
 

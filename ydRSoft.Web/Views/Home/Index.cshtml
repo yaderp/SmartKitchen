@@ -256,12 +256,12 @@
     const tamInfo = 20;
     const tamInfoN = 24;
     const tamInfoV = 32;
-    const CantInfo = 5;
+    const CantInfo = 4;
     // Ajustar el tamaño del canvas al tamaño de la ventana
     function ajustarCanvas() {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-        //dibujarCirculo();
+        dibujarMolecula(300, 300);
 
     }
     async function dibujarProd(productos) {
@@ -287,7 +287,6 @@
 
         // Iterar sobre la lista de productos y mostrarlos
         productos.forEach((producto, index) => {
-
             vistaMenu.innerHTML += `<div> <i class="fa fa-hand-o-right texto-icon-VerdeF"></i> ${producto.Id} ${producto.Nombre}</div>`;
         });
     }
@@ -302,10 +301,13 @@
         let listaValor = [];
         listaValor.push(producto.Info.Calorias);
         listaValor.push(producto.Info.Proteinas);
+        listaValor.push(producto.Info.Colesterol);
+        listaValor.push(producto.Info.Carbohidratos);
         listaValor.push(producto.Info.Fibra);
         listaValor.push(producto.Info.Azucares);
         listaValor.push(producto.Info.Sodio);
-        listaValor.push(producto.Info.Colesterol);
+        listaValor.push(producto.Info.Calcio);
+        //listaValor.push(producto.Info.Grasa);
 
         dibujarCorona(posX, posY, radio);
         dibujarInfo(posX, posY, radio);
@@ -403,12 +405,11 @@
         const anguloInicio = 5.4;
         const anguloPaso = 0.39;
 
-        const listaInfo = ["Calorias", "Proteinas", "Fibra", "Azucares", "Sodio", "Colesterol"]
-
+        const listaInfo = ["Calorias", "Proteinas", "Colesterol", "Carbohidratos", "Nutrientes"]
+        
         for (let i = 0; i < CantInfo; i++) {
-            ctx.fillStyle = 'yellow';
-            const angle = anguloInicio + i * anguloPaso; // Calcula el ángulo para cada rayo
-
+            ctx.fillStyle = 'yellow';           
+            const angle = anguloInicio + i  * anguloPaso; // Calcula el ángulo para cada rayo
             // Coordenadas del extremo de cada rayo en el borde
             const x1 = centerX + (radius - 10) * Math.cos(angle);
             const y1 = centerY + (radius - 10) * Math.sin(angle);
@@ -435,21 +436,125 @@
             ctx.fill();
 
 
+
             const textoValor = listValor[i];
             const textoNombre = listaInfo[i];
-
             // texto cantidad Valor
             ctx.fillStyle = 'white';
             ctx.font = `bold ${tamInfoV}px ${letraInfo}`;
             ctx.fillText(textoValor, x2 + 10, y2);
-
             // Texto nombre valor
             ctx.fillStyle = 'gray';
             ctx.font = `bold ${tamInfoN}px ${letraInfo}`;
             ctx.fillText(textoNombre, x2 + 10, y2 + 25);
         }
+
+        let angulo = anguloInicio + 4 * anguloPaso;
+        const xn2 = centerX + (radius + 20) * Math.cos(angulo); // Aumenta la longitud del rayo
+        const yn2 = centerY + (radius + 20) * Math.sin(angulo);
+
+        ctx.fillStyle = 'white';
+        ctx.font = `bold ${tamInfoN + 5}px ${letraInfo}`;
+        ctx.fillText("Nutrientes", xn2 + 10, yn2);
+
+        ctx.font = `bold ${tamInfoV}px ${letraInfo}`;
+        ctx.fillText("2.4 mg", xn2 + 10, yn2 + 30);
+        ctx.fillText("2.9 g", xn2 + 10, yn2 + 80);
+
+        ctx.fillStyle = 'gray';
+        ctx.font = `bold ${tamInfoN}px ${letraInfo}`;
+        ctx.fillText("Azucar", xn2 + 10, yn2 + 50);
+        ctx.fillText("Grasa", xn2 + 10, yn2 + 100);
+
+        dibujarMolecula(xn2-30,yn2+15);
+
+        @*const img = new Image();
+        img.src = '@Url.Content("~/Content/Imagenes/molecula.png")';
+
+        img.onload = function () {
+            ctx.drawImage(img, xn2 - 45, yn2 + 20, 40, 70);
+        }*@
+        
     }
 
     window.addEventListener('load', ajustarCanvas);
     window.addEventListener('resize', ajustarCanvas);
+</script>
+
+
+<script>
+    function dibujarMolecula(xn2, yn2) {
+        const radio = 7;
+        const grosor = 5;
+
+        ctx.fillStyle = 'rgb(130, 202, 156)';
+        ctx.beginPath();
+        ctx.arc(xn2, yn2 + 20, radio, 0, Math.PI * 2); // Círculo en el extremo
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.arc(xn2, yn2 + 50, radio+1, 0, Math.PI * 2); // Círculo en el extremo
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.arc(xn2 - 5, yn2 + 80, radio+2, 0, Math.PI * 2); // Círculo en el extremo
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.arc(xn2+30, yn2 + 50, radio+1, 0, Math.PI * 2); // Círculo en el extremo
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.arc(xn2 + 25, yn2 + 80, radio+1, 0, Math.PI * 2); // Círculo en el extremo
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.arc(xn2 + 35, yn2 + 110, radio +1, 0, Math.PI * 2); // Círculo en el extremo
+        ctx.fill();
+
+
+        ctx.strokeStyle = 'rgb(130, 202, 156)';
+        
+        ctx.beginPath();
+        ctx.moveTo(xn2, yn2 + 50); // Empieza desde el borde
+        ctx.lineTo(xn2, yn2 + 20); // Finaliza más allá del borde
+        ctx.lineWidth = grosor; // Grosor de la línea
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(xn2, yn2 + 50); // Empieza desde el borde
+        ctx.lineTo(xn2 - 5, yn2 + 80); // Finaliza más allá del borde
+        ctx.lineWidth = grosor; // Grosor de la línea
+        //ctx.strokeStyle = 'yellow'; // Color de la línea
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(xn2, yn2 + 50); // Empieza desde el borde
+        ctx.lineTo(xn2 + 30, yn2 + 50); // Finaliza más allá del borde
+        ctx.lineWidth = grosor; // Grosor de la línea
+        //ctx.strokeStyle = 'yellow'; // Color de la línea
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(xn2 + 25, yn2 + 80); // Empieza desde el borde
+        ctx.lineTo(xn2 + 30, yn2 + 50); // Finaliza más allá del borde
+        ctx.lineWidth = grosor; // Grosor de la línea
+        //ctx.strokeStyle = 'yellow'; // Color de la línea
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(xn2 + 25, yn2 + 80); // Empieza desde el borde
+        ctx.lineTo(xn2 + 35, yn2 + 110); // Finaliza más allá del borde
+        ctx.lineWidth = grosor; // Grosor de la línea
+        //ctx.strokeStyle = 'yellow'; // Color de la línea
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(xn2 + 25, yn2 + 80); // Empieza desde el borde
+        ctx.lineTo(xn2 - 5, yn2 + 80); // Finaliza más allá del borde
+        ctx.lineWidth = grosor; // Grosor de la línea
+        //ctx.strokeStyle = 'yellow'; // Color de la línea
+        ctx.stroke();
+    }
+    
 </script>

@@ -13,10 +13,12 @@ namespace ydRSoft.Modelo
         public string Calorias { get; set; }
         public string Proteinas { get; set; }
         public string Colesterol { get; set; }
-        public string Fibra { get; set; }
-        public string Azucares { get; set; }
+        public string Carbohidratos { get; set; }
+        public string Fibra { get; set; }        
+        public string Azucares { get; set; }        
         public string Sodio { get; set; }
-
+        public string Calcio { get; set; }
+        public string Grasa { get; set; }
         public InfoModel() {
             Id = 1;
             Nombre = "PLATANO";
@@ -38,6 +40,7 @@ namespace ydRSoft.Modelo
             Fibra = fibra;
             Azucares = azucares;
             Sodio = sodio;
+            Carbohidratos = "2.7 gr";
         }
     }
 }

@@ -20,7 +20,10 @@ namespace ydRSoft.Web.Controllers
             //var lista = await UsuarioBL.getALl();
 
             var receta = await RecetaBL.GetRecetaCat("entradas");
-            
+
+            //Session["objUser"] = new UsuarioModel();
+            //return RedirectToAction("Index","Configuracion", new { Area = "AConfiguracion"});
+
             UsuarioModel model = (UsuarioModel)Session["objUser"];
             if (model == null)
             {

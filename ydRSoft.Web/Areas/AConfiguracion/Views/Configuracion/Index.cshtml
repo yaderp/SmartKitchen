@@ -15,10 +15,27 @@
 <script>
 
     async function funVerUsuario(entrada) {
-        console.log("entro usuario");;
+        console.log("entro usuario");
         var dataString = new FormData();
         dataString.append("IdUser", document.getElementById('editId').value);
         const response = await fetch('/AUsuario/Usuario/LoadUsuario', {
+            method: 'POST',
+            body: dataString,
+        });
+
+        if (response.ok) {
+            const data = await response.text();
+            $("#resulVista").html(data);
+        } else {
+            alert('Error en la respuesta: ' + response.status, response.statusText);
+        }
+    }
+
+    async function funVerPreferencias(entrada) {
+        console.log("entro preferencias");
+        var dataString = new FormData();
+        dataString.append("IdUser", document.getElementById('editId').value);
+        const response = await fetch('/AUsuario/Usuario/LoadPreferencias', {
             method: 'POST',
             body: dataString,
         });

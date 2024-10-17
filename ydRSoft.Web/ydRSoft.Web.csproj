@@ -174,6 +174,7 @@
     <Content Include="Content\Imagenes\Logos\logover.png" />
     <Content Include="Content\Imagenes\Logos\logo_blanco.png" />
     <Content Include="Content\Imagenes\Logos\paw.png" />
+    <Content Include="Content\Imagenes\molecula.png" />
     <Content Include="Content\Imagenes\sinimagen.png" />
     <Content Include="Content\js\bootstrap.js" />
     <Content Include="Content\js\bootstrap.min.js" />

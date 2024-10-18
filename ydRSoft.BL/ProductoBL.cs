@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -12,24 +13,7 @@ namespace ydRSoft.BL
 {
     public class ProductoBL
     {
-        public static async Task<ListaTipoModel> GetPreferencias(int Id)
-        {
-            ListaTipoModel tipoModel = new ListaTipoModel();
-
-            try
-            {
-                var mUser = await UsuarioBD.GetUsuarioId(Id);
-
-            
-            }catch(Exception ex) {
-                await Util.LogError.SaveLog("Preferencias "+ex.Message);
-            }
-
-            return tipoModel;
-        }
-
-
-        public static async Task<List<ProductoModel>> ConsultarApi(string image64, List<ProductoModel> listaSession)
+        public static async Task<List<ProductoModel>> ConsultarApi(string image64)
         {
             List<ProductoModel> mLista = new List<ProductoModel>();
             try
@@ -59,9 +43,7 @@ namespace ydRSoft.BL
                             {
                                 string responseBody = response.Content.ReadAsStringAsync().Result;
 
-                                mLista = JsonConvert.DeserializeObject<List<ProductoModel>>(responseBody);
-                                mLista = ValidaPosXY(mLista, listaSession);
-                                mLista = await InfoBL.CargarInfo(mLista);
+                                mLista = JsonConvert.DeserializeObject<List<ProductoModel>>(responseBody);                                
                             }
                             else
                             {
@@ -82,6 +64,49 @@ namespace ydRSoft.BL
 
 
             return mLista;
+        }
+
+        //guarda un producto con su informacion nutricional
+        public static async Task<RpstaModel> Guardar(InfoModel objModel)
+        {
+            var resultado = await ProductoBD.Guardar(objModel);
+
+            return resultado;
+        }
+
+        //consulta la informacion nutricional de un producto
+        public static async Task<InfoModel> ConsultaProdAPI(string Nombre)
+        {
+            InfoModel objModel = new InfoModel();
+
+            string txtPregunta = "Genera  la informacion nutricional de " + Nombre +
+               ". Proporciónalas en formato JSON que incluya un " +
+               "Id, Nombre, Calorias, Proteinas, Colesterol, Fibra, Carbohidratos,  " +
+               "Azucares, Sodio, Calcio, Grasa. "+
+               "Devuelve solo el JSON. que no haya caracteres no deseados al principio o al final."+
+               "que la informacion tenga sus respectivas unidades ejemplo 2.4 Kcal";
+
+            var resultado = await ApiOpenAI.PreguntaApi(txtPregunta);
+            string jsonResponse = ApiOpenAI.MensajeContent(resultado);
+
+            try
+            {
+                objModel = JsonConvert.DeserializeObject<InfoModel>(jsonResponse);
+
+            }
+            catch
+            {
+
+            }
+
+            return objModel;
+        }
+
+        public static async Task<List<InfoModel>> ListaProducto()
+        {
+            var resultado = await ProductoBD.ListaProd();
+
+            return resultado;
         }
 
         private static List<ProductoModel> ValidaPosXY(List<ProductoModel> listaModel, List<ProductoModel> mLista)

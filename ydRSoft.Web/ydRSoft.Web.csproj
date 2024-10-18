@@ -122,6 +122,8 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\AConfiguracion\AConfiguracionAreaRegistration.cs" />
     <Compile Include="Areas\AConfiguracion\Controllers\ConfiguracionController.cs" />
+    <Compile Include="Areas\APreferencia\APreferenciaAreaRegistration.cs" />
+    <Compile Include="Areas\APreferencia\Controllers\PreferenciaController.cs" />
     <Compile Include="Areas\AProducto\AProductoAreaRegistration.cs" />
     <Compile Include="Areas\AProducto\Controllers\ProductoController.cs" />
     <Compile Include="Areas\AReceta\ARecetaAreaRegistration.cs" />
@@ -292,6 +294,11 @@
     <Content Include="Areas\AUsuario\Views\_ViewStart.cshtml" />
     <Content Include="Areas\AUsuario\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\AUsuario\Views\Usuario\_loadUsuario.cshtml" />
+    <Content Include="Areas\APreferencia\Views\web.config" />
+    <Content Include="Areas\APreferencia\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\APreferencia\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\APreferencia\Views\Preferencia\_loadPref.cshtml" />
+    <Content Include="Areas\APreferencia\Views\Preferencia\_loadAlergia.cshtml" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
@@ -324,6 +331,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\AConfiguracion\Data\" />
+    <Folder Include="Areas\APreferencia\Data\" />
     <Folder Include="Areas\AProducto\Data\" />
     <Folder Include="Areas\AReceta\Data\" />
     <Folder Include="Areas\AUsuario\Data\" />

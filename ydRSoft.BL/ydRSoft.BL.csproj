@@ -49,6 +49,7 @@
     <Compile Include="FavoritoBL.cs" />
     <Compile Include="InfoBL.cs" />
     <Compile Include="InfoSing.cs" />
+    <Compile Include="PrefBL.cs" />
     <Compile Include="ProductoBL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RecetaBL.cs" />

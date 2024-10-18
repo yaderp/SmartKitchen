@@ -32,16 +32,14 @@ namespace ydRSoft.BD
 
 
                     using (MySqlCommand command = new MySqlCommand(insertRecetaQuery, connection, transaction))
-                    {
-                        // Parámetros para la receta
+                    {                       
                         command.Parameters.AddWithValue("@nombre", objModel.Nombre);
                         command.Parameters.AddWithValue("@ndif", objModel.NivelDificultad);
                         command.Parameters.AddWithValue("@tiempo", objModel.Tiempo);
                         command.Parameters.AddWithValue("@categoria", objModel.Categoria);
                         command.Parameters.AddWithValue("@fechareg", DateTime.Now);
                         command.Parameters.AddWithValue("@estado", 1);
-
-                        // Ejecutar el comando y obtener el ID de la receta insertada
+                        
                         recetaId = Convert.ToInt32(await command.ExecuteScalarAsync());
                     }
 
@@ -53,13 +51,13 @@ namespace ydRSoft.BD
                         foreach (string ingrediente in ingredientes)
                         {
                             command.Parameters.AddWithValue("@detalle", ingrediente);
-                            await command.ExecuteNonQueryAsync(); // Inserta cada ingrediente
-                            command.Parameters.Clear(); // Limpiar parámetros para la siguiente iteración
-                            command.Parameters.AddWithValue("@idreceta", recetaId); // Volver a agregar el idreceta
+                            await command.ExecuteNonQueryAsync();
+                            command.Parameters.Clear();
+                            command.Parameters.AddWithValue("@idreceta", recetaId);
                         }
                     }
 
-                    // 3. Insertar los pasos de preparación asociados
+                    
                     string insertPreparacionQuery = @"INSERT INTO preparacion (idreceta, detalle) VALUES (@idreceta, @detalle);";
 
                     using (MySqlCommand command = new MySqlCommand(insertPreparacionQuery, connection, transaction))
@@ -68,9 +66,9 @@ namespace ydRSoft.BD
                         foreach (string paso in pasosPreparacion)
                         {
                             command.Parameters.AddWithValue("@detalle", paso);
-                            await command.ExecuteNonQueryAsync(); // Inserta cada paso
-                            command.Parameters.Clear(); // Limpiar parámetros para la siguiente iteración
-                            command.Parameters.AddWithValue("@idreceta", recetaId); // Volver a agregar el idreceta
+                            await command.ExecuteNonQueryAsync();
+                            command.Parameters.Clear(); 
+                            command.Parameters.AddWithValue("@idreceta", recetaId);
                         }
                     }
 
@@ -106,7 +104,6 @@ namespace ydRSoft.BD
                 {
                     await connection.OpenAsync();
 
-                    // Consulta para obtener solo la receta
                     string query = @"
                     SELECT r.id, r.nombre, r.ndif, r.tiempo, r.categoria, r.fechareg, r.estado
                     FROM receta r
@@ -163,7 +160,6 @@ namespace ydRSoft.BD
                 {
                     await connection.OpenAsync();
 
-                    // Consulta para obtener solo la receta
                     string query = @"
                     SELECT r.id, r.nombre, r.ndif, r.tiempo, r.categoria, r.fechareg, r.estado
                     FROM receta r
@@ -172,8 +168,7 @@ namespace ydRSoft.BD
                     RecetaModel receta = null;
 
                     using (MySqlCommand command = new MySqlCommand(query, connection))
-                    {
-                        // Parámetro para la receta con Id=1
+                    {                        
                         command.Parameters.AddWithValue("@recetaId", recetaId);
 
                         using (MySqlDataReader reader = command.ExecuteReader())
@@ -196,8 +191,7 @@ namespace ydRSoft.BD
 
                     if (receta != null) {
                         objModel = receta;
-
-                        // 2. Consulta para obtener los ingredientes de la receta
+                        
                         string queryIngredientes = @"
                         SELECT detalle AS ingrediente
                         FROM ingredientes
@@ -216,8 +210,6 @@ namespace ydRSoft.BD
                             }
                         }
 
-
-                        // 3. Consulta para obtener los pasos de preparación de la receta
                         string queryPasos = @"
                         SELECT detalle AS paso
                         FROM preparacion

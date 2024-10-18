@@ -489,71 +489,53 @@
 
         ctx.fillStyle = 'rgb(130, 202, 156)';
         ctx.beginPath();
-        ctx.arc(xn2, yn2 + 20, radio, 0, Math.PI * 2); // Círculo en el extremo
+        ctx.arc(xn2, yn2 + 20, radio, 0, Math.PI * 2); //1
         ctx.fill();
 
         ctx.beginPath();
-        ctx.arc(xn2, yn2 + 50, radio+1, 0, Math.PI * 2); // Círculo en el extremo
+        ctx.arc(xn2, yn2 + 50, radio+1, 0, Math.PI * 2); // 2
         ctx.fill();
 
         ctx.beginPath();
-        ctx.arc(xn2 - 5, yn2 + 80, radio+2, 0, Math.PI * 2); // Círculo en el extremo
+        ctx.arc(xn2 - 5, yn2 + 80, radio+2, 0, Math.PI * 2); // 3
         ctx.fill();
 
         ctx.beginPath();
-        ctx.arc(xn2+30, yn2 + 50, radio+1, 0, Math.PI * 2); // Círculo en el extremo
+        ctx.arc(xn2+30, yn2 + 50, radio+1, 0, Math.PI * 2); // 4
         ctx.fill();
 
         ctx.beginPath();
-        ctx.arc(xn2 + 25, yn2 + 80, radio+1, 0, Math.PI * 2); // Círculo en el extremo
+        ctx.arc(xn2 + 25, yn2 + 80, radio+1, 0, Math.PI * 2); // 5
         ctx.fill();
 
         ctx.beginPath();
-        ctx.arc(xn2 + 35, yn2 + 110, radio +1, 0, Math.PI * 2); // Círculo en el extremo
+        ctx.arc(xn2 + 35, yn2 + 110, radio +1, 0, Math.PI * 2); // 6
         ctx.fill();
 
 
         ctx.strokeStyle = 'rgb(130, 202, 156)';
-        
+        ctx.lineWidth = grosor;
         ctx.beginPath();
-        ctx.moveTo(xn2, yn2 + 50); // Empieza desde el borde
-        ctx.lineTo(xn2, yn2 + 20); // Finaliza más allá del borde
-        ctx.lineWidth = grosor; // Grosor de la línea
-        ctx.stroke();
 
-        ctx.beginPath();
-        ctx.moveTo(xn2, yn2 + 50); // Empieza desde el borde
-        ctx.lineTo(xn2 - 5, yn2 + 80); // Finaliza más allá del borde
-        ctx.lineWidth = grosor; // Grosor de la línea
-        //ctx.strokeStyle = 'yellow'; // Color de la línea
-        ctx.stroke();
+        ctx.moveTo(xn2, yn2 + 50); 
+        ctx.lineTo(xn2, yn2 + 20);
 
-        ctx.beginPath();
-        ctx.moveTo(xn2, yn2 + 50); // Empieza desde el borde
-        ctx.lineTo(xn2 + 30, yn2 + 50); // Finaliza más allá del borde
-        ctx.lineWidth = grosor; // Grosor de la línea
-        //ctx.strokeStyle = 'yellow'; // Color de la línea
-        ctx.stroke();
+        ctx.moveTo(xn2, yn2 + 50);
+        ctx.lineTo(xn2 - 5, yn2 + 80);        
 
-        ctx.beginPath();
-        ctx.moveTo(xn2 + 25, yn2 + 80); // Empieza desde el borde
-        ctx.lineTo(xn2 + 30, yn2 + 50); // Finaliza más allá del borde
-        ctx.lineWidth = grosor; // Grosor de la línea
-        //ctx.strokeStyle = 'yellow'; // Color de la línea
-        ctx.stroke();
+        ctx.moveTo(xn2, yn2 + 50);
+        ctx.lineTo(xn2 + 30, yn2 + 50);
 
-        ctx.beginPath();
-        ctx.moveTo(xn2 + 25, yn2 + 80); // Empieza desde el borde
-        ctx.lineTo(xn2 + 35, yn2 + 110); // Finaliza más allá del borde
-        ctx.lineWidth = grosor; // Grosor de la línea
-        //ctx.strokeStyle = 'yellow'; // Color de la línea
-        ctx.stroke();
+        ctx.moveTo(xn2 + 25, yn2 + 80); 
+        ctx.lineTo(xn2 + 30, yn2 + 50);
+       
+        ctx.moveTo(xn2 + 25, yn2 + 80); 
+        ctx.lineTo(xn2 + 35, yn2 + 110);
 
-        ctx.beginPath();
-        ctx.moveTo(xn2 + 25, yn2 + 80); // Empieza desde el borde
-        ctx.lineTo(xn2 - 5, yn2 + 80); // Finaliza más allá del borde
-        ctx.lineWidth = grosor; // Grosor de la línea
-        //ctx.strokeStyle = 'yellow'; // Color de la línea
+        ctx.moveTo(xn2 + 25, yn2 + 80); 
+        ctx.lineTo(xn2 - 5, yn2 + 80);
+
+
         ctx.stroke();
     }
     

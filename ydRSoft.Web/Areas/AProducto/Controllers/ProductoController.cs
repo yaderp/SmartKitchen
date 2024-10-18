@@ -89,14 +89,7 @@ namespace ydRSoft.Web.Areas.AProducto.Controllers
             return Json(mLista, JsonRequestBehavior.AllowGet);
         }
 
-        public async Task<ActionResult> LoadPreferencias(int IdUser)
-        {
-            var objModel = await UsuarioBL.GetUsuarioId(IdUser);
-
-            return PartialView("_loadUsuario", objModel);
-        }
-
-
+        
 
         private List<ProductoModel> ValidaPosXY(List<ProductoModel> listaModel)
         {

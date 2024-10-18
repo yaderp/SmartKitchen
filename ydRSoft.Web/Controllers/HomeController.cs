@@ -19,18 +19,23 @@ namespace ydRSoft.Web.Controllers
             //var resultado = await UsuarioBL.SetUsuario(new UsuarioModel());
             //var lista = await UsuarioBL.getALl();
 
-            var receta = await RecetaBL.GetRecetaCat("entradas");
+            //var prod = await ProductoBL.ConsultaProdAPI("PAPA");
+            //if (prod != null) {
+            //    prod.Nombre = prod.Nombre == null ? "" : prod.Nombre.ToUpper();
+            //    var resultado = await ProductoBL.Guardar(prod);
+            //}
+            
 
-            //Session["objUser"] = new UsuarioModel();
-            //return RedirectToAction("Index","Configuracion", new { Area = "AConfiguracion"});
+            Session["objUser"] = await UsuarioBL.GetUsuarioId(2);
+            return RedirectToAction("Index", "Configuracion", new { Area = "AConfiguracion" });
 
-            UsuarioModel model = (UsuarioModel)Session["objUser"];
-            if (model == null)
-            {
-                return RedirectToAction("Login");
-            }
+            //UsuarioModel model = (UsuarioModel)Session["objUser"];
+            //if (model == null)
+            //{
+            //    return RedirectToAction("Login");
+            //}
 
-            return View(model);
+            //return View(model);
         }
 
         public ActionResult Login()

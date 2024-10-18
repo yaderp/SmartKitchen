@@ -20,6 +20,9 @@ namespace ydRSoft.Util
 
         public static int ELIMINADO = 0;
         public static int PRIVADO = 1;
-        public static int PUBLICO = 0;
+        public static int PUBLICO = 2;
+
+        public static int PREFRENCIA = 1;
+        public static int ALERGIA = 2;
     }
 }

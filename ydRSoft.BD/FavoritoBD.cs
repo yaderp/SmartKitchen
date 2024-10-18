@@ -26,14 +26,12 @@ namespace ydRSoft.BD
 
 
                     using (MySqlCommand command = new MySqlCommand(insertRecetaQuery, connection))
-                    {
-                        // Parámetros para la receta
+                    {                        
                         command.Parameters.AddWithValue("@iduser", IdUser);
                         command.Parameters.AddWithValue("@idreceta", IdRe);
                         command.Parameters.AddWithValue("@fechareg", DateTime.Now);
                         command.Parameters.AddWithValue("@estado", 1);
 
-                        // Ejecutar el comando y obtener el ID de la receta insertada
                         var IdFav = Convert.ToInt32(await command.ExecuteScalarAsync());
                         if (IdFav > 0) {
                             rpstaModel.Error = false;
@@ -119,15 +117,15 @@ namespace ydRSoft.BD
             {
                 try
                 {
-                    await conexion.OpenAsync(); // Abrir la conexión de forma asíncrona
+                    await conexion.OpenAsync();
 
                     MySqlCommand cmd = new MySqlCommand(query, conexion);
                     cmd.Parameters.AddWithValue("@iduser", IdUser);
                     cmd.Parameters.AddWithValue("@idreceta", IdRe);
 
-                    using (MySqlDataReader reader = cmd.ExecuteReader()) // Ejecutar la lectura de forma asíncrona
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
                     {
-                        if (await reader.ReadAsync()) // Leer los datos de forma asíncrona
+                        if (await reader.ReadAsync())
                         {
                             var favorito = new FavoritoModel
                             {
@@ -146,7 +144,7 @@ namespace ydRSoft.BD
                 }
                 finally
                 {
-                    await conexion.CloseAsync(); // Cerrar la conexión de forma asíncrona
+                    await conexion.CloseAsync();
                 }
             }
             return encontrado;

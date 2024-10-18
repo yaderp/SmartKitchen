@@ -25,9 +25,12 @@ namespace ydRSoft.Modelo
             Calorias = "89.0 Kcal";
             Proteinas= "1.1 g";
             Colesterol = "0.0 mg";
+            Carbohidratos = "3.5 mg";
             Fibra = "2.6 g";
             Azucares = "12.2 g";
             Sodio = "1.0 mg";
+            Calcio = "1.2 mg";
+            Grasa = "1.3 mg";
         }
 
         public InfoModel(int id, string Nombre, string calorias, string proteinas, string colesterol, string fibra, string azucares, string sodio)

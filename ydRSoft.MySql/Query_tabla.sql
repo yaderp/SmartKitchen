@@ -71,7 +71,7 @@ ADD FOREIGN KEY (iduser) REFERENCES usuario(id) ON DELETE CASCADE ON UPDATE CASC
 
 
 CREATE TABLE producto (
-    id INT PRIMARY KEY, 
+    id INT PRIMARY KEY AUTO_INCREMENT, 
 	nombre VARCHAR(100),
     calorias VARCHAR(100),
     proteinas VARCHAR(100),
@@ -107,3 +107,6 @@ select *from receta;
 
 select *from ingredientes;
 select *from preparacion;
+
+select *from producto;
+select *from preferencias

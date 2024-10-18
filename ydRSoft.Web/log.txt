@@ -14,3 +14,4 @@
 16/10/2024 12:51:42 | Editar Usuario | Fatal error encountered during command execution.
 16/10/2024 12:53:06 | Editar Usuario | Fatal error encountered during command execution.
 16/10/2024 12:53:30 | Editar Usuario | Fatal error encountered during command execution.
+17/10/2024 16:52:43 | Guardar USuario |

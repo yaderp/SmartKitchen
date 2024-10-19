@@ -10,9 +10,20 @@ namespace ydRSoft.Modelo
     {
         public int Id { get; set; }
         public string Nombre { get; set; }
+        public string Calorias { get; set; }
+        public string Proteinas { get; set; }
+        public string Colesterol { get; set; }
+        public string Carbohidratos { get; set; }
+        public string Fibra { get; set; }
+        public string Azucares { get; set; }
+        public string Sodio { get; set; }
+        public string Calcio { get; set; }
+        public string Grasa { get; set; }
         public int PosX { get; set; }
         public int PosY { get; set; }
         public decimal Radio {  get; set; }
+
+        public int Estado { get; set; }
         public InfoModel Info { get; set; }
 
         public ProductoModel() {

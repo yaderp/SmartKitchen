@@ -148,7 +148,6 @@ namespace ydRSoft.BD
             return mLista;
         }
         
-
         public static async Task<RecetaModel> GetRecetaId(int recetaId)
         {
             RecetaModel objModel = new RecetaModel();
@@ -233,6 +232,58 @@ namespace ydRSoft.BD
                 catch (Exception ex)
                 {
                     await Util.LogError.SaveLog("Receta GetId | " + ex.Message);
+                }
+                finally
+                {
+                    await connection.CloseAsync();
+                }
+            }
+
+            return objModel;
+        }
+
+
+        public static async Task<RecetaModel> GetRecetaNom(string Nombre)
+        {
+            RecetaModel objModel = null;
+
+            MySqlConnection connection = MySqlConexion.MyConexion();
+            if (connection != null)
+            {
+                try
+                {
+                    await connection.OpenAsync();
+
+                    string query = @"
+                    SELECT r.id, r.nombre, r.ndif, r.tiempo, r.categoria, r.fechareg, r.estado
+                    FROM receta r
+                    WHERE r.nombre = @nombre;";
+
+                    using (MySqlCommand command = new MySqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@nombre", Nombre);
+
+                        using (MySqlDataReader reader = command.ExecuteReader())
+                        {
+                            if (await reader.ReadAsync())
+                            {
+                                objModel = new RecetaModel
+                                {
+                                    Id = reader.GetInt32("id"),
+                                    Nombre = reader.GetString("nombre"),
+                                    NivelDificultad = reader.GetInt32("ndif"),
+                                    Tiempo = reader.GetInt32("tiempo"),
+                                    Categoria = reader.GetString("categoria"),
+                                    FechaRegistro = reader.GetDateTime("fechareg"),
+                                    Estado = reader.GetInt32("estado")
+                                };
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await Util.LogError.SaveLog("Receta GetNOmbre | " + ex.Message);
                 }
                 finally
                 {

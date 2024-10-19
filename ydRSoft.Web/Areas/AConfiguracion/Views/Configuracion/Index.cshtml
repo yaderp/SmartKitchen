@@ -35,7 +35,8 @@
         console.log("entro preferencias");
         var dataString = new FormData();
         dataString.append("IdUser", document.getElementById('editId').value);
-        const response = await fetch('/AUsuario/Usuario/LoadPreferencias', {
+
+        const response = await fetch('/APreferencia/Preferencia/LoadPref', {
             method: 'POST',
             body: dataString,
         });
@@ -47,5 +48,40 @@
             alert('Error en la respuesta: ' + response.status, response.statusText);
         }
     }
+
+
+    async function funVerAlergias(entrada) {
+        console.log("entro preferencias");
+        var dataString = new FormData();
+        dataString.append("IdUser", document.getElementById('editId').value);
+
+        const response = await fetch('/APreferencia/Preferencia/LoadAlergia', {
+            method: 'POST',
+            body: dataString,
+        });
+
+        if (response.ok) {
+            const data = await response.text();
+            $("#resulVista").html(data);
+        } else {
+            alert('Error en la respuesta: ' + response.status, response.statusText);
+        }
+    }
+
+    async function funVerProductos(entrada) {
+        console.log("entro preferencias");
+
+        const response = await fetch('/APreferencia/Preferencia/LoadProducto', {
+            method: 'POST',
+        });
+
+        if (response.ok) {
+            const data = await response.text();
+            $("#resulVista").html(data);
+        } else {
+            alert('Error en la respuesta: ' + response.status, response.statusText);
+        }
+    }
+
 </script>
 

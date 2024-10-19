@@ -288,7 +288,7 @@ namespace ydRSoft.BD
         {
             RpstaModel model = new RpstaModel();
 
-            string query = "UPDATE usuario SET nombres = @nombres, dni = @dni, correo = @correo, " +
+            string query = "UPDATE usuario SET dni = @dni, correo = @correo, " +
                            "clave = @clave, idsexo = @idsexo, idcargo = @idcargo, estado = @estado " +
                            "WHERE id = @id";
 

@@ -1,17 +1,1 @@
-﻿12/10/2024 15:02:45 | ->Error al enviar la solicitud.
-12/10/2024 15:02:48 | ->Error al enviar la solicitud.
-12/10/2024 15:02:51 | ->Error al enviar la solicitud.
-12/10/2024 15:02:54 | ->Error al enviar la solicitud.
-13/10/2024 11:33:04 | ->Error al enviar la solicitud.
-13/10/2024 11:33:07 | ->Error al enviar la solicitud.
-13/10/2024 14:09:34 | ->Error al enviar la solicitud.
-13/10/2024 14:09:37 | ->Error al enviar la solicitud.
-13/10/2024 14:09:40 | ->Error al enviar la solicitud.
-13/10/2024 14:09:43 | ->Error al enviar la solicitud.
-13/10/2024 14:09:46 | ->Error al enviar la solicitud.
-13/10/2024 14:09:49 | ->Error al enviar la solicitud.
-13/10/2024 14:09:52 | ->Error al enviar la solicitud.
-16/10/2024 12:51:42 | Editar Usuario | Fatal error encountered during command execution.
-16/10/2024 12:53:06 | Editar Usuario | Fatal error encountered during command execution.
-16/10/2024 12:53:30 | Editar Usuario | Fatal error encountered during command execution.
-17/10/2024 16:52:43 | Guardar USuario |
+﻿

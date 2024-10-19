@@ -13,7 +13,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>ydRSoft | Inicio</title>
+    <title>SK | Configuracion</title>
     <link rel="shortcut icon" href="~/Content/Imagenes/Logos/paw.png">
     <link href="@Url.Content("~/Content/css/bootstrap.min.css")" rel="stylesheet">
     <link href="@Url.Content("~/Content/font-awesome/css/font-awesome.css")" rel="stylesheet">
@@ -76,7 +76,7 @@
                         <a href="#" id="IndexUsuario" onclick="funVerUsuario(this)"><i class="fa fa-user"></i> <span class="nav-label">Usuarios</span> </a>
                     </li>
                     <li>
-                        <a href="#"><i class="fa fa-send-o"></i> <span class="nav-label">Temas</span> </a>
+                        <a href="#" id="IndexPref" onclick="funVerPreferencias(this)"><i class="fa fa-send-o"></i> <span class="nav-label">Preferencias</span> </a>
                     </li>
 
                 </ul>
@@ -109,7 +109,7 @@
                             Bienvenido a <strong class="m-r-sm text-success welcome-message"> Grupo ContaSoft SAC </strong>
                         </li>
                         <li>
-                            <a href="@Url.Action("LogOut","Home", new {Area = String.Empty})">
+                            <a href="@Url.Action("Index","Home", new {Area = String.Empty})">
                                 <strong class="text-danger"> <i class="fa fa-sign-out "></i> Cerrar sesión </strong>
                             </a>
                         </li>

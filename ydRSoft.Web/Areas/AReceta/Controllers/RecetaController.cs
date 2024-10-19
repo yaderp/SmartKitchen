@@ -21,15 +21,15 @@ namespace ydRSoft.Web.Areas.AReceta.Controllers
 
         public async Task<ActionResult> ObtenerRecetas()
         {
-            //string txtNombre = TxtProductos();
-            //var resultado = new RecetaModel();
-            //if (txtNombre.Count() > 0)
-            //{
-            //    resultado = await RecetaBL.ObtenerRecetas(txtNombre);
-            //}
+            string txtNombre = TxtProductos();
+            var model = new RecetaModel();
+            if (txtNombre.Count() > 0)
+            {
+                model = await RecetaBL.ObtenerRecetas(txtNombre);
+            }
 
-            RecetaModel model = await RecetaBL.GetRecetaId(2);
-            model.ListaId = new List<int>() { 2, 3, 1, 4 };
+            //RecetaModel model = await RecetaBL.GetRecetaId(2);
+            //model.ListaId = new List<int>() { 2, 3, 1, 4 };
 
             return PartialView("_verPagina", model);
         }

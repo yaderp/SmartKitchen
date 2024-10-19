@@ -12,7 +12,6 @@ namespace ydRSoft.BL
     {
         public static async Task<RpstaModel> Agregar(PrefModel objModel)
         {
-
             var resultado = await PrefBD.Guardar(objModel);
 
             return resultado;
@@ -20,9 +19,18 @@ namespace ydRSoft.BL
 
         public static async Task<List<PrefModel>> ListaPref(int Id, int Estado)
         {
-            var resultado = await PrefBD.GetPref(Id,Estado);
+            List<PrefModel> mLista;
 
-            return resultado;
+            if (Estado == 0)
+            {
+                mLista = await PrefBD.GetPref(Id);
+            }
+            else
+            {
+                mLista = await PrefBD.GetPref(Id, Estado);
+            }            
+
+            return mLista;
 
         }
     }

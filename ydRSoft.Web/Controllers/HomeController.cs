@@ -19,23 +19,31 @@ namespace ydRSoft.Web.Controllers
             //var resultado = await UsuarioBL.SetUsuario(new UsuarioModel());
             //var lista = await UsuarioBL.getALl();
 
-            //var prod = await ProductoBL.ConsultaProdAPI("PAPA");
-            //if (prod != null) {
-            //    prod.Nombre = prod.Nombre == null ? "" : prod.Nombre.ToUpper();
-            //    var resultado = await ProductoBL.Guardar(prod);
-            //}
-            
+            //List<string> list = new List<string>() { "PLATANO", "MANZANA", "NARANJA", "ZANAHORIA", "BROCOLI", "LIMON", "TOMATE"};
 
-            Session["objUser"] = await UsuarioBL.GetUsuarioId(2);
-            return RedirectToAction("Index", "Configuracion", new { Area = "AConfiguracion" });
-
-            //UsuarioModel model = (UsuarioModel)Session["objUser"];
-            //if (model == null)
-            //{
-            //    return RedirectToAction("Login");
+            //foreach (var item in list) {
+            //    var prod = await ProductoBL.ConsultaProdAPI(item);
+            //    if (prod != null) {
+            //        prod.Nombre = item;
+            //        var resultado = await ProductoBL.Guardar(prod);
+            //    }
+                
             //}
 
-            //return View(model);
+           
+
+            var mUser = await UsuarioBL.GetUsuarioId(2);
+
+            //Session["objUser"] = mUser;
+            //return RedirectToAction("Index", "Configuracion", new { Area = "AConfiguracion" });
+
+            UsuarioModel model = (UsuarioModel)Session["objUser"];
+            if (model == null)
+            {
+                return RedirectToAction("Login");
+            }
+
+            return View(model);
         }
 
         public ActionResult Login()
@@ -44,17 +52,6 @@ namespace ydRSoft.Web.Controllers
             return View();
         }
 
-        public ActionResult VerBotones()
-        {            
-            return PartialView("_verBotones");
-        }
-
-        public ActionResult VerComandos()
-        {
-            return PartialView("_verComandos");
-        }
-
-        
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
@@ -69,12 +66,4 @@ namespace ydRSoft.Web.Controllers
             return View();
         }
     }
-}
-
-// Clase para representar un Item
-public class Item
-{
-    public int Id { get; set; }
-    public string Nombre { get; set; }
-    public double Precio { get; set; }
 }

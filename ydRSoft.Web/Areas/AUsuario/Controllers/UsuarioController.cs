@@ -93,7 +93,7 @@ namespace ydRSoft.Web.Areas.AUsuario.Controllers
             catch (Exception ex)
             {
                 rpstaModel.Error = true;
-                await Util.LogError.SaveLog("Cerrar Sesion " + ex.Message);
+                await Util.LogError.SaveLog("editar usuario " + ex.Message);
             }
 
             return Json(rpstaModel, JsonRequestBehavior.AllowGet);

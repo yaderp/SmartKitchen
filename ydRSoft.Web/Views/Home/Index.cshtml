@@ -131,17 +131,15 @@
                         //captureAndSendImage();
                         EnviarImagen();
                     }
-                }, 3000);
+                }, 1000);
             } else {
                 isCapturing = false;
                 startCaptureButton.classList.remove('btn-primary');
                 startCaptureButton.classList.add('btn-success');
-
                 // Detener el intervalo de captura
                 clearInterval(captureInterval);
             }
         }
-
         async function EnviarImagen() {
             // Configurar el canvas solo cuando la cámara esté disponible
             if (video.readyState === video.HAVE_ENOUGH_DATA) {
@@ -157,7 +155,7 @@
                 try {
                     // Enviar la imagen al servidor
                     //ConsultarApi
-                    const response = await fetch('/AProducto/Producto/Prueba', {
+                    const response = await fetch('/AProducto/Producto/ConsultarApi', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -190,9 +188,9 @@
 
 </script>
 
-<script id="_fun_recetas">
+<script id="_fun_Obtener_recetas">
 
-    async function funRecetas() {
+    async function funRecetas() {        
         $("#viewPaginas").html("");
         document.getElementById("idLoad1").innerHTML = "<i class='fa fa-spinner'> Cargando Recetas ...</i>";
         document.getElementById("btnReceta").disabled = true;
@@ -215,7 +213,7 @@
 </script>
 
 
-<script>
+<script id="_dibjar_circulo">
     function dibujarCirculo() {
         var canvas = document.getElementById('canvasCorona');
         if (canvas.getContext) {
@@ -238,10 +236,8 @@
             ctx.beginPath();
             ctx.fillStyle = 'red';
             ctx.fillRect(0, 70, 1420, 10);
-
         }
     }
-
 
 </script>
 
@@ -261,17 +257,16 @@
     function ajustarCanvas() {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-        dibujarMolecula(300, 300);
-
+        dibujarMolecula(300,300);
     }
+
     async function dibujarProd(productos) {
         try {
-
-            // Limpiar el canvas solo una vez antes de dibujar todos los productos
+            console.log("dibujar prod");
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             productos.forEach(producto => {
-                mostrarProductos(producto); // Llamar a la función mostrarData para cada producto
+                mostrarProductos(producto); 
             });
 
         } catch (error) {
@@ -297,20 +292,21 @@
         let posX = producto.PosX;
         let posY = producto.PosY;
         let radio = producto.Radio;
+        
+        const listaValor = [];
 
-        let listaValor = [];
-        listaValor.push(producto.Info.Calorias);
-        listaValor.push(producto.Info.Proteinas);
-        listaValor.push(producto.Info.Colesterol);
-        listaValor.push(producto.Info.Carbohidratos);
-        listaValor.push(producto.Info.Fibra);
-        listaValor.push(producto.Info.Azucares);
-        listaValor.push(producto.Info.Sodio);
-        listaValor.push(producto.Info.Calcio);
-        //listaValor.push(producto.Info.Grasa);
+        listaValor.push(producto.Calorias);
+        listaValor.push(producto.Proteinas);
+        listaValor.push(producto.Colesterol);
+        listaValor.push(producto.Carbohidratos);
+        listaValor.push(producto.Fibra);
+        listaValor.push(producto.Azucares);
+        listaValor.push(producto.Sodio);
+        listaValor.push(producto.Calcio);
+        listaValor.push(producto.Grasa);
 
         dibujarCorona(posX, posY, radio);
-        dibujarInfo(posX, posY, radio);
+        dibujarTexto(posX, posY, radio);
         dibujarNombre(posX, posY, radio, nombre);
         dibujarLinea(posX, posY, radio, listaValor);
     }
@@ -337,38 +333,33 @@
     }
 
     function dibujarNombre(x, y, radioExterior, texto) {
-
         const radioInterior = radioExterior - anchoCorona;
-        // Configuración de la fuente
+
         ctx.font = `${tamNombre}px ${Tipoletra}`;
+        ctx.fillStyle = 'white';
+        const anguloInicio = 1; 
+        const anguloPaso = 0.25 * 100 / radioExterior;
 
-        ctx.fillStyle = 'white'; // Color del texto
-
-        const anguloInicio = 1; // Comienza desde el lado izquierdo de la corona
-        const anguloPaso = 0.25 * 100 / radioExterior; // Ángulo entre cada letra
-
-        // Ajustar el radio donde se dibuja el texto
-        const radioTexto = radioInterior + 35; // Ajustar el radio para el texto
+        const radioTexto = radioInterior + 35;
 
         const index = texto.length - 1;
         let aux = 0;
-        // Dibujar texto a lo largo de la curva en forma de "U"
-        for (let i = index; i >= 0; i--) {
-            const angulo = anguloInicio + aux * anguloPaso; // Ángulo para cada letra
-            const letraX = x + (radioTexto * Math.cos(angulo)); // Coordenada x
-            const letraY = y + (radioTexto * Math.sin(angulo)); // Coordenada y
 
-            // Rotar el texto para que siga la curva
+        for (let i = index; i >= 0; i--) {
+            const angulo = anguloInicio + aux * anguloPaso;
+            const letraX = x + (radioTexto * Math.cos(angulo));
+            const letraY = y + (radioTexto * Math.sin(angulo));
+
             ctx.save();
             ctx.translate(letraX, letraY);
-            ctx.rotate(angulo + 4.65); // Alinea el texto hacia arriba
-            ctx.fillText(texto[i], 0, 0); // Dibujar letra
+            ctx.rotate(angulo + 4.65);
+            ctx.fillText(texto[i], 0, 0);
             ctx.restore();
             aux++;
         }
     }
 
-    function dibujarInfo(x, y, radioExterior) {
+    function dibujarTexto(x, y, radioExterior) {
         const texto = "Tamaño de porcion 100g";
         const radioInterior = radioExterior - anchoCorona;
         // Configuración de la fuente
@@ -400,6 +391,8 @@
     }
 
     function dibujarLinea(x, y, radius, listValor) {
+
+        console.log("data -> " + listValor);
         const centerX = x;
         const centerY = y;
         const anguloInicio = 5.4;
@@ -409,41 +402,36 @@
         
         for (let i = 0; i < CantInfo; i++) {
             ctx.fillStyle = 'yellow';           
-            const angle = anguloInicio + i  * anguloPaso; // Calcula el ángulo para cada rayo
-            // Coordenadas del extremo de cada rayo en el borde
+            const angle = anguloInicio + i  * anguloPaso; 
+
             const x1 = centerX + (radius - 10) * Math.cos(angle);
             const y1 = centerY + (radius - 10) * Math.sin(angle);
-
-            // Coordenadas del extremo del rayo hacia afuera
-            const x2 = centerX + (radius + 20) * Math.cos(angle); // Aumenta la longitud del rayo
+            
+            const x2 = centerX + (radius + 20) * Math.cos(angle);
             const y2 = centerY + (radius + 20) * Math.sin(angle);
 
-            // Dibuja el rayo
             ctx.beginPath();
-            ctx.moveTo(x1, y1); // Empieza desde el borde
-            ctx.lineTo(x2, y2); // Finaliza más allá del borde
-            ctx.lineWidth = 3; // Grosor de la línea
-            ctx.strokeStyle = 'yellow'; // Color de la línea
+            ctx.moveTo(x1, y1); 
+            ctx.lineTo(x2, y2);
+            ctx.lineWidth = 3;
+            ctx.strokeStyle = 'yellow';
             ctx.stroke();
 
-            // Dibuja los círculos en ambos extremos
-            ctx.beginPath();
-            ctx.arc(x1, y1, 4, 0, Math.PI * 2); // Círculo en el borde
+            //ctx.beginPath();
+            ctx.arc(x1, y1, 4, 0, Math.PI * 2); 
             ctx.fill();
 
-            ctx.beginPath();
-            ctx.arc(x2, y2, 3, 0, Math.PI * 2); // Círculo en el extremo
+            //ctx.beginPath();
+            ctx.arc(x2, y2, 3, 0, Math.PI * 2); 
             ctx.fill();
-
-
 
             const textoValor = listValor[i];
             const textoNombre = listaInfo[i];
-            // texto cantidad Valor
+            console.log("Valor : " + textoValor);
             ctx.fillStyle = 'white';
             ctx.font = `bold ${tamInfoV}px ${letraInfo}`;
             ctx.fillText(textoValor, x2 + 10, y2);
-            // Texto nombre valor
+
             ctx.fillStyle = 'gray';
             ctx.font = `bold ${tamInfoN}px ${letraInfo}`;
             ctx.fillText(textoNombre, x2 + 10, y2 + 25);
@@ -458,15 +446,15 @@
         ctx.fillText("Nutrientes", xn2 + 10, yn2);
 
         ctx.font = `bold ${tamInfoV}px ${letraInfo}`;
-        ctx.fillText("2.4 mg", xn2 + 10, yn2 + 30);
-        ctx.fillText("2.9 g", xn2 + 10, yn2 + 80);
+        ctx.fillText(listValor[CantInfo], xn2 + 10, yn2 + 30);
+        ctx.fillText(listValor[CantInfo + 1], xn2 + 10, yn2 + 80);
 
-        ctx.fillStyle = 'gray';
+        ctx.fillStyle = 'rgb(108, 108, 108)';
         ctx.font = `bold ${tamInfoN}px ${letraInfo}`;
         ctx.fillText("Azucar", xn2 + 10, yn2 + 50);
         ctx.fillText("Grasa", xn2 + 10, yn2 + 100);
 
-        dibujarMolecula(xn2-30,yn2+15);
+        dibujarMolecula(xn2 - 40, yn2);
 
         @*const img = new Image();
         img.src = '@Url.Content("~/Content/Imagenes/molecula.png")';
@@ -482,34 +470,38 @@
 </script>
 
 
-<script>
+
+
+<script id="_dibujar_molecula">
     function dibujarMolecula(xn2, yn2) {
         const radio = 7;
         const grosor = 5;
-
         ctx.fillStyle = 'rgb(130, 202, 156)';
+       
+
         ctx.beginPath();
-        ctx.arc(xn2, yn2 + 20, radio, 0, Math.PI * 2); //1
+        ctx.arc(xn2, yn2 + 45, radio+1, 0, Math.PI * 2); // 1
         ctx.fill();
 
         ctx.beginPath();
-        ctx.arc(xn2, yn2 + 50, radio+1, 0, Math.PI * 2); // 2
+        ctx.arc(xn2 - 5, yn2 + 70, radio+2, 0, Math.PI * 2); // 2
         ctx.fill();
 
         ctx.beginPath();
-        ctx.arc(xn2 - 5, yn2 + 80, radio+2, 0, Math.PI * 2); // 3
+        ctx.arc(xn2-15, yn2 + 100, radio, 0, Math.PI * 2); //3
+        ctx.fill();
+
+
+        ctx.beginPath();
+        ctx.arc(xn2 + 30, yn2 + 15, radio + 1, 0, Math.PI * 2); // 4
         ctx.fill();
 
         ctx.beginPath();
-        ctx.arc(xn2+30, yn2 + 50, radio+1, 0, Math.PI * 2); // 4
+        ctx.arc(xn2 + 30, yn2 + 45, radio + 1, 0, Math.PI * 2); // 5
         ctx.fill();
 
         ctx.beginPath();
-        ctx.arc(xn2 + 25, yn2 + 80, radio+1, 0, Math.PI * 2); // 5
-        ctx.fill();
-
-        ctx.beginPath();
-        ctx.arc(xn2 + 35, yn2 + 110, radio +1, 0, Math.PI * 2); // 6
+        ctx.arc(xn2 + 25, yn2 + 70, radio+1, 0, Math.PI * 2); // 6
         ctx.fill();
 
 
@@ -517,26 +509,28 @@
         ctx.lineWidth = grosor;
         ctx.beginPath();
 
-        ctx.moveTo(xn2, yn2 + 50); 
-        ctx.lineTo(xn2, yn2 + 20);
+        ctx.moveTo(xn2, yn2 + 45); 
+        ctx.lineTo(xn2-5, yn2 + 70);
 
-        ctx.moveTo(xn2, yn2 + 50);
-        ctx.lineTo(xn2 - 5, yn2 + 80);        
+        ctx.moveTo(xn2-5, yn2 + 70);
+        ctx.lineTo(xn2 - 15, yn2 + 100);        
 
-        ctx.moveTo(xn2, yn2 + 50);
-        ctx.lineTo(xn2 + 30, yn2 + 50);
+        ctx.moveTo(xn2 + 30, yn2 + 15);
+        ctx.lineTo(xn2 + 30, yn2 + 45);
 
-        ctx.moveTo(xn2 + 25, yn2 + 80); 
-        ctx.lineTo(xn2 + 30, yn2 + 50);
+        ctx.moveTo(xn2 + 30, yn2 + 45); 
+        ctx.lineTo(xn2 + 25, yn2 + 70);
        
-        ctx.moveTo(xn2 + 25, yn2 + 80); 
-        ctx.lineTo(xn2 + 35, yn2 + 110);
+        ctx.moveTo(xn2, yn2 + 45); 
+        ctx.lineTo(xn2 + 30, yn2 + 45);
 
-        ctx.moveTo(xn2 + 25, yn2 + 80); 
-        ctx.lineTo(xn2 - 5, yn2 + 80);
+        ctx.moveTo(xn2 - 5, yn2 + 70); 
+        ctx.lineTo(xn2 + 25, yn2 + 70);
 
 
         ctx.stroke();
     }
     
 </script>
+
+

@@ -24,16 +24,19 @@ namespace ydRSoft.BL
             var mLista = new List<TipoModel>();
             
             try {
-                mLista.Add(new TipoModel(1, "<i class='btn-circle btn-success fa fa-camera'></i>", "INICIAR", "Para Iniciar la deteccion de objetos"));
-                mLista.Add(new TipoModel(2, "<i class='btn-circle btn-primary fa fa-camera'></i>", "INICIAR", "Para detener la deteccion de objetos"));
-                mLista.Add(new TipoModel(3, "<i class='btn-circle btn-primary fa fa-eye'></i>", "RECETA", "Para Mostrar las Recetas recomendadas"));
-                mLista.Add(new TipoModel(4, "<i class='btn btn-circle btn-primary btn-outline'>2</i>", "SIGUIENTE", "Para Mostrar la siguiente receta"));
-                mLista.Add(new TipoModel(5, "<i class='btn btn-circle btn-primary btn-outline'>1</i>", "ATRAS", "Para Mostrar la anterior receta"));
-                mLista.Add(new TipoModel(6, "<i class='btn-circle btn-primary fa fa-bars'></i>", "MENU", "Mostrara el menu de objetos detectados"));
-                mLista.Add(new TipoModel(7, "<i class='btn-circle btn-primary fa fa-star'></i>", "FAVORITOS", "Mostrara Recetas Favoritas"));
-                mLista.Add(new TipoModel(8, "<i class='btn-circle btn-primary fa fa-microphone'></i>", "COMANDOS", "Mostrara la lista de Comandos"));
-                mLista.Add(new TipoModel(9, "<i class='btn-circle btn-primary fa fa-gears'></i>", "CONFIGURACION", "Para ver la Pantalla de Configuracion"));
-                mLista.Add(new TipoModel(9, "<i class='btn-circle btn-primary fa fa-window-close-o'></i>", "CERRAR", "Para ver la Pantalla de Configuracion"));
+                mLista.Add(new TipoModel(1, "", "COMANDOS", "Mostrara la lista de Comandos"));
+                mLista.Add(new TipoModel(2, "", "INICIAR", "Para Iniciar la deteccion de objetos"));                
+                mLista.Add(new TipoModel(3, "", "RECETA", "Para Mostrar las Recetas recomendadas"));                
+                mLista.Add(new TipoModel(4, "", "MENU", "Mostrara el menu de objetos detectados"));
+                mLista.Add(new TipoModel(5, "", "MOSTRAR FAVORITOS", "Mostrara Recetas Favoritas"));
+                mLista.Add(new TipoModel(6, "", "MOSTRAR CATEGORIAS", "Mostrara las Categorias"));  
+                mLista.Add(new TipoModel(7, "", "BOTONES", "Para ver la lista de botones"));
+                mLista.Add(new TipoModel(8, "", "BUSCAR", "Para Buscar Recetas"));
+                mLista.Add(new TipoModel(9, "", "CONFIGURACION", "Para ver la Pantalla de Configuracion"));
+                mLista.Add(new TipoModel(10, "", "REINICIAR", "Para refrescar la panatalla"));
+                mLista.Add(new TipoModel(11, "", "SALIR", "Para cerrar sesion"));
+                mLista.Add(new TipoModel(12, "", "SIGUIENTE", "Para Mostrar la siguiente receta"));
+                mLista.Add(new TipoModel(13, "", "ATRAS", "Para Mostrar la anterior receta"));
 
             }
             catch { 

@@ -10,7 +10,7 @@ namespace ydRSoft.BD
 {
     public class ProductoBD
     {
-        public static async Task<RpstaModel> Guardar(InfoModel objModel) {
+        public static async Task<RpstaModel> Guardar(ProductoModel objModel) {
 
             RpstaModel model = new RpstaModel();
 
@@ -48,7 +48,7 @@ namespace ydRSoft.BD
                 catch (Exception ex)
                 {
                     model.Mensaje = ex.Message;
-                    await Util.LogError.SaveLog("Guardar USuario |");
+                    await Util.LogError.SaveLog("Guardar USuario |"+ex.Message);
                 }
                 finally
                 {
@@ -60,10 +60,10 @@ namespace ydRSoft.BD
         }
 
 
-        public static async Task<InfoModel> GetProducto(string Nombre)
+        public static async Task<ProductoModel> GetProducto(string Nombre)
         {
             string query = "SELECT * FROM producto WHERE nombre = @nombre";
-            InfoModel mInfo = null;
+            ProductoModel mInfo = null;
 
             MySqlConnection conexion = MySqlConexion.MyConexion();
             if (conexion != null)
@@ -79,7 +79,7 @@ namespace ydRSoft.BD
                     {
                         if (await reader.ReadAsync())
                         {
-                            mInfo = new InfoModel
+                            mInfo = new ProductoModel
                             {
                                 Id = reader.GetInt32("id"),
                                 Nombre = reader.GetString("nombre"),
@@ -87,18 +87,19 @@ namespace ydRSoft.BD
                                 Proteinas = reader.GetString("proteinas"),
                                 Colesterol = reader.GetString("colesterol"),
                                 Fibra = reader.GetString("fibra"),
-                                Carbohidratos = reader.GetString("fibra"),
-                                Azucares = reader.GetString("fibra"),
-                                Sodio = reader.GetString("fibra"),
-                                Calcio = reader.GetString("fibra"),
-                                Grasa = reader.GetString("fibra")
+                                Carbohidratos = reader.GetString("carbohidratos"),
+                                Azucares = reader.GetString("azucares"),
+                                Sodio = reader.GetString("sodio"),
+                                Calcio = reader.GetString("calcio"),
+                                Grasa = reader.GetString("grasa"),
+                                Estado = reader.GetInt32("estado")
                             };
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("Error: " + ex.Message);
+                    Console.WriteLine("Prod Nombre: " + ex.Message);
                 }
                 finally
                 {
@@ -109,9 +110,9 @@ namespace ydRSoft.BD
         }
 
 
-        public static async Task<List<InfoModel>> ListaProd()
+        public static async Task<List<ProductoModel>> ListaProd()
         {
-            List<InfoModel> mLista = new List<InfoModel>();
+            List<ProductoModel> mLista = new List<ProductoModel>();
 
             MySqlConnection connection = MySqlConexion.MyConexion();
             if (connection != null)
@@ -129,7 +130,7 @@ namespace ydRSoft.BD
                         {
                             while (await reader.ReadAsync())
                             {
-                                var prod  = new InfoModel
+                                var prod  = new ProductoModel
                                 {
                                     Id = reader.GetInt32("id"),
                                     Nombre = reader.GetString("nombre"),

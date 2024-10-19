@@ -50,14 +50,10 @@
 </html>
 <script>
     window.onload = function () {
-        ydR1bNom = document.getElementById('nomInydRc').value;       
+        ydR1bNom = document.getElementById('nomInydRc').value;
         //funModales('modalComandos');
         //vozBienvenida();
     };
-</script>
-
-<script id="_Control_mas_Letra_">
-
 </script>
 
 <script>
@@ -113,7 +109,7 @@
 
             if (boton.disabled) {
                 console.log("El botón está deshabilitado.");
-            } else {
+            } else {                
                 funRecetas();
             }
         }
@@ -202,7 +198,7 @@
 
         if (transcript === 'reiniciar') {
             console.log("entro a reiniciar");
-            location.reload();
+            funReiniciar();
         }
 
         if (transcript === 'salir') {

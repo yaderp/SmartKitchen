@@ -3,22 +3,23 @@
 <div class="floatingBotones">
     <button class="btn btn-circle btn-success" onclick="funFavoritos()"><i class="fa fa-car"></i></button>
     <hr />
-    <button class="btn btn-circle btn-success" id="startCapture" onclick="IniciarCaptura()"><i class="fa fa-camera"></i></button>
-    <button class="btn btn-circle btn-primary" id="btnReceta" onclick="funRecetas()"><i class="fa fa-eye"></i></button>
-    <button class="btn btn-circle btn-primary" id="btnMenu" onclick="funMenu()"><i class="fa fa-bars"></i></button>
-    <button class="btn btn-circle btn-primary" id="btnFavoritos" onclick="funFavoritos()"><i class="fa fa-star"></i></button>
-    <button class="btn btn-circle btn-warning" id="btnBotones" onclick="funCategoria()"><i class="fa fa-send"></i></button>
-    <button class="btn btn-circle btn-primary" id="btnComandos" onclick="funComandos()"><i class="fa fa-microphone"></i></button>
-    <button class="btn btn-circle btn-primary" id="btnConfiguracion" onclick="funConfiguracion()"><i class="fa fa-gears"></i></button>
-    <button class="btn btn-circle btn-primary" id="btnBotones" onclick="funBotones()"><i class="fa fa-toggle-on"></i></button>
-    <button class="btn btn-circle btn-danger" id="btnReiniciar" onclick="funReiniciar()"><i class="fa fa-window-minimize"></i></button>
-    <button class="btn btn-circle btn-danger" id="btnCerrar" onclick="funCerrar()"><i class="fa fa-window-close-o"></i></button>
+    <button class="btn btn-circle btn-primary" id="btnComandos" onclick="funComandos()">1</button>
+    <button class="btn btn-circle btn-success" id="startCapture" onclick="IniciarCaptura()">2</button>
+    <button class="btn btn-circle btn-primary" id="btnReceta" onclick="funRecetas()">3</button>
+    <button class="btn btn-circle btn-primary" id="btnMenu" onclick="funMenu()">4</button>
+    <button class="btn btn-circle btn-primary" id="btnFavoritos" onclick="funFavoritos()">5</button>
+    <button class="btn btn-circle btn-primary" id="btncategoria" onclick="funCategoria()">6</button>
+    <button class="btn btn-circle btn-primary" id="btnBotones" onclick="funBotones()">7</button>
+    <button class="btn btn-circle btn-primary" id="btnBuscar" onclick="funBuscar()">8</button>
+    <button class="btn btn-circle btn-primary" id="btnConfiguracion" onclick="funConfiguracion()">9</button>
+    <button class="btn btn-circle btn-danger" id="btnReiniciar" onclick="funReiniciar()">10</button>
+    <button class="btn btn-circle btn-danger" id="btnSalir" onclick="funSalir()">11</button>
+    <button class="btn btn-circle btn-danger" id="btnPantalla" onclick="funPantalla()">12</button>
 </div>
 
 <script>
-
-    function funCerrar() {
-        cerrarSesion();
+    function funComandos() {
+        funModales('modalComandos');
     }
 
     function funMenu() {
@@ -30,6 +31,28 @@
         }
     }
 
+    function funFavoritos() {
+        console.log("ver favoritos XD");
+        funVerFavorito();
+    }
+
+    function funCategoria() {
+        funModales('modalCategoria');
+    }
+
+    function funConfiguracion() {
+        console.log("configuracion");
+        let iduser = document.getElementById("IdInydRc").value;
+        if (iduser > 1) {
+            window.location.href = "@Url.Action("Index","Configuracion",new {Area = "AConfiguracion"})";
+        } else {
+            console.log("No puede ingresar");
+            hablarTexto("Tiene que iniciar sesion para ingresar a Configuracion");
+        }
+
+
+    }
+
     function funBotones() {
         if (esVisible('vistaBtones')) {
             setOcultar('vistaBtones', true);
@@ -38,17 +61,29 @@
         }
     }
 
-    function funCategoria() {
-        funModales('modalCategoria');
+    function funReiniciar() {
+        location.reload();
     }
 
-    function funFavoritos() {
-
-        console.log("ver favoritos XD");
-        funVerFavorito();
+    function funSalir() {
+        cerrarSesion();
     }
 
 </script>
+
+<script>
+    function funPantalla() {
+        if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen().catch(err => {
+                console.error(`Error al intentar habilitar pantalla completa: ${err.message}`);
+            });
+        } else {
+            document.exitFullscreen();
+        }
+    }
+
+</script>
+
 
 
 <script id="_favoritos_">

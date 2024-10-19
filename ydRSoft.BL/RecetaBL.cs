@@ -84,9 +84,13 @@ namespace ydRSoft.BL
                 {                    
                     foreach (var item in mLista)
                     {
-                        var Idpro = await RecetaBD.Guardar(item);
+                        var recetaId = await ExisteReceta(item.Nombre);
+                        if (recetaId==0)
+                        {
+                            recetaId = await RecetaBD.Guardar(item);
+                        }                        
 
-                        if (Idpro > 0) listaId.Add(Idpro);
+                        if (recetaId > 0) listaId.Add(recetaId);
                     }
                 }
             }
@@ -95,6 +99,14 @@ namespace ydRSoft.BL
             }
 
             return listaId;
+        }
+
+        private static async Task<int> ExisteReceta(string Nombre)
+        {
+            var receta = await RecetaBD.GetRecetaNom(Nombre);
+            if(receta != null) return receta.Id;
+
+            return 0;
         }
     }
 }

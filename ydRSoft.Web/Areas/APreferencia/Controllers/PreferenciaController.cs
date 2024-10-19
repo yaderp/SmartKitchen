@@ -31,9 +31,17 @@ namespace ydRSoft.Web.Areas.APreferencia.Controllers
             return PartialView("_loadAlergia", mLista);
         }
 
-        public async Task<ActionResult> LoadProducto()
+        public async Task<ActionResult> LoadProducto(int IdUser)
         {
+            var listaPref = await PrefBL.ListaPref(IdUser, 0);
             var mLista = await ProductoBL.ListaProducto();
+            if (listaPref != null && mLista !=null) { 
+            
+                if(listaPref.Count > 0)
+                {
+                    mLista.RemoveAll(item => listaPref.Exists(x => x.Id == item.Id));
+                }
+            }
 
             return PartialView("_loadAlergia", mLista);
         }

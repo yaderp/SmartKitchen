@@ -16,7 +16,7 @@
                 listaId = receta.ListaId;
             }
 
-            vozNombre = receta.Nombre + ". Categoría. " + receta.Categoria + ". " + ". Nivel de dificultad. " + receta.NivelDificultad;
+            vozNombre = receta.Nombre + ". Categoría. " + receta.Categoria + ". Nivel de dificultad. " + receta.NivelDificultad;
         }
 
     }
@@ -39,7 +39,7 @@
         </div>
         <div class="parte-inferior">
             <div class="color-dorado">
-                <strong>INGREDIENTES</strong><i class="text-VerdeF">(@receta.Categoria)  &nbsp; Nivel: @receta.NivelDificultad </i>
+                <strong> <i class="fa fa-microphone"></i> INGREDIENTES</strong><i class="text-VerdeF">(@receta.Categoria)  &nbsp; Nivel: @receta.NivelDificultad </i>
             </div>
             <div class="texto-Ingredientes">
                 @foreach (var item in receta.Ingredientes)
@@ -52,7 +52,7 @@
 
             </div>
             <div class="color-dorado">
-                <strong>PREPARACION  &nbsp;&nbsp;<i class="fa fa-clock-o text-VerdeF">  @receta.Tiempo min.</i></strong>
+                <strong> <i class="fa fa-microphone"></i> PREPARACION  &nbsp;&nbsp;<i class="fa fa-clock-o text-VerdeF">  @receta.Tiempo min.</i></strong>
             </div>
             <div>
                 @foreach (var item in receta.PasosPreparacion)
@@ -79,13 +79,13 @@ else
 {
 
     <div class="recetaSugerida">
-        <span style="font-size:18px">No se detecto Ningun Producto <i class="fa fa-bug"></i></span>
+        <span style="font-size:18px">Ninguna Receta Disponible &nbsp; <i class="fa fa-bug"></i></span>
     </div>
 }
 
 <script>
 
-    //hablarNombre();
+    hablarNombre();
     
     function hablarNombre() {
         var txtletra = document.getElementById("idNombre1a").value
@@ -117,7 +117,7 @@ else
 
         } else {
             console.log("No puede agregar");
-            hablarTexto("Tiene q iniciar sesion para agregar favoritos");
+            hablarTexto("Tiene que iniciar sesion para agregar favoritos");
         }
         
     }

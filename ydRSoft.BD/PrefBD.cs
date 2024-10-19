@@ -105,6 +105,62 @@ namespace ydRSoft.BD
             return mLista;
         }
 
+
+
+        public static async Task<List<PrefModel>> GetPref(int IdUser)
+        {
+            List<PrefModel> mLista = new List<PrefModel>();
+
+            MySqlConnection connection = MySqlConexion.MyConexion();
+            if (connection != null)
+            {
+                try
+                {
+                    await connection.OpenAsync();
+
+                    string query = @"
+                    SELECT r.id, r.iduser, r.idprod, p.nombre, r.estado
+                    FROM preferencias r
+                    inner join producto p on r.idprod = p.id
+                    WHERE r.iduser = @iduser";
+
+                    using (MySqlCommand command = new MySqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@iduser", IdUser);
+
+                        using (MySqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (await reader.ReadAsync())
+                            {
+                                var pref = new PrefModel
+                                {
+                                    Id = reader.GetInt32("id"),
+                                    IdUser = reader.GetInt32("iduser"),
+                                    IdProd = reader.GetInt32("idprod"),
+                                    Nombre = reader.GetString("nombre"),
+                                    Estado = reader.GetInt32("estado")
+                                };
+
+                                mLista.Add(pref);
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await Util.LogError.SaveLog("Pref Get | " + ex.Message);
+                }
+                finally
+                {
+                    await connection.CloseAsync();
+                }
+            }
+
+            return mLista;
+        }
+
+
+
         public static async Task<RpstaModel> EditarPref(int Estado, int Id)
         {
             RpstaModel model = new RpstaModel();

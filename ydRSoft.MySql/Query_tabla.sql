@@ -25,7 +25,7 @@ ALTER TABLE usuario MODIFY clave VARCHAR(50) NOT NULL COLLATE utf8mb4_bin;
 
 INSERT INTO usuario(nombres, dni, correo, clave, idsexo, idcargo, fechareg, estado) VALUES('INVITADO','12345678','correo@correo','123',1,0,now(),1);
 INSERT INTO usuario(nombres, dni, correo, clave, idsexo, idcargo, fechareg, estado) VALUES('YADER','43114343','yaderch@gmail.com','palomita',1,1,now(),1);
-INSERT INTO usuario(nombres, dni, correo, clave, idsexo, idcargo, fechareg, estado) VALUES('carlos','12345678','correo@gmail.com','1234',1,1,now(),1);
+INSERT INTO usuario(nombres, dni, correo, clave, idsexo, idcargo, fechareg, estado) VALUES('CARLOS','12345678','correo@gmail.com','1234',1,1,now(),1);
 
 CREATE TABLE receta (
     id INT PRIMARY KEY AUTO_INCREMENT,
@@ -109,4 +109,4 @@ select *from ingredientes;
 select *from preparacion;
 
 select *from producto;
-select *from preferencias
+select *from preferencias;

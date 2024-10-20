@@ -22,5 +22,10 @@ namespace ydRSoft.BD
                 return null;
             }
         }
+
+        public static string ContextMySql() {
+            string context = "Database=dbsk; Data Source = localhost; User Id=ydrsoft; Password=Palomita16";
+            return context;
+        }
     }
 }

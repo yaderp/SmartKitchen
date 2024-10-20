@@ -1,6 +1,7 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,44 +18,52 @@ namespace ydRSoft.BD
             string query = "INSERT INTO producto (nombre, calorias, proteinas, colesterol, fibra, carbohidratos,azucares,sodio,calcio,grasa, fechareg, estado) " +
                            "VALUES (@nombre, @calorias, @proteinas, @colesterol, @fibra, @carbohidratos,@azucares,@sodio,@calcio,@grasa, @fechareg, @estado)";
 
-            MySqlConnection conexion = MySqlConexion.MyConexion();
-            if (conexion != null)
+            using(MySqlConnection conexion = MySqlConexion.MyConexion())
             {
-                try
+                if (conexion != null)
                 {
-                    await conexion.OpenAsync();
-
-                    MySqlCommand cmd = new MySqlCommand(query, conexion);
-                    cmd.Parameters.AddWithValue("@nombre", objModel.Nombre);
-                    cmd.Parameters.AddWithValue("@calorias", objModel.Calorias);
-                    cmd.Parameters.AddWithValue("@proteinas", objModel.Proteinas);
-                    cmd.Parameters.AddWithValue("@colesterol", objModel.Colesterol);
-                    cmd.Parameters.AddWithValue("@fibra", objModel.Carbohidratos);
-                    cmd.Parameters.AddWithValue("@carbohidratos", objModel.Fibra);
-                    cmd.Parameters.AddWithValue("@azucares", objModel.Azucares);
-                    cmd.Parameters.AddWithValue("@sodio", objModel.Sodio);
-                    cmd.Parameters.AddWithValue("@calcio", objModel.Calcio);
-                    cmd.Parameters.AddWithValue("@grasa", objModel.Grasa);
-                    cmd.Parameters.AddWithValue("@fechareg", DateTime.Now);
-                    cmd.Parameters.AddWithValue("@estado", 1);
-
-                    var respuesta = await cmd.ExecuteNonQueryAsync();
-                    if (respuesta > 0)
+                    try
                     {
-                        model.Error = false;
-                        model.Mensaje = "Correcto";
+                        await conexion.OpenAsync();
+
+                        MySqlCommand cmd = new MySqlCommand(query, conexion);
+                        cmd.Parameters.AddWithValue("@nombre", objModel.Nombre);
+                        cmd.Parameters.AddWithValue("@calorias", objModel.Calorias);
+                        cmd.Parameters.AddWithValue("@proteinas", objModel.Proteinas);
+                        cmd.Parameters.AddWithValue("@colesterol", objModel.Colesterol);
+                        cmd.Parameters.AddWithValue("@fibra", objModel.Carbohidratos);
+                        cmd.Parameters.AddWithValue("@carbohidratos", objModel.Fibra);
+                        cmd.Parameters.AddWithValue("@azucares", objModel.Azucares);
+                        cmd.Parameters.AddWithValue("@sodio", objModel.Sodio);
+                        cmd.Parameters.AddWithValue("@calcio", objModel.Calcio);
+                        cmd.Parameters.AddWithValue("@grasa", objModel.Grasa);
+                        cmd.Parameters.AddWithValue("@fechareg", DateTime.Now);
+                        cmd.Parameters.AddWithValue("@estado", 1);
+
+                        var respuesta = await cmd.ExecuteNonQueryAsync();
+                        if (respuesta > 0)
+                        {
+                            model.Error = false;
+                            model.Mensaje = "Correcto";
+                        }
+                    }
+                    catch (MySqlException mysqlEx)
+                    {
+                        model.Mensaje = mysqlEx.Message;
+                        await Util.LogError.SaveLog("Guardar Producto |" + mysqlEx.Message);
+                    }
+                    catch (Exception ex)
+                    {
+                        model.Mensaje = ex.Message;
+                        await Util.LogError.SaveLog("Guardar Producto |" + ex.Message);
+                    }
+                    finally
+                    {
+                        await conexion.CloseAsync();
                     }
                 }
-                catch (Exception ex)
-                {
-                    model.Mensaje = ex.Message;
-                    await Util.LogError.SaveLog("Guardar USuario |"+ex.Message);
-                }
-                finally
-                {
-                    await conexion.CloseAsync();
-                }
             }
+          
 
             return model;
         }
@@ -62,51 +71,68 @@ namespace ydRSoft.BD
 
         public static async Task<ProductoModel> GetProducto(string Nombre)
         {
-            string query = "SELECT * FROM producto WHERE nombre = @nombre";
-            ProductoModel mInfo = null;
+            ProductoModel producto = null;
 
-            MySqlConnection conexion = MySqlConexion.MyConexion();
-            if (conexion != null)
+            if (string.IsNullOrWhiteSpace(Nombre))
             {
-                try
+                return producto;
+            }
+
+            string query = @"SELECT 
+                            Id, nombre, calorias, proteinas, colesterol, fibra,
+                            carbohidratos, azucares, sodio, calcio, grasa, estado
+                            FROM producto WHERE nombre = @nombre";
+
+
+            using (MySqlConnection conexion = MySqlConexion.MyConexion())
+            {
+                if (conexion != null)
                 {
-                    await conexion.OpenAsync();
-
-                    MySqlCommand cmd = new MySqlCommand(query, conexion);
-                    cmd.Parameters.AddWithValue("@nombre", Nombre);
-
-                    using (MySqlDataReader reader = cmd.ExecuteReader()) 
+                    try
                     {
-                        if (await reader.ReadAsync())
+                        await conexion.OpenAsync();
+
+                        using (MySqlCommand cmd = new MySqlCommand(query, conexion))
                         {
-                            mInfo = new ProductoModel
+                            cmd.Parameters.AddWithValue("@nombre", Nombre);
+
+                            using (DbDataReader reader = await cmd.ExecuteReaderAsync())
                             {
-                                Id = reader.GetInt32("id"),
-                                Nombre = reader.GetString("nombre"),
-                                Calorias = reader.GetString("calorias"),
-                                Proteinas = reader.GetString("proteinas"),
-                                Colesterol = reader.GetString("colesterol"),
-                                Fibra = reader.GetString("fibra"),
-                                Carbohidratos = reader.GetString("carbohidratos"),
-                                Azucares = reader.GetString("azucares"),
-                                Sodio = reader.GetString("sodio"),
-                                Calcio = reader.GetString("calcio"),
-                                Grasa = reader.GetString("grasa"),
-                                Estado = reader.GetInt32("estado")
-                            };
+                                if (await reader.ReadAsync())
+                                {
+                                    producto = new ProductoModel
+                                    {
+                                        Id = reader.IsDBNull(0) ? reader.GetInt32(0):0,
+                                        Nombre = reader.IsDBNull(1) ? reader.GetString(1):"",
+                                        Calorias = reader.IsDBNull(2) ? reader.GetString(2) : "",
+                                        Proteinas = reader.IsDBNull(3) ? reader.GetString(3) : "",
+                                        Colesterol = reader.IsDBNull(4) ? reader.GetString(4) : "",
+                                        Fibra = reader.IsDBNull(5) ? reader.GetString(5) : "",
+                                        Carbohidratos = reader.IsDBNull(6) ? reader.GetString(6) : "",
+                                        Azucares = reader.IsDBNull(7) ? reader.GetString(7) : "",
+                                        Sodio = reader.IsDBNull(8) ? reader.GetString(8) : "",
+                                        Calcio = reader.IsDBNull(9) ? reader.GetString(9) : "",
+                                        Grasa = reader.IsDBNull(10) ? reader.GetString(10) : "",
+                                        Estado = reader.IsDBNull(11) ? reader.GetInt32(11) : 0
+                                    };
+                                }
+                            }
                         }
+                            
+                    }
+                    catch (Exception ex)
+                    {
+                        await Util.LogError.SaveLog("Prod Nombre | " + ex.Message);
+                        producto = null;
+                    }
+                    finally
+                    {
+                        await conexion.CloseAsync();
                     }
                 }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("Prod Nombre: " + ex.Message);
-                }
-                finally
-                {
-                    await conexion.CloseAsync();
-                }
             }
-            return mInfo;
+               
+            return producto;
         }
 
 
@@ -114,49 +140,56 @@ namespace ydRSoft.BD
         {
             List<ProductoModel> mLista = new List<ProductoModel>();
 
-            MySqlConnection connection = MySqlConexion.MyConexion();
-            if (connection != null)
+            string query = @"SELECT 
+                            Id, nombre, calorias, proteinas, colesterol, fibra,
+                            carbohidratos, azucares, sodio, calcio, grasa, estado
+                            FROM producto WHERE estado > 0";
+
+            using (MySqlConnection connection = MySqlConexion.MyConexion())
             {
-                try
+                if (connection != null)
                 {
-                    await connection.OpenAsync();
-                    string query = "SELECT * FROM producto WHERE estado > 0";
-
-                    using (MySqlCommand command = new MySqlCommand(query, connection))
+                    try
                     {
-                        //command.Parameters.AddWithValue("@estado", 1);
+                        await connection.OpenAsync();
 
-                        using (MySqlDataReader reader = command.ExecuteReader())
+                        using (MySqlCommand cmd = new MySqlCommand(query, connection))
                         {
-                            while (await reader.ReadAsync())
-                            {
-                                var prod  = new ProductoModel
-                                {
-                                    Id = reader.GetInt32("id"),
-                                    Nombre = reader.GetString("nombre"),
-                                    Calorias = reader.GetString("calorias"),
-                                    Proteinas = reader.GetString("proteinas"),
-                                    Colesterol = reader.GetString("colesterol"),
-                                    Fibra = reader.GetString("fibra"),
-                                    Carbohidratos = reader.GetString("fibra"),
-                                    Azucares = reader.GetString("fibra"),
-                                    Sodio = reader.GetString("fibra"),
-                                    Calcio = reader.GetString("fibra"),
-                                    Grasa = reader.GetString("fibra")
-                                };
+                            //command.Parameters.AddWithValue("@estado", 1);
 
-                                mLista.Add(prod);
+                            using (DbDataReader reader = await cmd.ExecuteReaderAsync())
+                            {
+                                while (await reader.ReadAsync())
+                                {
+                                    var prod = new ProductoModel
+                                    {
+                                        Id = reader.IsDBNull(0) ? reader.GetInt32(0) : 0,
+                                        Nombre = reader.IsDBNull(1) ? reader.GetString(1) : "",
+                                        Calorias = reader.IsDBNull(2) ? reader.GetString(2) : "",
+                                        Proteinas = reader.IsDBNull(3) ? reader.GetString(3) : "",
+                                        Colesterol = reader.IsDBNull(4) ? reader.GetString(4) : "",
+                                        Fibra = reader.IsDBNull(5) ? reader.GetString(5) : "",
+                                        Carbohidratos = reader.IsDBNull(6) ? reader.GetString(6) : "",
+                                        Azucares = reader.IsDBNull(7) ? reader.GetString(7) : "",
+                                        Sodio = reader.IsDBNull(8) ? reader.GetString(8) : "",
+                                        Calcio = reader.IsDBNull(9) ? reader.GetString(9) : "",
+                                        Grasa = reader.IsDBNull(10) ? reader.GetString(10) : "",
+                                        Estado = reader.IsDBNull(11) ? reader.GetInt32(11) : 0
+                                    };
+
+                                    mLista.Add(prod);
+                                }
                             }
                         }
                     }
-                }
-                catch (Exception ex)
-                {
-                    await Util.LogError.SaveLog("Prod Getall | " + ex.Message);
-                }
-                finally
-                {
-                    await connection.CloseAsync();
+                    catch (Exception ex)
+                    {
+                        await Util.LogError.SaveLog("Prod Getall | " + ex.Message);
+                    }
+                    finally
+                    {
+                        await connection.CloseAsync();
+                    }
                 }
             }
 

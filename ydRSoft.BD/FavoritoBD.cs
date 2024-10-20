@@ -1,5 +1,6 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
+using System.Data.Common;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,42 +15,52 @@ namespace ydRSoft.BD
         {
             RpstaModel rpstaModel = new RpstaModel();
 
-            MySqlConnection connection = MySqlConexion.MyConexion();
-            if (connection != null)
+            string Query = @"INSERT INTO favoritos (iduser, idreceta, fechareg, estado) 
+                             VALUES (@iduser, @idreceta, @fechareg, @estado);
+                             SELECT LAST_INSERT_ID();";
+
+            using (MySqlConnection conexion = MySqlConexion.MyConexion())
             {
-                await connection.OpenAsync();
-                try
+                if (conexion != null)
                 {
-                    string insertRecetaQuery = @"INSERT INTO favoritos (iduser, idreceta, fechareg, estado) 
-                                             VALUES (@iduser, @idreceta, @fechareg, @estado);
-                                             SELECT LAST_INSERT_ID();";
+                    try
+                    {
+                        await conexion.OpenAsync();
 
-
-                    using (MySqlCommand command = new MySqlCommand(insertRecetaQuery, connection))
-                    {                        
-                        command.Parameters.AddWithValue("@iduser", IdUser);
-                        command.Parameters.AddWithValue("@idreceta", IdRe);
-                        command.Parameters.AddWithValue("@fechareg", DateTime.Now);
-                        command.Parameters.AddWithValue("@estado", 1);
-
-                        var IdFav = Convert.ToInt32(await command.ExecuteScalarAsync());
-                        if (IdFav > 0) {
-                            rpstaModel.Error = false;
-                            rpstaModel.Mensaje = "Agregado a favoritos";
-                        }
-                        else
+                        using (MySqlCommand command = new MySqlCommand(Query, conexion))
                         {
-                            rpstaModel.Mensaje = "Error al guardar";
+                            command.Parameters.AddWithValue("@iduser", IdUser);
+                            command.Parameters.AddWithValue("@idreceta", IdRe);
+                            command.Parameters.AddWithValue("@fechareg", DateTime.Now);
+                            command.Parameters.AddWithValue("@estado", 1);
+
+                            var resultado = await command.ExecuteScalarAsync();
+
+
+                            // Verificamos si el resultado es nulo antes de convertirlo a Int32
+                            if (resultado != null && int.TryParse(resultado.ToString(), out int IdFav) && IdFav > 0)
+                            {
+                                rpstaModel.Error = false;
+                                rpstaModel.Mensaje = "Agregado a favoritos";
+                            }
+                            else
+                            {     
+                                rpstaModel.Mensaje = "Error al guardar";
+                            }
                         }
                     }
+                    catch (Exception ex)
+                    {
+                        await Util.LogError.SaveLog("Guardar Receta |" + ex.Message);
+                    }
+                    finally
+                    {
+                        await conexion.CloseAsync();
+                    }
                 }
-                catch (Exception ex)
-                {                    
-                    await Util.LogError.SaveLog("Guardar Receta |" + ex.Message);
-                }
-                finally
+                else
                 {
-                    await connection.CloseAsync();
+                    rpstaModel.Mensaje = "No se pudo establecer la conexión";
                 }
             }
 
@@ -60,48 +71,50 @@ namespace ydRSoft.BD
         {
             List<FavoritoModel> mLista = new List<FavoritoModel>();
 
-            MySqlConnection connection = MySqlConexion.MyConexion();
-            if (connection != null)
+
+            using (MySqlConnection conexion = MySqlConexion.MyConexion())
             {
-                try
+                if (conexion != null)
                 {
-                    await connection.OpenAsync();
-
-                    // Consulta para obtener solo la receta
-                    string query = @"
-                    SELECT r.id, r.iduser, r.idreceta
-                    FROM favoritos r
-                    WHERE r.iduser = @iduser";
-
-                    using (MySqlCommand command = new MySqlCommand(query, connection))
+                    try
                     {
-                        command.Parameters.AddWithValue("@iduser", IdUser);
+                        await conexion.OpenAsync();
 
-                        using (MySqlDataReader reader = command.ExecuteReader())
+                        string query = @"
+                                    SELECT r.id, r.iduser, r.idreceta
+                                    FROM favoritos r
+                                    WHERE r.iduser = @iduser";
+
+                        using (MySqlCommand command = new MySqlCommand(query, conexion))
                         {
-                            while (await reader.ReadAsync())
+                            command.Parameters.AddWithValue("@iduser", IdUser);
+
+                            using (DbDataReader reader = await command.ExecuteReaderAsync())
                             {
-                                var fav = new FavoritoModel
+                                while (await reader.ReadAsync())
                                 {
-                                    Id = reader.GetInt32("id"),
-                                    IdUser = reader.GetInt32("iduser"),
-                                    IdRe = reader.GetInt32("idreceta")
+                                    var fav = new FavoritoModel
+                                    {
+                                        Id = !reader.IsDBNull(0) ? reader.GetInt32(0) : 0,
+                                        IdUser = !reader.IsDBNull(1) ? reader.GetInt32(0) : 0,
+                                        IdRe = !reader.IsDBNull(2) ? reader.GetInt32(0) : 0
 
-                                };
+                                    };
 
-                                mLista.Add(fav);
+                                    mLista.Add(fav);
+                                }
                             }
                         }
                     }
-                }
-                catch (Exception ex)
-                {
-                    await Util.LogError.SaveLog("Receta Getcat | " + ex.Message);
-                }
-                finally
-                {
-                    await connection.CloseAsync();
-                }
+                    catch (Exception ex)
+                    {
+                        await Util.LogError.SaveLog("Receta Getcat | " + ex.Message);
+                    }
+                    finally
+                    {
+                        await conexion.CloseAsync();
+                    }
+                }               
             }
 
             return mLista;
@@ -109,44 +122,41 @@ namespace ydRSoft.BD
 
         public static async Task<bool> GetDuplicado(int IdUser, int IdRe)
         {
-            string query = "SELECT * FROM favoritos WHERE iduser = @iduser and idreceta = @idreceta";
-           bool encontrado = false;
+            string query = "SELECT COUNT(*) FROM favoritos WHERE iduser = @iduser AND idreceta = @idreceta";
+            bool encontrado = false;
 
-            MySqlConnection conexion = MySqlConexion.MyConexion();
-            if (conexion != null)
+            using (MySqlConnection conexion = MySqlConexion.MyConexion())
             {
-                try
+                if (conexion != null)
                 {
-                    await conexion.OpenAsync();
-
-                    MySqlCommand cmd = new MySqlCommand(query, conexion);
-                    cmd.Parameters.AddWithValue("@iduser", IdUser);
-                    cmd.Parameters.AddWithValue("@idreceta", IdRe);
-
-                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    try
                     {
-                        if (await reader.ReadAsync())
-                        {
-                            var favorito = new FavoritoModel
-                            {
-                                Id = reader.GetInt32("id"),
-                                IdUser = reader.GetInt32("iduser"),
-                                IdRe = reader.GetInt32("idreceta")
-                            };
+                        await conexion.OpenAsync();
 
-                            encontrado = true;
+                        using (MySqlCommand cmd = new MySqlCommand(query, conexion))
+                        {
+                            cmd.Parameters.AddWithValue("@iduser", IdUser);
+                            cmd.Parameters.AddWithValue("@idreceta", IdRe);
+
+                            var count = Convert.ToInt32(await cmd.ExecuteScalarAsync());
+
+                            if (count > 0)
+                            {
+                                encontrado = true;
+                            }
                         }
                     }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("Error: " + ex.Message);
-                }
-                finally
-                {
-                    await conexion.CloseAsync();
+                    catch (Exception ex)
+                    {
+                        await Util.LogError.SaveLog("Duplicado favorito "+ex.Message);
+                    }
+                    finally
+                    {
+                        await conexion.CloseAsync();
+                    }
                 }
             }
+            
             return encontrado;
         }
     }

@@ -1,6 +1,9 @@
 ﻿using MySql.Data.MySqlClient;
+using MySqlX.XDevAPI;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,37 +18,53 @@ namespace ydRSoft.BD
 
             RpstaModel model = new RpstaModel();
 
+            if (objModel == null || objModel.IdUser <= 0 || objModel.IdProd <= 0)
+            {
+                model.Mensaje = "Parámetros inválidos";
+                return model;
+            }
+
             string query = "INSERT INTO preferencias (iduser, idprod, fechareg, estado) " +
                            "VALUES (@iduser, @idprod, @fechareg, @estado)";
 
-            MySqlConnection conexion = MySqlConexion.MyConexion();
-            if (conexion != null)
+            using (MySqlConnection conexion = MySqlConexion.MyConexion())
             {
-                try
+                if (conexion != null)
                 {
-                    await conexion.OpenAsync();
-
-                    MySqlCommand cmd = new MySqlCommand(query, conexion);
-                    cmd.Parameters.AddWithValue("@iduser", objModel.IdUser);
-                    cmd.Parameters.AddWithValue("@idprod", objModel.IdProd);          
-                    cmd.Parameters.AddWithValue("@fechareg", DateTime.Now);
-                    cmd.Parameters.AddWithValue("@estado", 1);
-
-                    var respuesta = await cmd.ExecuteNonQueryAsync();
-                    if (respuesta > 0)
+                    try
                     {
-                        model.Error = false;
-                        model.Mensaje = "Correcto";
+                        await conexion.OpenAsync();
+
+                        using (MySqlCommand cmd = new MySqlCommand(query, conexion))
+                        {
+                            cmd.Parameters.AddWithValue("@iduser", objModel.IdUser);
+                            cmd.Parameters.AddWithValue("@idprod", objModel.IdProd);
+                            cmd.Parameters.AddWithValue("@fechareg", DateTime.Now);
+                            cmd.Parameters.AddWithValue("@estado", 1);
+
+                            var respuesta = await cmd.ExecuteNonQueryAsync();
+
+                            if (respuesta > 0)
+                            {
+                                model.Error = false;
+                                model.Mensaje = "Correcto";
+                            }
+                        }
                     }
-                }
-                catch (Exception ex)
-                {
-                    model.Mensaje = ex.Message;
-                    await Util.LogError.SaveLog("Guardar USuario |");
-                }
-                finally
-                {
-                    await conexion.CloseAsync();
+                    catch (MySqlException mysqlEx)
+                    {
+                        model.Mensaje = mysqlEx.Message;
+                        await Util.LogError.SaveLog("Guardar Prefer |" + mysqlEx.Message);
+                    }
+                    catch (Exception ex)
+                    {
+                        model.Mensaje = ex.Message;
+                        await Util.LogError.SaveLog("Guardar Pref |" + ex.Message);
+                    }
+                    finally
+                    {
+                        await conexion.CloseAsync();
+                    }
                 }
             }
 
@@ -56,49 +75,50 @@ namespace ydRSoft.BD
         {
             List<PrefModel> mLista = new List<PrefModel>();
 
-            MySqlConnection connection = MySqlConexion.MyConexion();
-            if (connection != null)
+            string query = @"SELECT r.id, r.iduser, r.idprod, p.nombre, r.estado
+                             FROM preferencias r
+                             inner join producto p on r.idprod = p.id
+                             WHERE r.iduser = @iduser and r.estado = @estado";
+
+            using (MySqlConnection connection = MySqlConexion.MyConexion())
             {
-                try
+                if (connection != null)
                 {
-                    await connection.OpenAsync();
-
-                    string query = @"
-                    SELECT r.id, r.iduser, r.idprod, p.nombre, r.estado
-                    FROM preferencias r
-                    inner join producto p on r.idprod = p.id
-                    WHERE r.iduser = @iduser and r.estado = @estado";
-
-                    using (MySqlCommand command = new MySqlCommand(query, connection))
+                    try
                     {
-                        command.Parameters.AddWithValue("@iduser", IdUser);
-                        command.Parameters.AddWithValue("@estado", Estado);
+                        await connection.OpenAsync();
 
-                        using (MySqlDataReader reader = command.ExecuteReader())
+                        using (MySqlCommand command = new MySqlCommand(query, connection))
                         {
-                            while (await reader.ReadAsync())
-                            {
-                                var pref = new PrefModel
-                                {
-                                    Id = reader.GetInt32("id"),
-                                    IdUser = reader.GetInt32("iduser"),
-                                    IdProd = reader.GetInt32("idprod"),
-                                    Nombre = reader.GetString("nombre"),
-                                    Estado = reader.GetInt32("estado")
-                                };
+                            command.Parameters.AddWithValue("@iduser", IdUser);
+                            command.Parameters.AddWithValue("@estado", Estado);
 
-                                mLista.Add(pref);
+                            using (DbDataReader reader = await command.ExecuteReaderAsync())
+                            {
+                                while (await reader.ReadAsync())
+                                {
+                                    var pref = new PrefModel
+                                    {
+                                        Id = !reader.IsDBNull(0) ? reader.GetInt32(0) : 0,
+                                        IdUser = !reader.IsDBNull(1) ? reader.GetInt32(1) : 0,
+                                        IdProd = !reader.IsDBNull(2) ? reader.GetInt32(2) : 0,
+                                        Nombre = !reader.IsDBNull(3) ? reader.GetString(3) : "",
+                                        Estado = !reader.IsDBNull(4) ? reader.GetInt32(4) : 0
+                                    };
+
+                                    mLista.Add(pref);
+                                }
                             }
                         }
                     }
-                }
-                catch (Exception ex)
-                {
-                    await Util.LogError.SaveLog("Pref Get | " + ex.Message);
-                }
-                finally
-                {
-                    await connection.CloseAsync();
+                    catch (Exception ex)
+                    {
+                        await Util.LogError.SaveLog("Pref Get | " + ex.Message);
+                    }
+                    finally
+                    {
+                        await connection.CloseAsync();
+                    }
                 }
             }
 
@@ -110,51 +130,52 @@ namespace ydRSoft.BD
         public static async Task<List<PrefModel>> GetPref(int IdUser)
         {
             List<PrefModel> mLista = new List<PrefModel>();
+            string query = @"SELECT r.id, r.iduser, r.idprod, p.nombre, r.estado
+                             FROM preferencias r
+                             inner join producto p on r.idprod = p.id
+                             WHERE r.iduser = @iduser";
 
-            MySqlConnection connection = MySqlConexion.MyConexion();
-            if (connection != null)
+            using (MySqlConnection connection = MySqlConexion.MyConexion())
             {
-                try
+                if (connection != null)
                 {
-                    await connection.OpenAsync();
-
-                    string query = @"
-                    SELECT r.id, r.iduser, r.idprod, p.nombre, r.estado
-                    FROM preferencias r
-                    inner join producto p on r.idprod = p.id
-                    WHERE r.iduser = @iduser";
-
-                    using (MySqlCommand command = new MySqlCommand(query, connection))
+                    try
                     {
-                        command.Parameters.AddWithValue("@iduser", IdUser);
+                        await connection.OpenAsync();
 
-                        using (MySqlDataReader reader = command.ExecuteReader())
+                        using (MySqlCommand command = new MySqlCommand(query, connection))
                         {
-                            while (await reader.ReadAsync())
-                            {
-                                var pref = new PrefModel
-                                {
-                                    Id = reader.GetInt32("id"),
-                                    IdUser = reader.GetInt32("iduser"),
-                                    IdProd = reader.GetInt32("idprod"),
-                                    Nombre = reader.GetString("nombre"),
-                                    Estado = reader.GetInt32("estado")
-                                };
+                            command.Parameters.AddWithValue("@iduser", IdUser);
 
-                                mLista.Add(pref);
+                            using (DbDataReader reader = await command.ExecuteReaderAsync())
+                            {
+                                while (await reader.ReadAsync())
+                                {
+                                    var pref = new PrefModel
+                                    {
+                                        Id = !reader.IsDBNull(0) ? reader.GetInt32(0) : 0,
+                                        IdUser = !reader.IsDBNull(1) ? reader.GetInt32(1) : 0,
+                                        IdProd = !reader.IsDBNull(2) ? reader.GetInt32(2) : 0,
+                                        Nombre = !reader.IsDBNull(3) ? reader.GetString(3) : "",
+                                        Estado = !reader.IsDBNull(4) ? reader.GetInt32(4) : 0
+                                    };
+
+                                    mLista.Add(pref);
+                                }
                             }
                         }
                     }
-                }
-                catch (Exception ex)
-                {
-                    await Util.LogError.SaveLog("Pref Get | " + ex.Message);
-                }
-                finally
-                {
-                    await connection.CloseAsync();
+                    catch (Exception ex)
+                    {
+                        await Util.LogError.SaveLog("Pref Get IdUser | " + ex.Message);
+                    }
+                    finally
+                    {
+                        await connection.CloseAsync();
+                    }
                 }
             }
+
 
             return mLista;
         }

@@ -163,9 +163,9 @@ namespace ydRSoft.BD
 
                     // Consulta principal de receta
                     string query = @"
-            SELECT r.id, r.nombre, r.ndif, r.tiempo, r.categoria, r.fechareg, r.estado
-            FROM receta r
-            WHERE r.id = @recetaId;";
+                                SELECT r.id, r.nombre, r.ndif, r.tiempo, r.categoria, r.fechareg, r.estado
+                                FROM receta r
+                                WHERE r.id = @recetaId;";
 
                     RecetaModel receta = null;
 

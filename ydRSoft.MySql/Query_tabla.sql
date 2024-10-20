@@ -44,7 +44,7 @@ CREATE TABLE ingredientes (
 );
 
 ALTER TABLE ingredientes
-ADD FOREIGN KEY (idreceta) REFERENCES receta(id) ON DELETE CASCADE ON UPDATE CASCADE;
+ADD FOREIGN KEY (idreceta) REFERENCES receta(id);
 
 CREATE TABLE preparacion (
     id INT PRIMARY KEY AUTO_INCREMENT,    
@@ -53,7 +53,7 @@ CREATE TABLE preparacion (
 );
 
 ALTER TABLE preparacion
-ADD FOREIGN KEY (idreceta) REFERENCES receta(id) ON DELETE CASCADE ON UPDATE CASCADE;
+ADD FOREIGN KEY (idreceta) REFERENCES receta(id);
 
 CREATE TABLE favoritos (
     id INT PRIMARY KEY AUTO_INCREMENT, 
@@ -64,10 +64,10 @@ CREATE TABLE favoritos (
 );
 
 ALTER TABLE favoritos
-ADD FOREIGN KEY (idreceta) REFERENCES receta(id) ON DELETE CASCADE ON UPDATE CASCADE;
+ADD FOREIGN KEY (idreceta) REFERENCES receta(id);
 
 ALTER TABLE favoritos
-ADD FOREIGN KEY (iduser) REFERENCES usuario(id) ON DELETE CASCADE ON UPDATE CASCADE;
+ADD FOREIGN KEY (iduser) REFERENCES usuario(id);
 
 
 CREATE TABLE producto (

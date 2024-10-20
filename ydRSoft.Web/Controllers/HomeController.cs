@@ -27,12 +27,12 @@ namespace ydRSoft.Web.Controllers
             //        prod.Nombre = item;
             //        var resultado = await ProductoBL.Guardar(prod);
             //    }
-                
+
             //}
 
-           
 
-            var mUser = await UsuarioBL.GetUsuarioId(2);
+
+            //var mUser = await UsuarioBL.GetUsuarioId(2);
 
             //Session["objUser"] = mUser;
             //return RedirectToAction("Index", "Configuracion", new { Area = "AConfiguracion" });

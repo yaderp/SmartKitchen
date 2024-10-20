@@ -21,7 +21,7 @@
 
     .floatingbtn {
     position: fixed;
-    bottom: 15px;
+    bottom: -25px;
     left: 460px;
     padding: 20px;
     border-radius: 5px;
@@ -53,8 +53,8 @@
     funVerReceta(document.getElementById("IdUno").value);
 
     async function funVerReceta(idr) {
+        console.log("IdR : " + idr);
         var dataString = new FormData();
-
         dataString.append("Pagina", idr);
 
         const response = await fetch('/AReceta/Receta/verReceta', {
@@ -62,8 +62,10 @@
             body: dataString,
         });
 
+        console.log("response");
         if (response.ok) {
             const data = await response.text();
+            console.log("muestra data");
             $("#viewReceta").html(data);            
         } else {
             divResult.innerHTML = '<h3> Ninguna receta Disponible </h3>';

@@ -179,7 +179,9 @@
                     isSending = false; // Liberar la bandera al terminar
                     const endTime = performance.now();
                     const elapsedTime = endTime - startTime;
-                    console.log(`Tiempo de ejecución: ${elapsedTime.toFixed(2)} ms`);
+                    let teject = (elapsedTime / 1000 - 1).toFixed(2);
+                    document.getElementById('tiempoEjec').innerHTML = teject + "s";
+                    console.log("Tiempo de ejecución: ms " + teject);
                 }
             }
         }
@@ -257,7 +259,7 @@
     function ajustarCanvas() {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-        dibujarMolecula(300,300);
+        //dibujarMolecula(300,300);
     }
 
     async function dibujarProd(productos) {
@@ -470,13 +472,11 @@
 </script>
 
 
-
-
 <script id="_dibujar_molecula">
     function dibujarMolecula(xn2, yn2) {
         const radio = 7;
         const grosor = 5;
-        ctx.fillStyle = 'rgb(130, 202, 156)';
+        ctx.fillStyle = 'rgb(64, 150, 84)';
        
 
         ctx.beginPath();
@@ -505,7 +505,7 @@
         ctx.fill();
 
 
-        ctx.strokeStyle = 'rgb(130, 202, 156)';
+        ctx.strokeStyle = 'rgb(64, 150, 84)';
         ctx.lineWidth = grosor;
         ctx.beginPath();
 

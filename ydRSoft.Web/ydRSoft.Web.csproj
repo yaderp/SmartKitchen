@@ -176,6 +176,7 @@
     <Content Include="Content\Imagenes\Logos\logover.png" />
     <Content Include="Content\Imagenes\Logos\logo_blanco.png" />
     <Content Include="Content\Imagenes\Logos\paw.png" />
+    <Content Include="Content\Imagenes\Logos\sk_logo.png" />
     <Content Include="Content\Imagenes\molecula.png" />
     <Content Include="Content\Imagenes\sinimagen.png" />
     <Content Include="Content\js\bootstrap.js" />
@@ -299,6 +300,8 @@
     <Content Include="Areas\APreferencia\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\APreferencia\Views\Preferencia\_loadPref.cshtml" />
     <Content Include="Areas\APreferencia\Views\Preferencia\_loadAlergia.cshtml" />
+    <Content Include="Areas\APreferencia\Views\Preferencia\_vistaPref.cshtml" />
+    <Content Include="Areas\APreferencia\Views\Preferencia\_loadProducto.cshtml" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />

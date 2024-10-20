@@ -58,20 +58,26 @@ namespace ydRSoft.BL
 
         public static async Task<List<ProductoModel>> ProdDetectados(string image64, List<ProductoModel> listaSession)
         {
-            var mLista = await ConsultarApi(image64);
-            mLista = ValidaPosXY(mLista, listaSession);
-
             var listaModel = new List<ProductoModel>();
-            foreach(var item in mLista)
-            {
-                var temp = await ProductoBD.GetProducto(item.Nombre);
-                temp.PosX = item.PosX;
-                temp.PosY = item.PosY;
-                temp.Radio = item.Radio;
+            try {
+                var mLista = await ConsultarApi(image64);
+                mLista = ValidaPosXY(mLista, listaSession);
+                foreach (var item in mLista)
+                {
+                    var temp = await ProductoBD.GetProducto(item.Nombre);
+                    if(temp != null)
+                    {
+                        temp.PosX = item.PosX;
+                        temp.PosY = item.PosY;
+                        temp.Radio = item.Radio;
 
-                listaModel.Add(temp);
+                        listaModel.Add(temp);
+                    }
+                   
+                }
+            } catch(Exception ex) {
+                await Util.LogError.SaveLog("Prod Detectados "+ex.Message);
             }
-
             return listaModel;
         }
 

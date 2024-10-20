@@ -16,7 +16,7 @@
                 listaId = receta.ListaId;
             }
 
-            vozNombre = receta.Nombre + ". Categoría. " + receta.Categoria + ". Nivel de dificultad. " + receta.NivelDificultad;
+            vozNombre = "Categoria Tipo. " + receta.Categoria +". "+ receta.Nombre + ". Nivel de dificultad. " + receta.NivelDificultad;
         }
 
     }
@@ -28,13 +28,43 @@
 
 }
 
+<style>
+    .titulo-recet1a {
+        background-color: rgb(149,244,178);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: black;
+        font-weight: bold;
+        box-sizing: border-box;
+        padding: 10px 0 5px 0;
+        font-size: 30px;
+        font-family: 'Segoe UI';
+        line-height:1;
+    }
+
+    .recetaSug1a {
+        width: 460px;
+        background-color: rgb(149,244,178);
+        position: fixed;
+        bottom: 0px;
+        left: 10px;
+        padding: 10px;
+        border-radius: 5px;
+        z-index: 9999;
+        font-size: 24px;
+        font-family: "Franklin Gothic Medium";
+        line-height: 1;
+    }
+</style>
+
 <input id="idNombre1a" value="@vozNombre" hidden />
 <input id="idReceta1a" value="@receta.Id" hidden />
 @if (receta.Id > 0)
 {
 
     <div class="contenido-ydR">
-        <div class="parte-superior">
+        <div class="titulo-recet1a">
             <strong class="text-center" id="nomReceta1">@receta.Nombre</strong>
         </div>
         <div class="parte-inferior">
@@ -70,7 +100,7 @@
     <input id="idIngred1a" value="@vozIngredientes" hidden />
     <input id="idPasos1a" value="@vozPasos" hidden />
     
-    <div class="recetaSugerida">
+    <div class="recetaSug1a">
         <span style="font-size:18px">Receta Sugerida <i class="fa fa-hand-o-right"></i></span>
         <div style="font-size:24px">@receta.Nombre <small>(Nivel-@receta.NivelDificultad)</small></div>
     </div>
@@ -78,14 +108,14 @@
 else
 {
 
-    <div class="recetaSugerida">
+    <div class="recetaSug1a">
         <span style="font-size:18px">Ninguna Receta Disponible &nbsp; <i class="fa fa-bug"></i></span>
     </div>
 }
 
 <script>
 
-    hablarNombre();
+    //hablarNombre();
     
     function hablarNombre() {
         var txtletra = document.getElementById("idNombre1a").value

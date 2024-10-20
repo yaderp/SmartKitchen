@@ -7,12 +7,14 @@
     UsuarioModel objUser = Model == null ? new UsuarioModel() : Model;
 }
 
-<input id="editId" class="form-control text-navy" value="@objUser.Id" />
+<input id="editId" class="form-control text-navy" value="@objUser.Id" hidden/>
 
 <div id="resulVista"></div>
 
 
 <script>
+
+    funVistaPref();
 
     async function funVerUsuario(entrada) {
         console.log("entro usuario");
@@ -31,48 +33,14 @@
         }
     }
 
-    async function funVerPreferencias(entrada) {
-        console.log("entro preferencias");
+    async function funVistaPref() {
+        console.log("entro vista todos");
         var dataString = new FormData();
         dataString.append("IdUser", document.getElementById('editId').value);
 
-        const response = await fetch('/APreferencia/Preferencia/LoadPref', {
+        const response = await fetch('/APreferencia/Preferencia/VistaPref', {
             method: 'POST',
             body: dataString,
-        });
-
-        if (response.ok) {
-            const data = await response.text();
-            $("#resulVista").html(data);
-        } else {
-            alert('Error en la respuesta: ' + response.status, response.statusText);
-        }
-    }
-
-
-    async function funVerAlergias(entrada) {
-        console.log("entro preferencias");
-        var dataString = new FormData();
-        dataString.append("IdUser", document.getElementById('editId').value);
-
-        const response = await fetch('/APreferencia/Preferencia/LoadAlergia', {
-            method: 'POST',
-            body: dataString,
-        });
-
-        if (response.ok) {
-            const data = await response.text();
-            $("#resulVista").html(data);
-        } else {
-            alert('Error en la respuesta: ' + response.status, response.statusText);
-        }
-    }
-
-    async function funVerProductos(entrada) {
-        console.log("entro preferencias");
-
-        const response = await fetch('/APreferencia/Preferencia/LoadProducto', {
-            method: 'POST',
         });
 
         if (response.ok) {

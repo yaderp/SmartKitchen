@@ -7,12 +7,85 @@
 <html>
 <head>
     <style>
-        .mi-caja {
-            width: 100%;
-            background-color: rgb(108,108,108);
-            padding: 10px; 
-            box-sizing: border-box;
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Altura completa de la pantalla */
+            margin: 0;
         }
+
+        .mi-caja {
+            width: 40%;
+            background-color: white;
+            padding: 20px 80px;
+            box-sizing: border-box;
+            border-radius: 15px;
+            margin: 0; /* Quita los márgenes, ya que el flexbox se encarga del centrado */
+        }
+        
+
+        .mi-input {
+            width: 100%;
+            border-radius: 10px;
+            padding: 10px;
+            font-size: 16px;
+            box-sizing: border-box;
+            border: 2px solid #ccc;
+            color: navy;
+            outline: none;
+        }
+
+        .color_btn1a {
+            background-color: #3D9656;
+            color: white;
+            border: none;
+            border-radius: 15px;
+            padding: 10px;
+            width: 100%;
+            cursor: pointer;
+            margin: 15px auto;
+            display: block;
+            box-sizing: border-box;
+            font-size:24px;
+        }
+
+
+
+        .color_btn2b {
+            color: #fff;
+            background-color: #1F6332;
+            border: none;
+            border-radius: 15px;
+            padding: 10px;
+            width: 100%;
+            cursor: pointer;
+            margin: 15px auto;
+            display: block;
+            box-sizing: border-box;
+            font-size: 24px;
+        }
+
+        .color_btn3c {
+            color: #fff;
+            background-color: #17341E;
+            border:none;
+            border-radius: 15px;
+            padding: 10px;
+            width: 100%;
+            cursor: pointer;
+            margin: 15px auto;
+            display: block;
+            box-sizing: border-box;
+            font-size: 24px;
+        }
+
+        .div-centrado{
+            text-align:center;
+        }
+
+        
+
     </style>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -29,34 +102,31 @@
 </head>
 
 
-<body class="text-white" style="background-color: black; font-size: 24px">
-    <div class="middle-box text-center loginscreen animated fadeInDown">
-        <div>
-            <img src="~/Content/Imagenes/Logos/logo_blanco.png" height="150" /><br />
-            <strong style="font-size:32px">Iniciar Sesión</strong>
-        </div>
-        
-        <div id="verLogin" class="mi-caja">
-            <div class="form-group text-left">
-                <i class="fa fa-microphone"> Usuario</i>
-                <input id="mUser" class="form-control text-navy" style="font-size:28px" autocomplete="off" placeholder="Usuario" maxlength="25" />
-            </div>
-            <div class="form-group text-left">
-                <i class="fa fa-microphone"> Clave</i>
-                <input type="password" id="mClave" class="form-control text-navy" style="font-size:28px" autocomplete="off" placeholder="Contraseña" />
-            </div>
+<body style="background-color: black; font-size: 24px">
+    <div class="mi-caja">
+        <div class="div-centrado">
+            <img src="~/Content/Imagenes/Logos/sk_logo.png" height="250" />
         </div>
         <br />
-        <button class="btn btn-lg btnydR-Primario block full-width m-b" onclick="funIngresar(1)" id="btnIngresar" style="font-size:24px"> <i class="fa fa-microphone"> Ingresar</i> &nbsp; &nbsp; <i class='fa fa-arrow-right'></i></button>
-
-        <button class="btn btn-lg btn-primary block full-width m-b" onclick="funIngresar(2)" id="btnRegistro" style="font-size:20px"> <i class="fa fa-microphone"> Registrar</i> &nbsp; &nbsp; <i class='fa fa-arrow-right'></i></button>
-        <button class="btn btn-lg btn-danger block full-width m-b" onclick="funIngresar(0)" id="btnInvitado" style="font-size:20px"> <i class="fa fa-microphone"> Invitado</i> &nbsp; &nbsp; <i class='fa fa-arrow-right'></i></button>
+        <div id="verLogin">
+            <div class="form-group text-left">
+                Usuario <br />
+                <input id="mUser" class="mi-input" autocomplete="off" placeholder="Di tu usuario" maxlength="25" />
+            </div>
+            <div class="form-group text-left">
+                Clave<br />
+                <input type="password" id="mClave" class="mi-input" autocomplete="off" placeholder="Di tu Clave" />
+            </div>
+        </div>
+        <p>Di la accion que deseas realizar:</p>
+        <button class="color_btn1a" onclick="funIngresar(1)" id="btnIngresar"> Ingresar</button>
+        <button class="color_btn2b" onclick="funIngresar(2)" id="btnRegistro"> Registrar</button>
+        <button class="color_btn3c" onclick="funIngresar(0)" id="btnInvitado"> Invitado</button>
         <span id="mMensaje1a" class="text-danger"></span>
+        <div id="clockDiv" class=" text-center text-black-50"></div>
     </div>
-    <div>
 
-    </div>
-    <div id="clockDiv" class=" text-center"></div>
+    
     <!-- Mainly scripts -->
     <script src="@Url.Content("~/Content/ydrsoft/JSutil.js")"></script>
     <script src="@Url.Content("~/Content/js/jquery-3.1.1.min.js")"></script>

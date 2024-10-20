@@ -1,0 +1,93 @@
+﻿
+
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div id="divProductos"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div id="divPreferencias"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div id="divAlergias"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    inicioVista();
+
+    async function inicioVista() {
+        await funVerAlergias();
+        await funVerPreferencias();
+        await funVerProductos();
+    }
+   
+    async function funVerPreferencias() {
+        console.log("entro preferencias");
+        var dataString = new FormData();
+        dataString.append("IdUser", document.getElementById('editId').value);
+
+        const response = await fetch('/APreferencia/Preferencia/LoadPref', {
+            method: 'POST',
+            body: dataString
+        });
+
+        if (response.ok) {
+            const data = await response.text();
+            $("#divPreferencias").html(data);
+        } else {
+            alert('Error en la respuesta: ' + response.status, response.statusText);
+        }
+    }
+
+
+    async function funVerAlergias(entrada) {
+        console.log("entro alergias");
+        var dataString = new FormData();
+        dataString.append("IdUser", document.getElementById('editId').value);
+
+        const response = await fetch('/APreferencia/Preferencia/LoadAlergia', {
+            method: 'POST',
+            body: dataString
+        });
+
+        if (response.ok) {
+            const data = await response.text();
+            $("#divAlergias").html(data);
+        } else {
+            alert('Error en la respuesta: ' + response.status, response.statusText);
+        }
+    }
+
+    async function funVerProductos(entrada) {
+        console.log("entro productos");
+        var dataString = new FormData();
+        dataString.append("IdUser", document.getElementById('editId').value);
+
+        const response = await fetch('/APreferencia/Preferencia/LoadProducto', {
+            method: 'POST',
+            body: dataString
+        });
+
+        if (response.ok) {
+            const data = await response.text();
+            $("#divProductos").html(data);
+        } else {
+            alert('Error en la respuesta: ' + response.status, response.statusText);
+        }
+    }
+</script>

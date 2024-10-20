@@ -17,6 +17,13 @@ namespace ydRSoft.Web.Areas.APreferencia.Controllers
             return View();
         }
 
+        public async Task<ActionResult> VistaPref(int IdUser)
+        {
+            var mLista = await PrefBL.ListaPref(IdUser, Util.Variables.PREFRENCIA);
+
+            return PartialView("_vistaPref", mLista);
+        }
+
         public async Task<ActionResult> LoadPref(int IdUser)
         {
             var mLista = await PrefBL.ListaPref(IdUser,Util.Variables.PREFRENCIA);
@@ -43,7 +50,7 @@ namespace ydRSoft.Web.Areas.APreferencia.Controllers
                 }
             }
 
-            return PartialView("_loadAlergia", mLista);
+            return PartialView("_loadProducto", mLista);
         }
 
     }

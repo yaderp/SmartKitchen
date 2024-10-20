@@ -61,7 +61,7 @@
                                 <li><a class="dropdown-item" href="contacts.html">Contacto</a></li>
                                 <li><a class="dropdown-item" href="mailbox.html">Correo</a></li>
                                 <li class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="@Url.Action("LogOut","Home", new {Area = String.Empty})">Cerrar sesión</a></li>
+                                <li><a class="dropdown-item" href="@Url.Action("Index","Home", new {Area = String.Empty})">Cerrar sesión</a></li>
                             </ul>
                         </div>
                         <div class="logo-element">
@@ -70,13 +70,13 @@
                     </li>
 
                     <li class="active">
-                        <a href="#"><i class="fa fa-home"></i> <span class="nav-label">INICIO</span> </a>
+                        <a href="@Url.Action("Index","Home", new {Area = String.Empty})"><i class="fa fa-home"></i> <span class="nav-label">INICIO</span> </a>
                     </li>
                     <li>
                         <a href="#" id="IndexUsuario" onclick="funVerUsuario(this)"><i class="fa fa-user"></i> <span class="nav-label">Usuarios</span> </a>
                     </li>
                     <li>
-                        <a href="#" id="IndexPref" onclick="funVerPreferencias(this)"><i class="fa fa-send-o"></i> <span class="nav-label">Preferencias</span> </a>
+                        <a href="#" id="IndexPref" onclick="funVistaPref()"><i class="fa fa-send-o"></i> <span class="nav-label">Preferencias</span> </a>
                     </li>
 
                 </ul>

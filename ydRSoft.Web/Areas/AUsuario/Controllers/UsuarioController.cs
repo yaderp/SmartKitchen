@@ -41,7 +41,7 @@ namespace ydRSoft.Web.Areas.AUsuario.Controllers
                     usuarioModel.Nombres = Nombre;
                     usuarioModel.Clave = Clave;
 
-                    resultado = await UsuarioBL.SetUsuario(usuarioModel);
+                    resultado = await UsuarioBL.Agregar(usuarioModel);
                     if (!resultado.Error)
                     {
                         Session["objUser"] = usuarioModel;

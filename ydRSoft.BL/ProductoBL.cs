@@ -61,10 +61,12 @@ namespace ydRSoft.BL
             var listaModel = new List<ProductoModel>();
             try {
                 var mLista = await ConsultarApi(image64);
+
                 mLista = ValidaPosXY(mLista, listaSession);
+
                 foreach (var item in mLista)
                 {
-                    var temp = await ProductoBD.GetProducto(item.Nombre);
+                    var temp = InfoSing.Instance.GetProdNombre(item.Nombre);
                     if(temp != null)
                     {
                         temp.PosX = item.PosX;
@@ -85,6 +87,10 @@ namespace ydRSoft.BL
         public static async Task<RpstaModel> Guardar(ProductoModel objModel)
         {
             var resultado = await ProductoBD.Guardar(objModel);
+            if(resultado != null && !resultado.Error)
+            {
+                await InfoSing.Instance.LoadProductos();
+            }
 
             return resultado;
         }

@@ -1,2 +1,54 @@
 ﻿
+@using ydRSoft.Modelo
+@model List<PrefModel>
+
+@{
+    var mLista = Model == null ? new List<PrefModel>() : Model;
+    int Index = 0;
+}
+
 <h3>Alergias</h3>
+<hr />
+
+<table class="table">
+    <thead>
+        <tr>
+            <th width="1"> # </th>
+            <th width="10">Producto</th>
+            <th width="1"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (mLista.Count > 0)
+        {
+            foreach (var item in mLista)
+            {
+                Index++;
+
+                <tr class="text-navy">
+                    <td>@item.Id</td>
+                    <td class="text-default">@Index.ToString().PadLeft(2, '0')</td>
+                    <td>@item.Nombre</td>
+                    <td class="btn-group">
+                        <button class="btn btnydR-Eliminar btn btn-xs" onclick="funbtn2b(@item.Id)"><i class="fa fa-trash"></i></button>
+                    </td>
+                </tr>
+            }
+        }
+        
+    </tbody>
+    <tfoot>
+        <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+    </tfoot>
+</table>
+
+<script>
+    function funbtn2b(id) {
+        console.log("alergia 2 -> " + id);
+        funEliminarPref(id, 2);
+    }
+</script>

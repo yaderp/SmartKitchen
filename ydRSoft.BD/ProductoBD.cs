@@ -102,18 +102,18 @@ namespace ydRSoft.BD
                                 {
                                     producto = new ProductoModel
                                     {
-                                        Id = reader.IsDBNull(0) ? reader.GetInt32(0):0,
-                                        Nombre = reader.IsDBNull(1) ? reader.GetString(1):"",
-                                        Calorias = reader.IsDBNull(2) ? reader.GetString(2) : "",
-                                        Proteinas = reader.IsDBNull(3) ? reader.GetString(3) : "",
-                                        Colesterol = reader.IsDBNull(4) ? reader.GetString(4) : "",
-                                        Fibra = reader.IsDBNull(5) ? reader.GetString(5) : "",
-                                        Carbohidratos = reader.IsDBNull(6) ? reader.GetString(6) : "",
-                                        Azucares = reader.IsDBNull(7) ? reader.GetString(7) : "",
-                                        Sodio = reader.IsDBNull(8) ? reader.GetString(8) : "",
-                                        Calcio = reader.IsDBNull(9) ? reader.GetString(9) : "",
-                                        Grasa = reader.IsDBNull(10) ? reader.GetString(10) : "",
-                                        Estado = reader.IsDBNull(11) ? reader.GetInt32(11) : 0
+                                        Id = !reader.IsDBNull(0) ? reader.GetInt32(0):0,
+                                        Nombre = !reader.IsDBNull(1) ? reader.GetString(1):"",
+                                        Calorias = !reader.IsDBNull(2) ? reader.GetString(2) : "",
+                                        Proteinas = !reader.IsDBNull(3) ? reader.GetString(3) : "",
+                                        Colesterol = !reader.IsDBNull(4) ? reader.GetString(4) : "",
+                                        Fibra = !reader.IsDBNull(5) ? reader.GetString(5) : "",
+                                        Carbohidratos = !reader.IsDBNull(6) ? reader.GetString(6) : "",
+                                        Azucares = !reader.IsDBNull(7) ? reader.GetString(7) : "",
+                                        Sodio = !reader.IsDBNull(8) ? reader.GetString(8) : "",
+                                        Calcio = !reader.IsDBNull(9) ? reader.GetString(9) : "",
+                                        Grasa = !reader.IsDBNull(10) ? reader.GetString(10) : "",
+                                        Estado = !reader.IsDBNull(11) ? reader.GetInt32(11) : 0
                                     };
                                 }
                             }
@@ -163,18 +163,18 @@ namespace ydRSoft.BD
                                 {
                                     var prod = new ProductoModel
                                     {
-                                        Id = reader.IsDBNull(0) ? reader.GetInt32(0) : 0,
-                                        Nombre = reader.IsDBNull(1) ? reader.GetString(1) : "",
-                                        Calorias = reader.IsDBNull(2) ? reader.GetString(2) : "",
-                                        Proteinas = reader.IsDBNull(3) ? reader.GetString(3) : "",
-                                        Colesterol = reader.IsDBNull(4) ? reader.GetString(4) : "",
-                                        Fibra = reader.IsDBNull(5) ? reader.GetString(5) : "",
-                                        Carbohidratos = reader.IsDBNull(6) ? reader.GetString(6) : "",
-                                        Azucares = reader.IsDBNull(7) ? reader.GetString(7) : "",
-                                        Sodio = reader.IsDBNull(8) ? reader.GetString(8) : "",
-                                        Calcio = reader.IsDBNull(9) ? reader.GetString(9) : "",
-                                        Grasa = reader.IsDBNull(10) ? reader.GetString(10) : "",
-                                        Estado = reader.IsDBNull(11) ? reader.GetInt32(11) : 0
+                                        Id = !reader.IsDBNull(0) ? reader.GetInt32(0) : 0,
+                                        Nombre = !reader.IsDBNull(1) ? reader.GetString(1) : "",
+                                        Calorias = !reader.IsDBNull(2) ? reader.GetString(2) : "",
+                                        Proteinas = !reader.IsDBNull(3) ? reader.GetString(3) : "",
+                                        Colesterol = !reader.IsDBNull(4) ? reader.GetString(4) : "",
+                                        Fibra = !reader.IsDBNull(5) ? reader.GetString(5) : "",
+                                        Carbohidratos = !reader.IsDBNull(6) ? reader.GetString(6) : "",
+                                        Azucares = !reader.IsDBNull(7) ? reader.GetString(7) : "",
+                                        Sodio = !reader.IsDBNull(8) ? reader.GetString(8) : "",
+                                        Calcio = !reader.IsDBNull(9) ? reader.GetString(9) : "",
+                                        Grasa = !reader.IsDBNull(10) ? reader.GetString(10) : "",
+                                        Estado = !reader.IsDBNull(11) ? reader.GetInt32(11) : 0
                                     };
 
                                     mLista.Add(prod);

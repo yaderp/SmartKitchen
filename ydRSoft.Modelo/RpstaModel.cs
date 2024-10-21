@@ -16,6 +16,7 @@ namespace ydRSoft.Modelo
         public string Mensaje { get; set; }
 
         public RpstaModel() {
+            Id = 0;
             Error = true;
             Mensaje = "Intente en otro Momento";
         }

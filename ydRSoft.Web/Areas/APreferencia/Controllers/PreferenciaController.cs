@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using ydRSoft.BL;
+using ydRSoft.Modelo;
 
 namespace ydRSoft.Web.Areas.APreferencia.Controllers
 {
@@ -42,16 +43,34 @@ namespace ydRSoft.Web.Areas.APreferencia.Controllers
         {
             var listaPref = await PrefBL.ListaPref(IdUser, 0);
             var mLista = await ProductoBL.ListaProducto();
-            if (listaPref != null && mLista !=null) { 
-            
-                if(listaPref.Count > 0)
-                {
-                    mLista.RemoveAll(item => listaPref.Exists(x => x.Id == item.Id));
+            if (listaPref != null && mLista !=null) {
+
+                foreach (var item in mLista) {
+                    if (listaPref.Exists(x => x.IdProd == item.Id))
+                    {
+                        item.Estado = 2;
+                    }
                 }
             }
 
             return PartialView("_loadProducto", mLista);
         }
+
+
+        public async Task<JsonResult> AddProdPref(PrefModel objModel)
+        {
+            var resultado = await PrefBL.Agregar(objModel);
+
+            return Json(resultado, JsonRequestBehavior.AllowGet);
+        }
+
+        public async Task<JsonResult> EliminarPref(int IdPref)
+        {
+            var resultado = await PrefBL.Eliminar(IdPref);
+
+            return Json(resultado, JsonRequestBehavior.AllowGet);
+        }
+        
 
     }
 }

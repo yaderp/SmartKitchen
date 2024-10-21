@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
@@ -14,42 +15,75 @@ namespace ydRSoft.BL
     {
 
         public static async Task<RecetaModel> ObtenerRecetas(string TxtProd)
-        {
-            var objModel = new RecetaModel();
-
+        {            
             var mLista = await ConsultarOpenAI(TxtProd);
-            var listaId = await Guardar(mLista);
-
-            if (listaId != null)
-            {
-                if (listaId.Count > 0)
-                {
-                    objModel = await GetRecetaId(listaId[0]);
-                    objModel.ListaId = listaId;
-                }
-            }
+            var objModel = await GuardarConsulta(mLista);
 
             return objModel;
          }
 
+        public static async Task<RpstaModel> Guardar(RecetaModel objModel)
+        {
+            RpstaModel rpstaModel = new RpstaModel();
+
+            try
+            {
+                if (objModel == null || objModel.Ingredientes == null || objModel.PasosPreparacion == null)
+                    return new RpstaModel();
+
+                objModel.StrIngre = ListaToStr(objModel.Ingredientes);
+                objModel.StrPas = ListaToStr(objModel.PasosPreparacion);
+
+                rpstaModel = await RecetaBD.Guardar(objModel);
+
+            }
+            catch (Exception ex)
+            {
+                await Util.LogError.SaveLog("guardara Receta BL " + ex.Message);
+            }
+
+            return rpstaModel;
+        }
+
+
         public static async Task<RecetaModel> GetRecetaId(int IdR)
         {
             var receta = await RecetaBD.GetRecetaId(IdR);
+            if (receta != null && receta.StrIngre != null && receta.StrPas != null)
+            {
+                receta.Ingredientes = StrToLista(receta.StrIngre);
+                receta.PasosPreparacion = StrToLista(receta.StrPas);
+            }
+
             return receta;
         }
 
-        public static async Task<List<RecetaModel>> GetRecetaCat(string Categoria)
+        public static async Task<RecetaModel> GetRecetaCat(int opc)
         {
+            string Categoria = "postres";
+            switch (opc)
+            {
+                case 1: Categoria = "entradas"; break;
+                case 2: Categoria = "sopas"; break;
+                case 3: Categoria = "principal"; break;
+                default: Categoria = "postres"; break;
+            }
+
             var mlista = await RecetaBD.GetRecetaCat(Categoria);
-            return mlista;
+            var objModel = new RecetaModel(mlista);
+            
+
+            return objModel;
         }
 
-        public static async Task<RecetaModel> GetRecetaFav(int IdUser)
+        public static async Task<RecetaModel> ListaFavorito(int IdUser)
         {
-            var receta = await RecetaBD.GetRecetaId(IdUser);
-            return receta;
+            var mLista = await FavoritoBD.GetAll(IdUser);
+            var objModel = new RecetaModel(mLista);
+            return objModel;
         }
 
+        #region
         public static async Task<List<RecetaModel>> ConsultarOpenAI(string txtProducto)
         {
             List<RecetaModel> mLista = new List<RecetaModel>();
@@ -76,37 +110,76 @@ namespace ydRSoft.BL
             return mLista;
         }
 
-        public static async Task<List<int>> Guardar(List<RecetaModel> mLista)
+        public static async Task<RecetaModel> GuardarConsulta(List<RecetaModel> mLista)
         {
+            RecetaModel recetaModel = new RecetaModel();
             List<int> listaId = new List<int>();
-            try {
-                if (mLista != null)
-                {                    
-                    foreach (var item in mLista)
-                    {
-                        var recetaId = await ExisteReceta(item.Nombre);
-                        if (recetaId==0)
-                        {
-                            recetaId = await RecetaBD.Guardar(item);
-                        }                        
 
-                        if (recetaId > 0) listaId.Add(recetaId);
+            if (mLista == null || mLista.Count == 0)
+            {
+                return recetaModel;
+            }
+
+            try
+            {
+                foreach (var item in mLista)
+                {
+                    var receta = await RecetaBD.GetRecetaNom(item.Nombre);
+                    if (receta != null)
+                    {           
+                        listaId.Add(receta.Id);
+
+                        if (listaId.Count == 0)
+                        {
+                            recetaModel = receta;
+                        }
+                    }
+                    else
+                    {
+                        var resultado = await Guardar(item);
+                        if (!resultado.Error)
+                        {
+                            if (listaId.Count == 0)
+                            {
+                                recetaModel = item;
+                                recetaModel.Id = resultado.Id;
+                            }
+
+                            listaId.Add(resultado.Id);
+                        }
                     }
                 }
             }
-            catch(Exception ex) {
+            catch (Exception ex)
+            {
                 await Util.LogError.SaveLog("Guardar Receta " + ex.Message);
             }
 
-            return listaId;
+            recetaModel.ListaId = listaId;
+            return recetaModel;
         }
+        
+        #endregion
 
-        private static async Task<int> ExisteReceta(string Nombre)
+        private static string ListaToStr(List<string> mLista)
         {
-            var receta = await RecetaBD.GetRecetaNom(Nombre);
-            if(receta != null) return receta.Id;
+            string txtlista = string.Empty;
 
-            return 0;
+            if (mLista == null) return txtlista;
+
+            txtlista = string.Join("|", mLista);
+
+            return txtlista;
         }
+
+        private static List<string> StrToLista(string txtlista)
+        {
+            if (string.IsNullOrEmpty(txtlista)) return new List<string>();
+
+            var mLista = txtlista.Split('|').ToList();
+
+            return mLista;
+        }
+
     }
 }

@@ -40,7 +40,7 @@ namespace ydRSoft.BD
                             cmd.Parameters.AddWithValue("@iduser", objModel.IdUser);
                             cmd.Parameters.AddWithValue("@idprod", objModel.IdProd);
                             cmd.Parameters.AddWithValue("@fechareg", DateTime.Now);
-                            cmd.Parameters.AddWithValue("@estado", 1);
+                            cmd.Parameters.AddWithValue("@estado", objModel.Estado);
 
                             var respuesta = await cmd.ExecuteNonQueryAsync();
 
@@ -125,15 +125,13 @@ namespace ydRSoft.BD
             return mLista;
         }
 
-
-
         public static async Task<List<PrefModel>> GetPref(int IdUser)
         {
             List<PrefModel> mLista = new List<PrefModel>();
             string query = @"SELECT r.id, r.iduser, r.idprod, p.nombre, r.estado
                              FROM preferencias r
                              inner join producto p on r.idprod = p.id
-                             WHERE r.iduser = @iduser";
+                             WHERE r.iduser = @iduser and r.estado > 0";
 
             using (MySqlConnection connection = MySqlConexion.MyConexion())
             {
@@ -180,13 +178,11 @@ namespace ydRSoft.BD
             return mLista;
         }
 
-
-
-        public static async Task<RpstaModel> EditarPref(int Estado, int Id)
+        public static async Task<RpstaModel> EditarPref(int Id, int Estado)
         {
             RpstaModel model = new RpstaModel();
 
-            string query = @"UPDATE usuario 
+            string query = @"UPDATE preferencias 
                             SET estado = @estado
                             WHERE id = @id";
 

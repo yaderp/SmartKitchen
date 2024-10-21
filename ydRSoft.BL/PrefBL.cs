@@ -17,6 +17,13 @@ namespace ydRSoft.BL
             return resultado;
         }
 
+        public static async Task<RpstaModel> Eliminar(int IdPref)
+        {
+            var resultado = await PrefBD.EditarPref(IdPref, 0);
+
+            return resultado;
+        }
+
         public static async Task<List<PrefModel>> ListaPref(int Id, int Estado)
         {
             List<PrefModel> mLista;

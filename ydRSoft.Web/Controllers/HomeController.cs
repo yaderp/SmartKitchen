@@ -16,34 +16,21 @@ namespace ydRSoft.Web.Controllers
     {
         public async Task<ActionResult> Index()
         {
-            //var resultado = await UsuarioBL.SetUsuario(new UsuarioModel());
-            //var lista = await UsuarioBL.getALl();
+            await InfoSing.Instance.LoadProductos();
+           
+            
+            var mUser = await UsuarioBL.GetUsuarioId(2);
 
-            //List<string> list = new List<string>() { "PLATANO", "MANZANA", "NARANJA", "ZANAHORIA", "BROCOLI", "LIMON", "TOMATE"};
+            Session["objUser"] = mUser;
+            return RedirectToAction("Index", "Configuracion", new { Area = "AConfiguracion" });
 
-            //foreach (var item in list) {
-            //    var prod = await ProductoBL.ConsultaProdAPI(item);
-            //    if (prod != null) {
-            //        prod.Nombre = item;
-            //        var resultado = await ProductoBL.Guardar(prod);
-            //    }
-
+            //UsuarioModel model = (UsuarioModel)Session["objUser"];
+            //if (model == null)
+            //{
+            //    return RedirectToAction("Login");
             //}
 
-
-
-            //var mUser = await UsuarioBL.GetUsuarioId(2);
-
-            //Session["objUser"] = mUser;
-            //return RedirectToAction("Index", "Configuracion", new { Area = "AConfiguracion" });
-
-            UsuarioModel model = (UsuarioModel)Session["objUser"];
-            if (model == null)
-            {
-                return RedirectToAction("Login");
-            }
-
-            return View(model);
+            //return View(model);
         }
 
         public ActionResult Login()

@@ -32,28 +32,13 @@ CREATE TABLE receta (
     nombre VARCHAR(750),
     ndif INT NOT NULL,
     tiempo INT NOT NULL, 
-    categoria varchar(100),
+    categoria VARCHAR(100),
+    ingredientes TEXT,
+    preparacion TEXT,
     fechareg DATETIME,
     estado INT NOT NULL
 );
 
-CREATE TABLE ingredientes (
-    id INT PRIMARY KEY AUTO_INCREMENT,    
-    idreceta INT NOT NULL,
-    detalle VARCHAR(2500)
-);
-
-ALTER TABLE ingredientes
-ADD FOREIGN KEY (idreceta) REFERENCES receta(id);
-
-CREATE TABLE preparacion (
-    id INT PRIMARY KEY AUTO_INCREMENT,    
-    idreceta INT NOT NULL,
-    detalle VARCHAR(7500)
-);
-
-ALTER TABLE preparacion
-ADD FOREIGN KEY (idreceta) REFERENCES receta(id);
 
 CREATE TABLE favoritos (
     id INT PRIMARY KEY AUTO_INCREMENT, 
@@ -64,10 +49,10 @@ CREATE TABLE favoritos (
 );
 
 ALTER TABLE favoritos
-ADD FOREIGN KEY (idreceta) REFERENCES receta(id);
+ADD FOREIGN KEY (idreceta) REFERENCES receta(id) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE favoritos
-ADD FOREIGN KEY (iduser) REFERENCES usuario(id);
+ADD FOREIGN KEY (iduser) REFERENCES usuario(id) ON DELETE CASCADE ON UPDATE CASCADE;
 
 
 CREATE TABLE producto (
@@ -105,8 +90,10 @@ ADD FOREIGN KEY (idprod) REFERENCES producto(id);
 select *from usuario;
 select *from receta;
 
-select *from ingredientes;
-select *from preparacion;
 
 select *from producto;
 select *from preferencias;
+
+
+delete from preferencias
+where id>0

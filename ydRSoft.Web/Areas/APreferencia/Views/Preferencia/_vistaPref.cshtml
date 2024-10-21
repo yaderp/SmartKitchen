@@ -2,21 +2,21 @@
 
 
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-6">
         <div class="panel panel-default">
             <div class="panel-body">
                 <div id="divProductos"></div>
             </div>
         </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
         <div class="panel panel-default">
             <div class="panel-body">
                 <div id="divPreferencias"></div>
             </div>
         </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
         <div class="panel panel-default">
             <div class="panel-body">
                 <div id="divAlergias"></div>
@@ -35,7 +35,7 @@
         await funVerPreferencias();
         await funVerProductos();
     }
-   
+
     async function funVerPreferencias() {
         console.log("entro preferencias");
         var dataString = new FormData();
@@ -50,10 +50,9 @@
             const data = await response.text();
             $("#divPreferencias").html(data);
         } else {
-            alert('Error en la respuesta: ' + response.status, response.statusText);
+            alert('Error ver pref: ' + response.status, response.statusText);
         }
     }
-
 
     async function funVerAlergias(entrada) {
         console.log("entro alergias");
@@ -69,7 +68,7 @@
             const data = await response.text();
             $("#divAlergias").html(data);
         } else {
-            alert('Error en la respuesta: ' + response.status, response.statusText);
+            alert('Error ver alergias ' + response.status, response.statusText);
         }
     }
 
@@ -90,4 +89,71 @@
             alert('Error en la respuesta: ' + response.status, response.statusText);
         }
     }
+</script>
+
+<script id="_vista_preferencias">   
+
+    async function funAddProdPref(idprod, estado) {
+        console.log("entro preferencias");
+        var dataString = new FormData();
+        dataString.append("IdUser", document.getElementById('editId').value);
+        dataString.append("IdProd", idprod);
+        dataString.append("Estado", estado);
+
+        const response = await fetch('/APreferencia/Preferencia/AddProdPref', {
+            method: 'POST',
+            body: dataString
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+
+            if (!data.Error) {
+                funVerProductos();
+                if (estado == 1) {
+                    funVerPreferencias();
+                } else {
+                    funVerAlergias();
+                }
+
+            } else {
+                Alert(data.Mensaje);
+            }
+
+        } else {
+            alert('Error en la respuesta: ' + response.status, response.statusText);
+        }
+    }
+
+
+    async function funEliminarPref(id,estado) {
+        console.log("entro preferencias");
+        var dataString = new FormData();
+        dataString.append("IdPref", id);
+
+        const response = await fetch('/APreferencia/Preferencia/EliminarPref', {
+            method: 'POST',
+            body: dataString
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+
+            if (!data.Error) {
+                funVerProductos();
+                if (estado == 1) {
+                    funVerPreferencias();
+                } else {
+                    funVerAlergias();
+                }
+
+            } else {
+                Alert(data.Mensaje);
+            }
+
+        } else {
+            alert('Error en la respuesta: ' + response.status, response.statusText);
+        }
+    }
+
 </script>

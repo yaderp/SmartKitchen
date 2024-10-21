@@ -13,18 +13,37 @@ namespace ydRSoft.Modelo
         public int NivelDificultad { get; set; }
         public int Tiempo { get; set; }
         public string Categoria { get; set; }
+        public string StrIngre { get; set; }
+        public string StrPas { get; set; }
         public DateTime FechaRegistro { get; set; }
         public int Estado { get; set; }
         public List<string> Ingredientes { get; set; }
-        public List<string> PasosPreparacion { get; set; }
-        
+        public List<string> PasosPreparacion { get; set; }        
         public List<int> ListaId { get; set; }
 
         public RecetaModel() {
             Id = 0;
+            Nombre = "nombre01";
+            Categoria = "categoria";
+            StrIngre = "ingredientes";
+            StrPas = "pasos";
             Ingredientes = new List<string>();
             PasosPreparacion = new List<string>();
             ListaId = new List<int>();
+        }
+
+        public RecetaModel(List<int> ListaId)
+        {            
+            this.ListaId = ListaId;
+
+            if (ListaId != null && ListaId.Count > 0)
+            {
+                Id = ListaId[0];
+            }
+            else
+            {
+                Id = 0;
+            }
         }
     }
 }

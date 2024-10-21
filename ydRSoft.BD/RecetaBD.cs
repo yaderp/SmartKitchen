@@ -12,434 +12,276 @@ namespace ydRSoft.BD
 {
     public class RecetaBD
     {
-        public static async Task<int> Guardar(RecetaModel objModel)
+        public static async Task<RpstaModel> Guardar(RecetaModel objModel)
         {
-            int recetaId = 0;
-            List<string> ingredientes = objModel.Ingredientes;
-            List<string> pasosPreparacion = objModel.PasosPreparacion;
+            RpstaModel rpstaModel = new RpstaModel();
 
-            MySqlConnection connection = MySqlConexion.MyConexion();
-            if (connection != null)
+            if (objModel == null || objModel.Ingredientes == null || objModel.PasosPreparacion == null)
             {
-                MySqlTransaction transaction = null;
-                await connection.OpenAsync();               
-                try
-                {
-                    transaction = await connection.BeginTransactionAsync();
-
-                    string insertRecetaQuery = @"INSERT INTO receta (nombre, ndif, tiempo,categoria, fechareg, estado) 
-                                             VALUES (@nombre, @ndif, @tiempo,@categoria, @fechareg, @estado);
-                                             SELECT LAST_INSERT_ID();";
-
-
-                    using (MySqlCommand command = new MySqlCommand(insertRecetaQuery, connection, transaction))
-                    {                       
-                        command.Parameters.AddWithValue("@nombre", objModel.Nombre);
-                        command.Parameters.AddWithValue("@ndif", objModel.NivelDificultad);
-                        command.Parameters.AddWithValue("@tiempo", objModel.Tiempo);
-                        command.Parameters.AddWithValue("@categoria", objModel.Categoria);
-                        command.Parameters.AddWithValue("@fechareg", DateTime.Now);
-                        command.Parameters.AddWithValue("@estado", 1);
-                        
-                        recetaId = Convert.ToInt32(await command.ExecuteScalarAsync());
-                    }
-
-                    string insertIngredienteQuery = @"INSERT INTO ingredientes (idreceta, detalle) VALUES (@idreceta, @detalle);";
-
-                    using (MySqlCommand command = new MySqlCommand(insertIngredienteQuery, connection, transaction))
-                    {
-                        command.Parameters.AddWithValue("@idreceta", recetaId);
-                        foreach (string ingrediente in ingredientes)
-                        {
-                            command.Parameters.AddWithValue("@detalle", ingrediente);
-                            await command.ExecuteNonQueryAsync();
-                            command.Parameters.Clear();
-                            command.Parameters.AddWithValue("@idreceta", recetaId);
-                        }
-                    }
-
-                    
-                    string insertPreparacionQuery = @"INSERT INTO preparacion (idreceta, detalle) VALUES (@idreceta, @detalle);";
-
-                    using (MySqlCommand command = new MySqlCommand(insertPreparacionQuery, connection, transaction))
-                    {
-                        command.Parameters.AddWithValue("@idreceta", recetaId);
-                        foreach (string paso in pasosPreparacion)
-                        {
-                            command.Parameters.AddWithValue("@detalle", paso);
-                            await command.ExecuteNonQueryAsync();
-                            command.Parameters.Clear(); 
-                            command.Parameters.AddWithValue("@idreceta", recetaId);
-                        }
-                    }
-
-                    await transaction.CommitAsync();
-
-                }
-                catch (Exception ex)
-                {
-                    if (transaction != null)
-                    {
-                        await transaction.RollbackAsync();
-                    }
-                    recetaId = -1;
-                    await Util.LogError.SaveLog("Guardar Receta |" + ex.Message);
-                }
-                finally
-                {
-                    await connection.CloseAsync();
-                }
+                rpstaModel.Error = true;
+                rpstaModel.Mensaje = "El modelo de receta o las listas de ingredientes/pasos no pueden ser nulos.";
+                return rpstaModel;
             }
 
-            return recetaId;
-        }
+            string query = @"INSERT INTO receta (nombre, ndif, tiempo,categoria,ingredientes,preparacion, fechareg, estado) 
+                                        VALUES (@nombre, @ndif, @tiempo,@categoria,@ingredientes,@preparacion, @fechareg, @estado);
+                                        SELECT LAST_INSERT_ID();";
 
-        public static async Task<List<RecetaModel>> GetRecetaCat(string Categoria)
-        {
-            List<RecetaModel> mLista = new List<RecetaModel>();
-
-            MySqlConnection connection = MySqlConexion.MyConexion();
-            if (connection != null)
+            using (MySqlConnection connection = MySqlConexion.MyConexion()) 
             {
-                try
-                {
+                if (connection != null)
+                {          
                     await connection.OpenAsync();
 
-                    string query = @"
-                    SELECT r.id, r.nombre, r.ndif, r.tiempo, r.categoria, r.fechareg, r.estado
-                    FROM receta r
-                    WHERE r.categoria = @categoria
-                    LIMIT 5;";
-
-                    RecetaModel receta = null;
-
-                    using (MySqlCommand command = new MySqlCommand(query, connection))
+                    try
                     {
-                        command.Parameters.AddWithValue("@categoria", Categoria);
-
-                        using (MySqlDataReader reader = command.ExecuteReader())
+                        using (MySqlCommand command = new MySqlCommand(query, connection))
                         {
-                            while (await reader.ReadAsync())
-                            {
-                                receta = new RecetaModel
-                                {
-                                    Id = reader.GetInt32("id"),
-                                    Nombre = reader.GetString("nombre"),
-                                    NivelDificultad = reader.GetInt32("ndif"),
-                                    Tiempo = reader.GetInt32("tiempo"),
-                                    Categoria = reader.GetString("categoria"),
-                                    FechaRegistro = reader.GetDateTime("fechareg"),
-                                    Estado = reader.GetInt32("estado")
-                                };
+                            command.Parameters.AddWithValue("@nombre", objModel.Nombre);
+                            command.Parameters.AddWithValue("@ndif", objModel.NivelDificultad);
+                            command.Parameters.AddWithValue("@tiempo", objModel.Tiempo);
+                            command.Parameters.AddWithValue("@categoria", objModel.Categoria);
+                            command.Parameters.AddWithValue("@ingredientes", objModel.StrIngre);
+                            command.Parameters.AddWithValue("@preparacion", objModel.StrPas);
+                            command.Parameters.AddWithValue("@fechareg", DateTime.Now);
+                            command.Parameters.AddWithValue("@estado", 1);
 
-                                mLista.Add(receta);
+                            var resultado = await command.ExecuteScalarAsync();
+
+                            if (resultado != null && int.TryParse(resultado.ToString(), out int recetaId) && recetaId > 0)
+                            {
+                                rpstaModel.Id = recetaId;
+                                rpstaModel.Error = false;
+                                rpstaModel.Mensaje = "Receta guardada con éxito.";
+                            }
+                            else
+                            {
+                                rpstaModel.Mensaje = "Error al guardar";
+                                return rpstaModel;
                             }
                         }
-                    }                   
-                }
-                catch (Exception ex)
-                {
-                    await Util.LogError.SaveLog("Receta Getcat | " + ex.Message);
-                }
-                finally
-                {
-                    await connection.CloseAsync();
+                    }
+                    catch (Exception ex)
+                    {                        
+                        await Util.LogError.SaveLog("Guardar Receta |" + ex.Message);
+                    }
+                    finally
+                    {
+                        await connection.CloseAsync();
+                    }
                 }
             }
 
+            return rpstaModel;
+        }
+
+
+        public static async Task<List<int>> GetRecetaCat(string Categoria)
+        {
+            List<int> mLista = new List<int>();
+
+            if (string.IsNullOrEmpty(Categoria)) {
+                return mLista;
+            }
+            
+            string query = @"SELECT
+                            id
+                            FROM receta
+                            WHERE categoria = @categoria
+                            LIMIT 5;";
+
+
+            using (MySqlConnection connection = MySqlConexion.MyConexion())
+            {
+                if (connection != null)
+                {
+                    try
+                    {
+                        await connection.OpenAsync();
+
+                        using (MySqlCommand command = new MySqlCommand(query, connection))
+                        {
+                            command.Parameters.AddWithValue("@categoria", Categoria);
+
+                            using (DbDataReader reader = await command.ExecuteReaderAsync())
+                            {
+                                while (await reader.ReadAsync())
+                                {
+                                    int Id = !reader.IsDBNull(0) ? reader.GetInt32(0) : 0;
+                                    mLista.Add(Id);
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        await Util.LogError.SaveLog("Receta Getcat | " + ex.Message);
+                    }
+                    finally
+                    {
+                        await connection.CloseAsync();
+                    }
+                }
+            }
             return mLista;
         }
 
         public static async Task<RecetaModel> GetRecetaId(int recetaId)
         {
-            RecetaModel objModel = new RecetaModel();
+            RecetaModel objModel = null;
 
-            MySqlConnection connection = MySqlConexion.MyConexion();
-            if (connection != null)
+            string query = @"SELECT
+                            id, nombre, ndif, tiempo, categoria, ingredientes, preparacion, fechareg, estado
+                            FROM receta
+                            WHERE id = @recetaId;";
+
+            using (MySqlConnection connection = MySqlConexion.MyConexion())
             {
-                try
+                if (connection != null)
                 {
-                    await connection.OpenAsync();
-
-                    // Consulta principal de receta
-                    string query = @"
-                                SELECT r.id, r.nombre, r.ndif, r.tiempo, r.categoria, r.fechareg, r.estado
-                                FROM receta r
-                                WHERE r.id = @recetaId;";
-
-                    RecetaModel receta = null;
-
-                    using (MySqlCommand command = new MySqlCommand(query, connection))
+                    try
                     {
-                        command.Parameters.AddWithValue("@recetaId", recetaId);
+                        await connection.OpenAsync();
 
-                        using (DbDataReader reader = await command.ExecuteReaderAsync())
-                        {
-                            if (await reader.ReadAsync())
-                            {
-                                receta = new RecetaModel
-                                {
-                                    Id = reader.GetInt32(0),
-                                    Nombre = reader.GetString(1),
-                                    NivelDificultad = reader.GetInt32(2),
-                                    Tiempo = reader.GetInt32(3),
-                                    Categoria = reader.GetString(4),
-                                    FechaRegistro = reader.GetDateTime(5),
-                                    Estado = reader.GetInt32(6)
-                                };
-                            }
-                        }
-                    }
-
-                    if (receta != null)
-                    {
-                        objModel = receta;
-
-                        // Consulta de ingredientes
-                        string queryIngredientes = @"
-                SELECT detalle AS ingrediente
-                FROM ingredientes
-                WHERE idreceta = @recetaId;";
-
-                        using (MySqlCommand command = new MySqlCommand(queryIngredientes, connection))
+                        using (MySqlCommand command = new MySqlCommand(query, connection))
                         {
                             command.Parameters.AddWithValue("@recetaId", recetaId);
 
                             using (DbDataReader reader = await command.ExecuteReaderAsync())
                             {
-                                while (await reader.ReadAsync())
+                                if (await reader.ReadAsync())
                                 {
-                                    receta.Ingredientes.Add(reader.GetString(0));
+                                    var receta = new RecetaModel
+                                    {
+                                        Id = !reader.IsDBNull(0) ? reader.GetInt32(0) : 0,
+                                        Nombre = !reader.IsDBNull(1) ? reader.GetString(1) : "",
+                                        NivelDificultad = !reader.IsDBNull(2) ? reader.GetInt32(2) : 0,
+                                        Tiempo = !reader.IsDBNull(3) ? reader.GetInt32(3) : 0,
+                                        Categoria = !reader.IsDBNull(4) ? reader.GetString(4) : "",
+                                        StrIngre = !reader.IsDBNull(5) ? reader.GetString(5) : "",
+                                        StrPas = !reader.IsDBNull(6) ? reader.GetString(6) : "",
+                                        FechaRegistro = !reader.IsDBNull(7) ? reader.GetDateTime(7) : DateTime.Now,
+                                        Estado = !reader.IsDBNull(8) ? reader.GetInt32(8) : 0
+                                    };
+
+                                    objModel = receta;
                                 }
                             }
                         }
-
-                        // Consulta de pasos
-                        string queryPasos = @"
-                SELECT detalle AS paso
-                FROM preparacion
-                WHERE idreceta = @recetaId;";
-
-                        using (MySqlCommand command = new MySqlCommand(queryPasos, connection))
-                        {
-                            command.Parameters.AddWithValue("@recetaId", recetaId);
-
-                            using (DbDataReader reader = await command.ExecuteReaderAsync())
-                            {
-                                while (await reader.ReadAsync())
-                                {
-                                    receta.PasosPreparacion.Add(reader.GetString(0));
-                                }
-                            }
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    await Util.LogError.SaveLog("Receta GetId | " + ex.Message);
-                }
-                finally
-                {
-                    await connection.CloseAsync();
-                }
-            }
-
-            return objModel;
-        }
-
-
-        public static async Task<RecetaModel> GetRecetaId_otro(int recetaId)
-        {
-            RecetaModel objModel = new RecetaModel();
-            string connectionString = "Server=localhost;Database=dbydrconta;User Id=ydrsoft;Password=Palomita16;";
-
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                await connection.OpenAsync();
-
-                string query = @"
-            SELECT r.id, r.nombre, r.ndif, r.tiempo, r.categoria, r.fechareg, r.estado
-            FROM receta r
-            WHERE r.id = @recetaId;";
-
-                RecetaModel receta = null;
-
-                using (MySqlCommand command = new MySqlCommand(query, connection))
-                {
-                    command.Parameters.AddWithValue("@recetaId", recetaId);
-
-                    using (DbDataReader reader = await command.ExecuteReaderAsync())
-                    {
-                        if (await reader.ReadAsync())
-                        {
-                            receta = new RecetaModel
-                            {
-                                Id = reader.GetInt32(1),
-                                Nombre = reader.GetString(2),
-                                NivelDificultad = reader.GetInt32(3),
-                                Tiempo = reader.GetInt32(4),
-                                Categoria = reader.GetString(5),
-                                FechaRegistro = reader.GetDateTime(6),
-                                Estado = reader.GetInt32(7)
-                            };
-                        }
-                    }
-                }
-
-                if (receta != null)
-                {
-                    objModel = receta;
-                    // Aquí puedes agregar la lógica para obtener ingredientes y pasos si es necesario
-                }
-            }
-
-            return objModel;
-        }
-
-        public static async Task<RecetaModel> GetRecetaId_test(int recetaId)
-        {
-            RecetaModel objModel = new RecetaModel();
-
-            MySqlConnection connection = MySqlConexion.MyConexion();
-            if (connection != null)
-            {
-                try
-                {
-                    await connection.OpenAsync();
-
-                    string query = @"
-                    SELECT r.id, r.nombre, r.ndif, r.tiempo, r.categoria, r.fechareg, r.estado
-                    FROM receta r
-                    WHERE r.id = @recetaId;";
-
-                    RecetaModel receta = null;
-
-                    using (MySqlCommand command = new MySqlCommand(query, connection))
-                    {                        
-                        command.Parameters.AddWithValue("@recetaId", recetaId);
-
-                        using (MySqlDataReader reader = command.ExecuteReader())
-                        {
-                            if (await reader.ReadAsync())
-                            {
-                                receta = new RecetaModel
-                                {
-                                    Id = reader.GetInt32("id"),
-                                    Nombre = reader.GetString("nombre"),
-                                    NivelDificultad = reader.GetInt32("ndif"),
-                                    Tiempo = reader.GetInt32("tiempo"),
-                                    Categoria = reader.GetString("categoria"),
-                                    FechaRegistro = reader.GetDateTime("fechareg"),
-                                    Estado = reader.GetInt32("estado")
-                                };
-                            }
-                        }
-                    }
-
-                    if (receta != null) {
-                        objModel = receta;
                         
-                        string queryIngredientes = @"
-                        SELECT detalle AS ingrediente
-                        FROM ingredientes
-                        WHERE idreceta = @recetaId;";
-
-                        using (MySqlCommand command = new MySqlCommand(queryIngredientes, connection))
-                        {
-                            command.Parameters.AddWithValue("@recetaId", recetaId);
-
-                            using (MySqlDataReader reader = command.ExecuteReader())
-                            {
-                                while (await reader.ReadAsync())
-                                {
-                                    receta.Ingredientes.Add(reader.GetString("ingrediente"));
-                                }
-                            }
-                        }
-
-                        string queryPasos = @"
-                        SELECT detalle AS paso
-                        FROM preparacion
-                        WHERE idreceta = @recetaId;";
-
-                        using (MySqlCommand command = new MySqlCommand(queryPasos, connection))
-                        {
-                            command.Parameters.AddWithValue("@recetaId", recetaId);
-
-                            using (MySqlDataReader reader = command.ExecuteReader())
-                            {
-                                while (await reader.ReadAsync())
-                                {
-                                    receta.PasosPreparacion.Add(reader.GetString("paso"));
-                                }
-                            }
-                        }
-
                     }
-                }
-                catch (Exception ex)
-                {
-                    await Util.LogError.SaveLog("Receta GetId | " + ex.Message);
-                }
-                finally
-                {
-                    await connection.CloseAsync();
+                    catch (Exception ex)
+                    {
+                        objModel = null;
+                        await Util.LogError.SaveLog("Receta GetId | " + ex.Message);
+                    }
+                    finally
+                    {
+                        await connection.CloseAsync();
+                    }
                 }
             }
 
             return objModel;
         }
-
 
         public static async Task<RecetaModel> GetRecetaNom(string Nombre)
         {
             RecetaModel objModel = null;
 
-            MySqlConnection connection = MySqlConexion.MyConexion();
-            if (connection != null)
+            string query = @"SELECT
+                            id, nombre, ndif, tiempo, categoria, ingredientes, preparacion, fechareg, estado
+                            FROM receta
+                            WHERE nombre = @recetaNom;";
+
+            using (MySqlConnection connection = MySqlConexion.MyConexion())
             {
-                try
+                if (connection != null)
                 {
-                    await connection.OpenAsync();
-
-                    string query = @"
-                    SELECT r.id, r.nombre, r.ndif, r.tiempo, r.categoria, r.fechareg, r.estado
-                    FROM receta r
-                    WHERE r.nombre = @nombre;";
-
-                    using (MySqlCommand command = new MySqlCommand(query, connection))
+                    try
                     {
-                        command.Parameters.AddWithValue("@nombre", Nombre);
+                        await connection.OpenAsync();
 
-                        using (MySqlDataReader reader = command.ExecuteReader())
+                        using (MySqlCommand command = new MySqlCommand(query, connection))
                         {
-                            if (await reader.ReadAsync())
+                            command.Parameters.AddWithValue("@recetaNom", Nombre);
+
+                            using (DbDataReader reader = await command.ExecuteReaderAsync())
                             {
-                                objModel = new RecetaModel
+                                if (await reader.ReadAsync())
                                 {
-                                    Id = reader.GetInt32("id"),
-                                    Nombre = reader.GetString("nombre"),
-                                    NivelDificultad = reader.GetInt32("ndif"),
-                                    Tiempo = reader.GetInt32("tiempo"),
-                                    Categoria = reader.GetString("categoria"),
-                                    FechaRegistro = reader.GetDateTime("fechareg"),
-                                    Estado = reader.GetInt32("estado")
-                                };
+                                    var receta = new RecetaModel
+                                    {
+                                        Id = !reader.IsDBNull(0) ? reader.GetInt32(0) : 0,
+                                        Nombre = !reader.IsDBNull(1) ? reader.GetString(1) : "",
+                                        NivelDificultad = !reader.IsDBNull(2) ? reader.GetInt32(2) : 0,
+                                        Tiempo = !reader.IsDBNull(3) ? reader.GetInt32(3) : 0,
+                                        Categoria = !reader.IsDBNull(4) ? reader.GetString(4) : "",
+                                        StrIngre = !reader.IsDBNull(5) ? reader.GetString(5) : "",
+                                        StrPas = !reader.IsDBNull(6) ? reader.GetString(6) : "",
+                                        FechaRegistro = !reader.IsDBNull(7) ? reader.GetDateTime(7) : DateTime.Now,
+                                        Estado = !reader.IsDBNull(8) ? reader.GetInt32(8) : 0
+                                    };
+
+                                    objModel = receta;
+                                }
                             }
                         }
+
                     }
-                }
-                catch (Exception ex)
-                {
-                    await Util.LogError.SaveLog("Receta GetNOmbre | " + ex.Message);
-                }
-                finally
-                {
-                    await connection.CloseAsync();
+                    catch (Exception ex)
+                    {
+                        objModel = null;
+                        await Util.LogError.SaveLog("Receta GetNombre | " + ex.Message);
+                    }
+                    finally
+                    {
+                        await connection.CloseAsync();
+                    }
                 }
             }
 
             return objModel;
+        }
+
+        public static async Task<bool> IsDuplicado(string Nombre)
+        {
+            string query = "SELECT COUNT(*) FROM receta WHERE nombre = @nombre;";
+            bool encontrado = false;
+
+            using (MySqlConnection conexion = MySqlConexion.MyConexion())
+            {
+                if (conexion != null)
+                {
+                    try
+                    {
+                        await conexion.OpenAsync();
+
+                        using (MySqlCommand cmd = new MySqlCommand(query, conexion))
+                        {
+                            cmd.Parameters.AddWithValue("@nombre", Nombre);                            
+
+                            var count = Convert.ToInt32(await cmd.ExecuteScalarAsync());
+
+                            if (count > 0)
+                            {
+                                encontrado = true;
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        encontrado=false;
+                        await Util.LogError.SaveLog("Duplicado Receta " + ex.Message);
+                    }
+                    finally
+                    {
+                        await conexion.CloseAsync();
+                    }
+                }
+            }
+
+            return encontrado;
         }
     }
 }

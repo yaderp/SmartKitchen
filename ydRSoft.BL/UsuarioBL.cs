@@ -12,7 +12,7 @@ namespace ydRSoft.BL
     public class UsuarioBL
     {
 
-        public static async Task<RpstaModel> SetUsuario(UsuarioModel objModel)
+        public static async Task<RpstaModel> Agregar(UsuarioModel objModel)
         {
             if (objModel != null)
             {
@@ -23,7 +23,7 @@ namespace ydRSoft.BL
                 }
             }
 
-            var resultado = await UsuarioBD.GuardarUsuario(objModel);
+            var resultado = await UsuarioBD.Guardar(objModel);
 
             return resultado;
         }
@@ -42,11 +42,9 @@ namespace ydRSoft.BL
             return resultado;
         }
 
-        public static async Task<List<UsuarioModel>> getAll()
+        public static async Task<List<UsuarioModel>> getAll(int Estado)
         {
-            var resultado = await UsuarioBD.LeerUsuariosAsync();
-
-            var aux = await UsuarioBD.LeerUsuarios();
+            var resultado = await UsuarioBD.GetAll(Estado);
 
             return resultado;
         }

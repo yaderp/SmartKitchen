@@ -45,7 +45,6 @@ namespace ydRSoft.BL
             return rpstaModel;
         }
 
-
         public static async Task<RecetaModel> GetRecetaId(int IdR)
         {
             var receta = await RecetaBD.GetRecetaId(IdR);
@@ -82,8 +81,42 @@ namespace ydRSoft.BL
             var objModel = new RecetaModel(mLista);
             return objModel;
         }
+               
 
-        #region
+        public static async Task<List<RecetaModel>> ListaFiltro(string Categoria,int Dificultad)
+        {
+            List<RecetaModel> lista = new List<RecetaModel>();
+
+            if (string.IsNullOrEmpty(Categoria) && Dificultad == 0) {
+
+                lista = await RecetaBD.ListaRecetas();
+            }
+            else
+            {
+                if (Dificultad == 0)
+                {
+                    lista = await RecetaBD.ListaCategoria(Categoria);
+                }
+                else
+                {
+                    lista = await RecetaBD.ListaDificultad(Dificultad);
+                }
+            }
+
+            return lista;
+        }
+
+        public static async Task<List<RecetaModel>> ListaFiltroNombre(string Nombre)
+        {
+            if (string.IsNullOrEmpty(Nombre))
+            {
+                return new List<RecetaModel>();
+            }
+
+            return await RecetaBD.ListaRecetaNombre(Nombre);
+        }
+
+        #region OpenAi
         public static async Task<List<RecetaModel>> ConsultarOpenAI(string txtProducto)
         {
             List<RecetaModel> mLista = new List<RecetaModel>();

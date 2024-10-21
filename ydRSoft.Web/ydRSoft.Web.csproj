@@ -302,6 +302,8 @@
     <Content Include="Areas\APreferencia\Views\Preferencia\_loadAlergia.cshtml" />
     <Content Include="Areas\APreferencia\Views\Preferencia\_vistaPref.cshtml" />
     <Content Include="Areas\APreferencia\Views\Preferencia\_loadProducto.cshtml" />
+    <Content Include="Areas\AReceta\Views\Receta\_listaRecetas.cshtml" />
+    <Content Include="Areas\AReceta\Views\Receta\_vistaRecetas.cshtml" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />

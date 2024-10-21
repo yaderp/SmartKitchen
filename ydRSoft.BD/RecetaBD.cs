@@ -75,7 +75,6 @@ namespace ydRSoft.BD
             return rpstaModel;
         }
 
-
         public static async Task<List<int>> GetRecetaCat(string Categoria)
         {
             List<int> mLista = new List<int>();
@@ -87,7 +86,7 @@ namespace ydRSoft.BD
             string query = @"SELECT
                             id
                             FROM receta
-                            WHERE categoria = @categoria
+                            WHERE categoria = @categoria and estado > 1
                             LIMIT 5;";
 
 
@@ -192,7 +191,7 @@ namespace ydRSoft.BD
             string query = @"SELECT
                             id, nombre, ndif, tiempo, categoria, ingredientes, preparacion, fechareg, estado
                             FROM receta
-                            WHERE nombre = @recetaNom;";
+                            WHERE nombre = @recetaNom and estado > 0;";
 
             using (MySqlConnection connection = MySqlConexion.MyConexion())
             {
@@ -242,6 +241,226 @@ namespace ydRSoft.BD
             }
 
             return objModel;
+        }
+
+        public static async Task<List<RecetaModel>> ListaDificultad(int Dificultad)
+        {
+            List<RecetaModel> mLista = new List<RecetaModel>();
+
+            if (Dificultad <= 0)
+            {
+                return mLista;
+            }
+
+            string query = @"SELECT
+                            id, nombre, ndif, tiempo, categoria
+                            FROM receta
+                            WHERE ndif = @ndif and estado > 0;";
+
+            using (MySqlConnection connection = MySqlConexion.MyConexion())
+            {
+                if (connection != null)
+                {
+                    try
+                    {
+                        await connection.OpenAsync();
+
+                        using (MySqlCommand command = new MySqlCommand(query, connection))
+                        {
+                            command.Parameters.AddWithValue("@ndif", Dificultad);
+
+                            using (DbDataReader reader = await command.ExecuteReaderAsync())
+                            {
+                                while (await reader.ReadAsync())
+                                {
+                                    var receta = new RecetaModel()
+                                    {
+                                        Id = !reader.IsDBNull(0) ? reader.GetInt32(0) : 0,
+                                        Nombre = !reader.IsDBNull(1) ? reader.GetString(1) : "",
+                                        NivelDificultad = !reader.IsDBNull(2) ? reader.GetInt32(2) : 0,
+                                        Tiempo = !reader.IsDBNull(3) ? reader.GetInt32(3) : 0,
+                                        Categoria = !reader.IsDBNull(4) ? reader.GetString(4) : ""
+                                    };
+
+                                    mLista.Add(receta);
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        await Util.LogError.SaveLog("Receta lista Dif | " + ex.Message);
+                    }
+                    finally
+                    {
+                        await connection.CloseAsync();
+                    }
+                }
+            }
+
+            return mLista;
+        }
+
+        public static async Task<List<RecetaModel>> ListaCategoria(string Categoria)
+        {
+            List<RecetaModel> mLista = new List<RecetaModel>();
+
+            if (string.IsNullOrEmpty(Categoria))
+            {
+                return mLista;
+            }
+
+            string query = @"SELECT
+                            id, nombre, ndif, tiempo, categoria
+                            FROM receta
+                            WHERE categoria = @categoria and estado > 0;";
+
+            using (MySqlConnection connection = MySqlConexion.MyConexion())
+            {
+                if (connection != null)
+                {
+                    try
+                    {
+                        await connection.OpenAsync();
+
+                        using (MySqlCommand command = new MySqlCommand(query, connection))
+                        {
+                            command.Parameters.AddWithValue("@categoria", Categoria);
+
+                            using (DbDataReader reader = await command.ExecuteReaderAsync())
+                            {
+                                while (await reader.ReadAsync())
+                                {
+                                    var receta = new RecetaModel()
+                                    {
+                                        Id = !reader.IsDBNull(0) ? reader.GetInt32(0) : 0,
+                                        Nombre = !reader.IsDBNull(1) ? reader.GetString(1) : "",
+                                        NivelDificultad = !reader.IsDBNull(2) ? reader.GetInt32(2) : 0,
+                                        Tiempo = !reader.IsDBNull(3) ? reader.GetInt32(3) : 0,
+                                        Categoria = !reader.IsDBNull(4) ? reader.GetString(4) : ""
+                                    };
+
+                                    mLista.Add(receta);
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        await Util.LogError.SaveLog("Receta lista Dif | " + ex.Message);
+                    }
+                    finally
+                    {
+                        await connection.CloseAsync();
+                    }
+                }
+            }
+
+            return mLista;
+        }
+
+        public static async Task<List<RecetaModel>> ListaRecetas()
+        {
+            List<RecetaModel> mLista = new List<RecetaModel>();
+
+            string query = @"SELECT
+                            id, nombre, ndif, tiempo, categoria
+                            FROM receta
+                            WHERE estado > 0";
+
+            using (MySqlConnection connection = MySqlConexion.MyConexion())
+            {
+                if (connection != null)
+                {
+                    try
+                    {
+                        await connection.OpenAsync();
+
+                        using (MySqlCommand command = new MySqlCommand(query, connection))
+                        {
+                            using (DbDataReader reader = await command.ExecuteReaderAsync())
+                            {
+                                while (await reader.ReadAsync())
+                                {
+                                    var receta = new RecetaModel()
+                                    {
+                                        Id = !reader.IsDBNull(0) ? reader.GetInt32(0) : 0,
+                                        Nombre = !reader.IsDBNull(1) ? reader.GetString(1) : "",
+                                        NivelDificultad = !reader.IsDBNull(2) ? reader.GetInt32(2) : 0,
+                                        Tiempo = !reader.IsDBNull(3) ? reader.GetInt32(3) : 0,
+                                        Categoria = !reader.IsDBNull(4) ? reader.GetString(4) : ""
+                                    };
+
+                                    mLista.Add(receta);
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        await Util.LogError.SaveLog("Receta lista Dif | " + ex.Message);
+                    }
+                    finally
+                    {
+                        await connection.CloseAsync();
+                    }
+                }
+            }
+
+            return mLista;
+        }
+
+        public static async Task<List<RecetaModel>> ListaRecetaNombre(string Nombre)
+        {
+            List<RecetaModel> mLista = new List<RecetaModel>();
+
+            string query = @"SELECT
+                            id, nombre, ndif, tiempo, categoria
+                            FROM receta
+                            WHERE nombre LIKE @nombre and estado > 0";
+
+            using (MySqlConnection connection = MySqlConexion.MyConexion())
+            {
+                if (connection != null)
+                {
+                    try
+                    {
+                        await connection.OpenAsync();
+
+                        using (MySqlCommand command = new MySqlCommand(query, connection))
+                        {
+                            command.Parameters.AddWithValue("@nombre", "%" + Nombre + "%");
+
+                            using (DbDataReader reader = await command.ExecuteReaderAsync())
+                            {
+                                while (await reader.ReadAsync())
+                                {
+                                    var receta = new RecetaModel()
+                                    {
+                                        Id = !reader.IsDBNull(0) ? reader.GetInt32(0) : 0,
+                                        Nombre = !reader.IsDBNull(1) ? reader.GetString(1) : "",
+                                        NivelDificultad = !reader.IsDBNull(2) ? reader.GetInt32(2) : 0,
+                                        Tiempo = !reader.IsDBNull(3) ? reader.GetInt32(3) : 0,
+                                        Categoria = !reader.IsDBNull(4) ? reader.GetString(4) : ""
+                                    };
+
+                                    mLista.Add(receta);
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        await Util.LogError.SaveLog("Receta lista Nombre| " + ex.Message);
+                    }
+                    finally
+                    {
+                        await connection.CloseAsync();
+                    }
+                }
+            }
+
+            return mLista;
         }
 
         public static async Task<bool> IsDuplicado(string Nombre)

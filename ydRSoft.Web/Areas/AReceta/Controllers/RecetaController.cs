@@ -69,5 +69,24 @@ namespace ydRSoft.Web.Areas.AReceta.Controllers
 
             return txtProd;
         }
+
+        public ActionResult VistaRecetas()
+        {
+            return PartialView("_vistaRecetas");
+        }
+
+        public async Task<ActionResult> ListaRecetas(string Categoria, int Dificultad)
+        {
+            var resultado = await RecetaBL.ListaFiltro(Categoria,Dificultad);
+
+            return PartialView("_listaRecetas", resultado);
+        }
+
+        public async Task<ActionResult> ListaRecetaNombre(string Nombre)
+        {
+            var resultado = await RecetaBL.ListaFiltroNombre(Nombre);
+
+            return PartialView("_listaRecetas", resultado);
+        }
     }
 }

@@ -51,5 +51,20 @@
         }
     }
 
+    async function funVistaRecetas() {
+        var dataString = new FormData();
+        const response = await fetch('/AReceta/Receta/VistaRecetas', {
+            method: 'POST',
+            body: dataString,
+        });
+
+        if (response.ok) {
+            const data = await response.text();
+            $("#resulVista").html(data);
+        } else {
+            alert('Error en la respuesta: ' + response.status, response.statusText);
+        }
+    }
+
 </script>
 

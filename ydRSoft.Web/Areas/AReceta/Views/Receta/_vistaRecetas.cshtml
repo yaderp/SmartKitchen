@@ -1,0 +1,122 @@
+﻿
+<div class="row text-navy">
+    <div class="col-md-4">
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <h3> Nueva Receta</h3>
+                <hr />
+            </div>
+        </div>
+        
+    </div>
+    <div class="col-md-8">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div>
+                            Categoria
+                        </div>
+                        <div class="form-group">
+                            <select id="mCategoria" class="form-control" onchange="funBuscarFiltro(1)">
+                                <option value="">Todos</option>
+                                <option value="entrada">entrada</option>
+                                <option value="sopas">sopas</option>
+                                <option value="principal">principal</option>
+                                <option value="postre">postres</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div> Nivel Dificultad</div>
+                        <div class="form-group">                            
+                            <select id="mDificultad" class="form-control" onchange="funBuscarFiltro(2)">
+                                <option value="0">Todos</option>
+                                <option value="1">Nivel 1</option>
+                                <option value="2">Nivel 2</option>
+                                <option value="3">Nivel 3</option>
+                                <option value="4">Nivel 4</option>
+                                <option value="5">Nivel 5</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <input id="mFiltro" onkeyup="funBuscarNombre()" class="form-control text-navy text-uppercase" placeholder="Nombre Receta" autocomplete="off"> <span class="input-group-append">
+                                <button type="button" id="btnBuscar" onclick="funBuscarNombre()" class="btn btn-primary"><i class="fa fa-search"></i> Buscar  </button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div id="vistaRece1as"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script>
+
+    funFiltro();
+
+    async function funBuscarNombre() {
+
+        let nombre = document.getElementById('mFiltro').value;
+        if (nombre.trim() === "") {
+            funFiltro();
+        } else {
+            var dataString = new FormData();
+            dataString.append("Nombre", nombre);
+
+            const response = await fetch('/AReceta/Receta/ListaRecetaNombre', {
+                method: 'POST',
+                body: dataString,
+            });
+
+            if (response.ok) {
+                const data = await response.text();
+                $("#vistaRece1as").html(data);
+            } else {
+                alert('Error en la respuesta: ' + response.status, response.statusText);
+            }
+        }
+    }
+
+    async function funBuscarFiltro(tipo) {
+
+        if (tipo == 1) {
+            document.getElementById('mDificultad').value = 0;
+        } else {
+            document.getElementById('mCategoria').value = "";
+        }
+        
+        funFiltro();
+    }
+
+    async function funFiltro() {
+        console.log("entro al filtro cat dif");
+        var dataString = new FormData();
+        dataString.append("Categoria", document.getElementById('mCategoria').value);
+        dataString.append("Dificultad", document.getElementById('mDificultad').value);
+
+        const response = await fetch('/AReceta/Receta/ListaRecetas', {
+            method: 'POST',
+            body: dataString,
+        });
+
+        if (response.ok) {
+            const data = await response.text();
+            $("#vistaRece1as").html(data);
+        } else {
+            alert('Error en la respuesta: ' + response.status, response.statusText);
+        }
+    }
+</script>

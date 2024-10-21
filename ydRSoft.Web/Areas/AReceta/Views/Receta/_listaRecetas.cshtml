@@ -1,0 +1,58 @@
+﻿@using ydRSoft.Modelo
+@model List<RecetaModel>
+
+@{
+    List<RecetaModel> mLista = Model != null ? Model : new List<RecetaModel>();
+    int Index = 0;
+}
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th width="1"> # </th>
+            <th>Nombre</th>
+            <th width="10%"><i class="fa fa-clock-o"></i> </th>
+            <th width="10%">Dificultad</th>
+            <th width="10%">Categoria</th>
+            <th width="1"></th>
+            <th width="1"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (mLista.Count > 0)
+        {
+            foreach (var item in mLista)
+            {
+                Index++;
+
+                <tr class="text-navy">
+                    <td hidden>@item.Id</td>
+                    <td class="text-default">@Index.ToString().PadLeft(2, '0')</td>
+                    <td>@item.Nombre</td>
+                    <td>@item.Tiempo min</td>
+                    <td>Nivel @item.NivelDificultad</td>
+                    <td>@item.Categoria</td>
+                    <td>
+                        <button class="btn btnydR-Success btn btn-xs" onclick="funReceta1a(@item.Id)"> <i class="fa fa-heart"></i> </button>
+                    </td>
+                    <td>
+                        <button class="btn btnydR-Rojo btn btn-xs" onclick="funReceta1b(@item.Id)"> <i class="fa fa-trash"></i> </button>
+                    </td>
+                </tr>
+            }
+        }
+
+    </tbody>
+    <tfoot>
+        <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>            
+        </tr>
+    </tfoot>
+</table>

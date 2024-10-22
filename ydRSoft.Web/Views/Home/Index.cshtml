@@ -9,6 +9,8 @@
     {
         mUser = Model;
     }
+
+    string imgPerfil = "/Content/Imagenes/Logos/" + mUser.Nombres + ".jpg";
 }
 
 <div class="texto-Arriba-Der" id="vistaMenu" hidden>
@@ -22,6 +24,7 @@
         </div>
     </div>
 </div>
+
 <input id="nomydR" value="Bienvenido a SmartKitchen. @mUser.Nombres" hidden />
 <input id="nomInydRc" value="@mUser.Nombres.ToUpper()" hidden/>
 <input id="IdInydRc" value="@mUser.Id" hidden />
@@ -30,18 +33,9 @@
         <div class="ydRNombres text-success">
             <div class="row">
                 <div class="col-md-2">
-                    @if (mUser.IdSexo == ydRSoft.Util.Variables.MUJER)
-                    {
-                        <div>
-                            <img class="img-circle" width="40" src="~/Content/Imagenes/Avatar/mujer.png" />
-                        </div>
-                    }
-                    else
-                    {
-                        <div>
-                            <img class="img-circle" height="40" src="~/Content/Imagenes/Avatar/hombre.png" />
-                        </div>
-                    }
+                    <div>
+                        <img width="40" class="ImgydR-Circulo" src="@imgPerfil" />
+                    </div>
                 </div>
                 <div class="col-md-10" id="idLoad1">
                     Bienvenido : @mUser.Nombres.ToUpper()

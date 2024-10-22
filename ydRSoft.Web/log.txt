@@ -1,3 +1,13 @@
 ﻿
 20/10/2024 18:36:25 | ->Error al enviar la solicitud.
 20/10/2024 18:36:28 | ->Error al enviar la solicitud.
+21/10/2024 20:48:23 | Receta lista Dif | You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '<= 0 and ndif = 2 WHERE estado > 0' at line 1
+21/10/2024 20:48:25 | Receta lista Dif | You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '<= 0 and ndif = 3 WHERE estado > 0' at line 1
+21/10/2024 20:48:37 | Receta lista Dif | You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '<= 0 and ndif = 3 WHERE estado > 0' at line 1
+21/10/2024 20:48:39 | Receta lista Dif | You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '<= 0 and ndif = 3 WHERE estado > 0' at line 1
+21/10/2024 20:49:00 | Receta lista Dif | You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '<= 0 and ndif = 3 WHERE estado > 0' at line 1
+21/10/2024 20:50:58 | Receta lista Dif | You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '= principal and  ndif = 3 WHERE estado > 0' at line 1
+21/10/2024 20:54:11 | Receta lista Dif | You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '= 'principal' and  ndif = 3 WHERE estado > 0' at line 1
+21/10/2024 20:57:17 | Receta lista Dif | You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '<= 15 and ndif = 3 and  categoria = 'principal' WHERE estado > 0' at line 1
+21/10/2024 20:57:19 | Receta lista Dif | You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '<= 30 and ndif = 3 and  categoria = 'principal' WHERE estado > 0' at line 1
+21/10/2024 20:57:20 | Receta lista Dif | You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '<= 999 and ndif = 3 and  categoria = 'principal' WHERE estado > 0' at line 1

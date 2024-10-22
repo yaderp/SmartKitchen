@@ -68,7 +68,6 @@ namespace ydRSoft.BD
             return model;
         }
 
-
         public static async Task<ProductoModel> GetProducto(string Nombre)
         {
             ProductoModel producto = null;
@@ -135,7 +134,6 @@ namespace ydRSoft.BD
             return producto;
         }
 
-
         public static async Task<List<ProductoModel>> ListaProd()
         {
             List<ProductoModel> mLista = new List<ProductoModel>();
@@ -196,5 +194,44 @@ namespace ydRSoft.BD
             return mLista;
         }
 
+        public static async Task<bool> IsDuplicado(string Nombre)
+        {
+            string query = "SELECT COUNT(*) FROM producto WHERE nombre = @nombre;";
+            bool encontrado = false;
+
+            using (MySqlConnection conexion = MySqlConexion.MyConexion())
+            {
+                if (conexion != null)
+                {
+                    try
+                    {
+                        await conexion.OpenAsync();
+
+                        using (MySqlCommand cmd = new MySqlCommand(query, conexion))
+                        {
+                            cmd.Parameters.AddWithValue("@nombre", Nombre);
+
+                            var count = Convert.ToInt32(await cmd.ExecuteScalarAsync());
+
+                            if (count > 0)
+                            {
+                                encontrado = true;
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        encontrado = false;
+                        await Util.LogError.SaveLog("Duplicado Producto " + ex.Message);
+                    }
+                    finally
+                    {
+                        await conexion.CloseAsync();
+                    }
+                }
+            }
+
+            return encontrado;
+        }
     }
 }

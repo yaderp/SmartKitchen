@@ -17,8 +17,8 @@ namespace ydRSoft.Web.Controllers
         public async Task<ActionResult> Index()
         {
             await InfoSing.Instance.LoadProductos();
-           
-            
+            await SugerenciaBL.LoadSugerencia();
+
             var mUser = await UsuarioBL.GetUsuarioId(2);
 
             Session["objUser"] = mUser;

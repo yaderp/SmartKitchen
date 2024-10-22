@@ -51,6 +51,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RecetaModel.cs" />
     <Compile Include="RpstaModel.cs" />
+    <Compile Include="SugerModel.cs" />
     <Compile Include="TipoModel.cs" />
     <Compile Include="UsuarioModel.cs" />
   </ItemGroup>

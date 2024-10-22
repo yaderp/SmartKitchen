@@ -138,7 +138,8 @@ namespace ydRSoft.BD
                                     Correo = !reader.IsDBNull(3) ? reader.GetString(3) : "",
                                     Clave = !reader.IsDBNull(4) ? reader.GetString(4) : "",
                                     IdSexo = !reader.IsDBNull(5) ? reader.GetInt32(5) : 0,
-                                    Estado = !reader.IsDBNull(6) ? reader.GetInt32(6) : 0
+                                    IdCargo = !reader.IsDBNull(6) ? reader.GetInt32(6) : 0,
+                                    Estado = !reader.IsDBNull(7) ? reader.GetInt32(7) : 0
                                 };
                             }
                         }
@@ -190,7 +191,8 @@ namespace ydRSoft.BD
                                     Correo = !reader.IsDBNull(3) ? reader.GetString(3) : "",
                                     Clave = !reader.IsDBNull(4) ? reader.GetString(4) : "",
                                     IdSexo = !reader.IsDBNull(5) ? reader.GetInt32(5) : 0,
-                                    Estado = !reader.IsDBNull(6) ? reader.GetInt32(6) : 0
+                                    IdCargo = !reader.IsDBNull(6) ? reader.GetInt32(6) : 0,
+                                    Estado = !reader.IsDBNull(7) ? reader.GetInt32(7) : 0
                                 };
                             }
                         }
@@ -295,7 +297,8 @@ namespace ydRSoft.BD
                                         Correo = !reader.IsDBNull(3) ? reader.GetString(3) : "",
                                         Clave = !reader.IsDBNull(4) ? reader.GetString(4) : "",
                                         IdSexo = !reader.IsDBNull(5) ? reader.GetInt32(5) : 0,
-                                        Estado = !reader.IsDBNull(6) ? reader.GetInt32(6) : 0
+                                        IdCargo = !reader.IsDBNull(6) ? reader.GetInt32(6) : 0,
+                                        Estado = !reader.IsDBNull(7) ? reader.GetInt32(7) : 0
                                     };
 
                                     mLista.Add(mUser);

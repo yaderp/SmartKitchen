@@ -23,8 +23,8 @@ namespace ydRSoft.BD
                 return rpstaModel;
             }
 
-            string query = @"INSERT INTO receta (nombre, ndif, tiempo,categoria,ingredientes,preparacion, fechareg, estado) 
-                                        VALUES (@nombre, @ndif, @tiempo,@categoria,@ingredientes,@preparacion, @fechareg, @estado);
+            string query = @"INSERT INTO receta (nombre, ndif, tiempo,categoria,ingredientes,preparacion, fechareg, estado,calificacion) 
+                                        VALUES (@nombre, @ndif, @tiempo,@categoria,@ingredientes,@preparacion, @fechareg, @estado,@calificacion);
                                         SELECT LAST_INSERT_ID();";
 
             using (MySqlConnection connection = MySqlConexion.MyConexion()) 
@@ -44,8 +44,8 @@ namespace ydRSoft.BD
                             command.Parameters.AddWithValue("@ingredientes", objModel.StrIngre);
                             command.Parameters.AddWithValue("@preparacion", objModel.StrPas);
                             command.Parameters.AddWithValue("@fechareg", DateTime.Now);
-                            command.Parameters.AddWithValue("@estado", 1);
-
+                            command.Parameters.AddWithValue("@estado", objModel.Estado);
+                            command.Parameters.AddWithValue("@calificacion", 0);
                             var resultado = await command.ExecuteScalarAsync();
 
                             if (resultado != null && int.TryParse(resultado.ToString(), out int recetaId) && recetaId > 0)
@@ -130,7 +130,7 @@ namespace ydRSoft.BD
             RecetaModel objModel = null;
 
             string query = @"SELECT
-                            id, nombre, ndif, tiempo, categoria, ingredientes, preparacion, fechareg, estado
+                            id, nombre, ndif, tiempo, categoria, ingredientes, preparacion, fechareg, estado, calificacion
                             FROM receta
                             WHERE id = @recetaId;";
 
@@ -160,7 +160,8 @@ namespace ydRSoft.BD
                                         StrIngre = !reader.IsDBNull(5) ? reader.GetString(5) : "",
                                         StrPas = !reader.IsDBNull(6) ? reader.GetString(6) : "",
                                         FechaRegistro = !reader.IsDBNull(7) ? reader.GetDateTime(7) : DateTime.Now,
-                                        Estado = !reader.IsDBNull(8) ? reader.GetInt32(8) : 0
+                                        Estado = !reader.IsDBNull(8) ? reader.GetInt32(8) : 0,
+                                        Calificacion = !reader.IsDBNull(9) ? reader.GetInt32(9) : 0
                                     };
 
                                     objModel = receta;
@@ -189,9 +190,9 @@ namespace ydRSoft.BD
             RecetaModel objModel = null;
 
             string query = @"SELECT
-                            id, nombre, ndif, tiempo, categoria, ingredientes, preparacion, fechareg, estado
+                            id, nombre, ndif, tiempo, categoria, ingredientes, preparacion, fechareg, estado, calificacion
                             FROM receta
-                            WHERE nombre = @recetaNom and estado > 0;";
+                            WHERE nombre = @recetaNom";
 
             using (MySqlConnection connection = MySqlConexion.MyConexion())
             {
@@ -219,7 +220,8 @@ namespace ydRSoft.BD
                                         StrIngre = !reader.IsDBNull(5) ? reader.GetString(5) : "",
                                         StrPas = !reader.IsDBNull(6) ? reader.GetString(6) : "",
                                         FechaRegistro = !reader.IsDBNull(7) ? reader.GetDateTime(7) : DateTime.Now,
-                                        Estado = !reader.IsDBNull(8) ? reader.GetInt32(8) : 0
+                                        Estado = !reader.IsDBNull(8) ? reader.GetInt32(8) : 0,
+                                        Calificacion = !reader.IsDBNull(9) ? reader.GetInt32(9) : 0,
                                     };
 
                                     objModel = receta;
@@ -243,6 +245,54 @@ namespace ydRSoft.BD
             return objModel;
         }
 
+
+        public static async Task<List<RecetaModel>> ListaFiltros(string query)
+        {
+            List<RecetaModel> mLista = new List<RecetaModel>();
+
+            using (MySqlConnection connection = MySqlConexion.MyConexion())
+            {
+                if (connection != null)
+                {
+                    try
+                    {
+                        await connection.OpenAsync();
+
+                        using (MySqlCommand command = new MySqlCommand(query, connection))
+                        {
+                            using (DbDataReader reader = await command.ExecuteReaderAsync())
+                            {
+                                while (await reader.ReadAsync())
+                                {
+                                    var receta = new RecetaModel()
+                                    {
+                                        Id = !reader.IsDBNull(0) ? reader.GetInt32(0) : 0,
+                                        Nombre = !reader.IsDBNull(1) ? reader.GetString(1) : "",
+                                        NivelDificultad = !reader.IsDBNull(2) ? reader.GetInt32(2) : 0,
+                                        Tiempo = !reader.IsDBNull(3) ? reader.GetInt32(3) : 0,
+                                        Categoria = !reader.IsDBNull(4) ? reader.GetString(4) : "",
+                                        Calificacion = !reader.IsDBNull(5) ? reader.GetInt32(5) : 0,
+                                    };
+
+                                    mLista.Add(receta);
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        await Util.LogError.SaveLog("Receta lista Dif | " + ex.Message);
+                    }
+                    finally
+                    {
+                        await connection.CloseAsync();
+                    }
+                }
+            }
+
+            return mLista;
+        }
+
         public static async Task<List<RecetaModel>> ListaDificultad(int Dificultad)
         {
             List<RecetaModel> mLista = new List<RecetaModel>();
@@ -253,7 +303,7 @@ namespace ydRSoft.BD
             }
 
             string query = @"SELECT
-                            id, nombre, ndif, tiempo, categoria
+                            id, nombre, ndif, tiempo, categoria, calificacion
                             FROM receta
                             WHERE ndif = @ndif and estado > 0;";
 
@@ -279,7 +329,8 @@ namespace ydRSoft.BD
                                         Nombre = !reader.IsDBNull(1) ? reader.GetString(1) : "",
                                         NivelDificultad = !reader.IsDBNull(2) ? reader.GetInt32(2) : 0,
                                         Tiempo = !reader.IsDBNull(3) ? reader.GetInt32(3) : 0,
-                                        Categoria = !reader.IsDBNull(4) ? reader.GetString(4) : ""
+                                        Categoria = !reader.IsDBNull(4) ? reader.GetString(4) : "",
+                                        Calificacion = !reader.IsDBNull(5) ? reader.GetInt32(5) : 0,
                                     };
 
                                     mLista.Add(receta);
@@ -311,7 +362,7 @@ namespace ydRSoft.BD
             }
 
             string query = @"SELECT
-                            id, nombre, ndif, tiempo, categoria
+                            id, nombre, ndif, tiempo, categoria, calificacion
                             FROM receta
                             WHERE categoria = @categoria and estado > 0;";
 
@@ -337,7 +388,62 @@ namespace ydRSoft.BD
                                         Nombre = !reader.IsDBNull(1) ? reader.GetString(1) : "",
                                         NivelDificultad = !reader.IsDBNull(2) ? reader.GetInt32(2) : 0,
                                         Tiempo = !reader.IsDBNull(3) ? reader.GetInt32(3) : 0,
-                                        Categoria = !reader.IsDBNull(4) ? reader.GetString(4) : ""
+                                        Categoria = !reader.IsDBNull(4) ? reader.GetString(4) : "",
+                                        Calificacion = !reader.IsDBNull(5) ? reader.GetInt32(5) : 0
+                                    };
+
+                                    mLista.Add(receta);
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        await Util.LogError.SaveLog("Receta lista Dif | " + ex.Message);
+                    }
+                    finally
+                    {
+                        await connection.CloseAsync();
+                    }
+                }
+            }
+
+            return mLista;
+        }
+
+        public static async Task<List<RecetaModel>> ListaTiempo(int Tiempo)
+        {
+            List<RecetaModel> mLista = new List<RecetaModel>();
+
+            string query = @"SELECT
+                            id, nombre, ndif, tiempo, categoria, calificacion
+                            FROM receta
+                            WHERE tiempo <= @tiempo and estado > 0;";
+
+            using (MySqlConnection connection = MySqlConexion.MyConexion())
+            {
+                if (connection != null)
+                {
+                    try
+                    {
+                        await connection.OpenAsync();
+
+                        using (MySqlCommand command = new MySqlCommand(query, connection))
+                        {
+                            command.Parameters.AddWithValue("@tiempo", Tiempo);
+
+                            using (DbDataReader reader = await command.ExecuteReaderAsync())
+                            {
+                                while (await reader.ReadAsync())
+                                {
+                                    var receta = new RecetaModel()
+                                    {
+                                        Id = !reader.IsDBNull(0) ? reader.GetInt32(0) : 0,
+                                        Nombre = !reader.IsDBNull(1) ? reader.GetString(1) : "",
+                                        NivelDificultad = !reader.IsDBNull(2) ? reader.GetInt32(2) : 0,
+                                        Tiempo = !reader.IsDBNull(3) ? reader.GetInt32(3) : 0,
+                                        Categoria = !reader.IsDBNull(4) ? reader.GetString(4) : "",
+                                        Calificacion = !reader.IsDBNull(5) ? reader.GetInt32(5) : 0
                                     };
 
                                     mLista.Add(receta);
@@ -364,7 +470,7 @@ namespace ydRSoft.BD
             List<RecetaModel> mLista = new List<RecetaModel>();
 
             string query = @"SELECT
-                            id, nombre, ndif, tiempo, categoria
+                            id, nombre, ndif, tiempo, categoria, calificacion
                             FROM receta
                             WHERE estado > 0";
 
@@ -388,7 +494,8 @@ namespace ydRSoft.BD
                                         Nombre = !reader.IsDBNull(1) ? reader.GetString(1) : "",
                                         NivelDificultad = !reader.IsDBNull(2) ? reader.GetInt32(2) : 0,
                                         Tiempo = !reader.IsDBNull(3) ? reader.GetInt32(3) : 0,
-                                        Categoria = !reader.IsDBNull(4) ? reader.GetString(4) : ""
+                                        Categoria = !reader.IsDBNull(4) ? reader.GetString(4) : "",
+                                        Calificacion = !reader.IsDBNull(5) ? reader.GetInt32(5) : 0
                                     };
 
                                     mLista.Add(receta);
@@ -410,12 +517,57 @@ namespace ydRSoft.BD
             return mLista;
         }
 
+        public static async Task<string> ListaSugerida()
+        {
+            string recetas = "";
+
+            string query = @"SELECT
+                            nombre
+                            FROM receta
+                            ORDER BY id DESC
+                            LIMIT 4";
+
+            using (MySqlConnection connection = MySqlConexion.MyConexion())
+            {
+                if (connection != null)
+                {
+                    try
+                    {
+                        await connection.OpenAsync();
+
+                        using (MySqlCommand command = new MySqlCommand(query, connection))
+                        {
+                            using (DbDataReader reader = await command.ExecuteReaderAsync())
+                            {
+                                while (await reader.ReadAsync())
+                                {
+                                    var Nombre = !reader.IsDBNull(0) ? reader.GetString(0) : "";
+
+                                    recetas = recetas + " " + Nombre;
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        await Util.LogError.SaveLog("Receta lista Dif | " + ex.Message);
+                    }
+                    finally
+                    {
+                        await connection.CloseAsync();
+                    }
+                }
+            }
+
+            return recetas;
+        }
+
         public static async Task<List<RecetaModel>> ListaRecetaNombre(string Nombre)
         {
             List<RecetaModel> mLista = new List<RecetaModel>();
 
             string query = @"SELECT
-                            id, nombre, ndif, tiempo, categoria
+                            id, nombre, ndif, tiempo, categoria, calificacion
                             FROM receta
                             WHERE nombre LIKE @nombre and estado > 0";
 
@@ -441,7 +593,8 @@ namespace ydRSoft.BD
                                         Nombre = !reader.IsDBNull(1) ? reader.GetString(1) : "",
                                         NivelDificultad = !reader.IsDBNull(2) ? reader.GetInt32(2) : 0,
                                         Tiempo = !reader.IsDBNull(3) ? reader.GetInt32(3) : 0,
-                                        Categoria = !reader.IsDBNull(4) ? reader.GetString(4) : ""
+                                        Categoria = !reader.IsDBNull(4) ? reader.GetString(4) : "",
+                                        Calificacion = !reader.IsDBNull(5) ? reader.GetInt32(5) : 0
                                     };
 
                                     mLista.Add(receta);
@@ -501,6 +654,101 @@ namespace ydRSoft.BD
             }
 
             return encontrado;
+        }
+
+        public static async Task<RpstaModel> ActEstado(int recetaId,int Estado)
+        {
+            RpstaModel model = new RpstaModel();
+
+            string query = "UPDATE receta SET estado = @estado " +
+                           "WHERE id = @id";
+
+            using (MySqlConnection conexion = MySqlConexion.MyConexion())
+            {
+                if (conexion != null)
+                {
+                    try
+                    {
+                        await conexion.OpenAsync();
+
+                        MySqlCommand cmd = new MySqlCommand(query, conexion);
+                        cmd.Parameters.AddWithValue("@estado", Estado);
+                        cmd.Parameters.AddWithValue("@id", recetaId);
+
+                        var respuesta = await cmd.ExecuteNonQueryAsync();
+                        if (respuesta > 0)
+                        {
+                            model.Error = false;
+                            model.Mensaje = "Receta actualizada correctamente.";
+                        }
+                        else
+                        {
+                            model.Error = true;
+                            model.Mensaje = "No se encontró la receta.";
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        model.Mensaje = ex.Message;
+                        await Util.LogError.SaveLog("Editar receta | " + ex.Message);
+                    }
+                    finally
+                    {
+                        await conexion.CloseAsync();
+                    }
+                }
+            }
+
+
+            return model;
+        }
+
+
+        public static async Task<RpstaModel> Calificacion(int recetaId, int Puntos)
+        {
+            RpstaModel model = new RpstaModel();
+
+            string query = "UPDATE receta SET calificacion = @calificacion " +
+                           "WHERE id = @id";
+
+            using (MySqlConnection conexion = MySqlConexion.MyConexion())
+            {
+                if (conexion != null)
+                {
+                    try
+                    {
+                        await conexion.OpenAsync();
+
+                        MySqlCommand cmd = new MySqlCommand(query, conexion);
+                        cmd.Parameters.AddWithValue("@calificacion", Puntos);
+                        cmd.Parameters.AddWithValue("@id", recetaId);
+
+                        var respuesta = await cmd.ExecuteNonQueryAsync();
+                        if (respuesta > 0)
+                        {
+                            model.Error = false;
+                            model.Mensaje = "Receta actualizada correctamente.";
+                        }
+                        else
+                        {
+                            model.Error = true;
+                            model.Mensaje = "No se encontró la receta.";
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        model.Mensaje = ex.Message;
+                        await Util.LogError.SaveLog("Editar receta | " + ex.Message);
+                    }
+                    finally
+                    {
+                        await conexion.CloseAsync();
+                    }
+                }
+            }
+
+
+            return model;
         }
     }
 }

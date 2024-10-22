@@ -86,14 +86,41 @@ namespace ydRSoft.BL
         //guarda un producto con su informacion nutricional
         public static async Task<RpstaModel> Guardar(ProductoModel objModel)
         {
-            var resultado = await ProductoBD.Guardar(objModel);
-            if(resultado != null && !resultado.Error)
+            RpstaModel rpstaModel = new RpstaModel(true,"Ya registrado");
+
+            if (string.IsNullOrEmpty(objModel.Nombre)) return new RpstaModel(true,"Nombre Producto No valido");
+
+            objModel.Nombre = objModel.Nombre.ToUpper();
+            var duplicado = await ProductoBD.IsDuplicado(objModel.Nombre);
+
+            if (!duplicado)
             {
-                await InfoSing.Instance.LoadProductos();
+
+                rpstaModel = await ProductoBD.Guardar(objModel);
+
+                if (rpstaModel != null && !rpstaModel.Error)
+                {
+                    await InfoSing.Instance.LoadProductos();
+                }
             }
 
-            return resultado;
+            return rpstaModel;
         }
+
+        public static async Task<ProductoModel> GetInformacionN(string Nombre)
+        {
+            
+
+            var modelo = await ProductoBD.GetProducto(Nombre);
+            if(modelo == null)
+            {
+                modelo = await ConsultaProdAPI(Nombre);
+            }
+
+            return modelo;
+
+        }
+
 
         //consulta la informacion nutricional de un producto
         public static async Task<ProductoModel> ConsultaProdAPI(string Nombre)

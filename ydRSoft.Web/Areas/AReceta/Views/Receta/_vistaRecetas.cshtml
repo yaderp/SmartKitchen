@@ -3,9 +3,35 @@
     <div class="col-md-4">
 
         <div class="panel panel-default">
-            <div class="panel-body">
-                <h3> Nueva Receta</h3>
+            <div class="panel-heading">
+                <h3>Consultar Receta</h3>
                 <hr />
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="input-group">
+                        <input id="mNomRece7a" class="form-control text-navy text-uppercase" placeholder="Nombre receta" autocomplete="off"> <span class="input-group-append">
+                            <button type="button" id="btnBuscar7a" onclick="funBuscarRece7a()" class="btn btn-primary"> <i class='fa fa-search'></i> Buscar </button>
+                        </span>
+                    </div>
+                </div>
+              
+
+                <div class="form-group row">
+                    <div class="col-md-6">
+                        <select id="mRegion" class="form-control">
+                            <option value="">Preferencias</option>
+                            <option value="vegana">vegana</option>
+                            <option value="italiana">Italiana</option>
+                            <option value="francesa">Francesa</option>
+                            <option value="peruana">Peruana</option>
+                        </select>
+                    </div>                   
+                </div>
+            </div>
+
+            <div class="panel-body">
+                <div id="v1staNewRece7a"></div>
             </div>
         </div>
         
@@ -14,24 +40,24 @@
         <div class="panel panel-default">
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <div>
                             Categoria
                         </div>
                         <div class="form-group">
-                            <select id="mCategoria" class="form-control" onchange="funBuscarFiltro(1)">
+                            <select id="mCategoria" class="form-control" onchange="funFiltro()">
                                 <option value="">Todos</option>
                                 <option value="entrada">entrada</option>
-                                <option value="sopas">sopas</option>
+                                <option value="sopa">sopas</option>
                                 <option value="principal">principal</option>
                                 <option value="postre">postres</option>
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <div> Nivel Dificultad</div>
-                        <div class="form-group">                            
-                            <select id="mDificultad" class="form-control" onchange="funBuscarFiltro(2)">
+                        <div class="form-group">
+                            <select id="mDificultad" class="form-control" onchange="funFiltro()">
                                 <option value="0">Todos</option>
                                 <option value="1">Nivel 1</option>
                                 <option value="2">Nivel 2</option>
@@ -41,7 +67,20 @@
                             </select>
                         </div>
                     </div>
+                    <div class="col-md-2">
+                        <div>Tiempo</div>
+                        <div class="form-group">
+                            <select id="mTiempoMax" class="form-control" onchange="funFiltro()">
+                                <option value="0">Todos</option>
+                                <option value="5"> 1-5min</option>
+                                <option value="15"> 5-15min</option>
+                                <option value="30"> 15-30min</option>
+                                <option value="999">+30min</option>
+                            </select>
+                        </div>
+                    </div>
                     <div class="col-md-6">
+                        <div>Buscar</div>
                         <div class="input-group">
                             <input id="mFiltro" onkeyup="funBuscarNombre()" class="form-control text-navy text-uppercase" placeholder="Nombre Receta" autocomplete="off"> <span class="input-group-append">
                                 <button type="button" id="btnBuscar" onclick="funBuscarNombre()" class="btn btn-primary"><i class="fa fa-search"></i> Buscar  </button>
@@ -67,8 +106,43 @@
 
     funFiltro();
 
-    async function funBuscarNombre() {
+    async function funBuscarRece7a() {
+        document.getElementById("btnBuscar7a").innerHTML = "<i class='fa fa-spinner'> Cargando...</i>";
+        document.getElementById("btnBuscar7a").disabled = true;
+        let txtpront = document.getElementById('mNomRece7a').value;
+        let region = document.getElementById('mRegion').value;
 
+        if (txtpront.length == 0) {
+            console.log("no envio");
+            alert("puede colocar al menos un producto o el nombre de la receta a consultar");
+            return;
+        }
+
+
+        console.log("consulta : " + txtpront);
+
+        var dataString = new FormData();
+        dataString.append("Nombre", txtpront);
+        dataString.append("Region", region);
+        const response = await fetch('/AReceta/Receta/BuscarReceta', {
+            method: 'POST',
+            body: dataString
+        });
+
+        if (response.ok) {
+            const data = await response.text();
+            $("#v1staNewRece7a").html(data);
+            document.getElementById('mDificultad').value = 0;
+            document.getElementById('mCategoria').value = "";            
+        } else {
+            console.log('Error en la respuesta: ' + response.status, response.statusText);
+        }
+
+        document.getElementById("btnBuscar7a").innerHTML = "<i class='fa fa-search'></i> Buscar ";
+        document.getElementById("btnBuscar7a").disabled = false;
+    }
+
+    async function funBuscarNombre() {
         let nombre = document.getElementById('mFiltro').value;
         if (nombre.trim() === "") {
             funFiltro();
@@ -94,8 +168,15 @@
 
         if (tipo == 1) {
             document.getElementById('mDificultad').value = 0;
+            document.getElementById('mTiempoMax').value = 0;
         } else {
-            document.getElementById('mCategoria').value = "";
+            if (tipo == 2) {
+                document.getElementById('mCategoria').value = "";
+                document.getElementById('mTiempoMax').value = 0;
+            } else {
+                document.getElementById('mCategoria').value = "";
+                document.getElementById('mDificultad').value = 0;
+            }           
         }
         
         funFiltro();
@@ -103,9 +184,12 @@
 
     async function funFiltro() {
         console.log("entro al filtro cat dif");
-        var dataString = new FormData();
+        var dataString = new FormData();        
+
+        dataString.append("IdUser", document.getElementById('editId').value);
         dataString.append("Categoria", document.getElementById('mCategoria').value);
         dataString.append("Dificultad", document.getElementById('mDificultad').value);
+        dataString.append("Tiempo", document.getElementById('mTiempoMax').value);
 
         const response = await fetch('/AReceta/Receta/ListaRecetas', {
             method: 'POST',
@@ -117,6 +201,68 @@
             $("#vistaRece1as").html(data);
         } else {
             alert('Error en la respuesta: ' + response.status, response.statusText);
+        }
+    }
+
+</script>
+
+<script>
+    async function funSaveSug1a(id,estado) {
+        console.log("estado del " + id);
+        var dataString = new FormData();
+        dataString.append("recetaId", id);
+        dataString.append("Estado", estado);
+        //document.getElementById("idLoad1").innerHTML = "<i class='fa fa-spinner'> Cargando...</i>";
+        const response = await fetch('/AReceta/Receta/ActEstado', {
+            method: 'POST',
+            body: dataString
+        });
+        if (response.ok) {
+            const data = await response.json();
+            if (data.Error) {
+                alert(data.Mensaje);
+            } else {
+                funVistaRecetas();
+            }
+        }
+    }
+
+    async function fungetSug1a(id) {
+        console.log("estado del " + id);
+        var dataString = new FormData();
+        dataString.append("recetaId", id);
+
+        const response = await fetch('/AReceta/Receta/CargaReceta', {
+            method: 'POST',
+            body: dataString
+        });
+
+        if (response.ok) {
+            const data = await response.text();
+            $("#v1staNewRece7a").html(data);            
+        } else {
+            console.log('Error en la respuesta: ' + response.status, response.statusText);
+        }
+    }
+
+    async function funAddDelfav(id, estado) {
+        console.log("addDel fav " + id);
+        var dataString = new FormData();
+        dataString.append("IdUser", document.getElementById('editId').value);
+        dataString.append("recetaId", id);
+        dataString.append("Estado", estado);
+        //document.getElementById("idLoad1").innerHTML = "<i class='fa fa-spinner'> Cargando...</i>";
+        const response = await fetch('/AReceta/Receta/AddDelFav', {
+            method: 'POST',
+            body: dataString
+        });
+        if (response.ok) {
+            const data = await response.json();
+            if (data.Error) {
+                alert(data.Mensaje);
+            } else {
+                funVistaRecetas();
+            }
         }
     }
 </script>

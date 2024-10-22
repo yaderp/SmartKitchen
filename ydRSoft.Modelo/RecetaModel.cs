@@ -13,6 +13,7 @@ namespace ydRSoft.Modelo
         public int NivelDificultad { get; set; }
         public int Tiempo { get; set; }
         public string Categoria { get; set; }
+        public int Calificacion { get; set; }
         public string StrIngre { get; set; }
         public string StrPas { get; set; }
         public DateTime FechaRegistro { get; set; }
@@ -20,6 +21,7 @@ namespace ydRSoft.Modelo
         public List<string> Ingredientes { get; set; }
         public List<string> PasosPreparacion { get; set; }        
         public List<int> ListaId { get; set; }
+        public bool Isfavorito { get; set; }
 
         public RecetaModel() {
             Id = 0;
@@ -30,6 +32,7 @@ namespace ydRSoft.Modelo
             Ingredientes = new List<string>();
             PasosPreparacion = new List<string>();
             ListaId = new List<int>();
+            Isfavorito = false;
         }
 
         public RecetaModel(List<int> ListaId)

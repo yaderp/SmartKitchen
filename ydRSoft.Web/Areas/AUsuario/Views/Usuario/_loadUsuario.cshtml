@@ -5,6 +5,14 @@
     UsuarioModel objUser = Model == null ? new UsuarioModel() : Model;
 }
 
+<style>
+    .ydR-imgPerfil{
+        height: 400px;
+        align-content:center;
+    }
+</style>
+
+
 @if (Model != null)
 {
     <div class="text-navy">
@@ -17,6 +25,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="text-center text-navy"> Informacion Personal &nbsp; @Html.Raw(ydRSoft.Util.Funciones.GetPrivacidad(objUser.Estado))</h3>
+                        <hr />
                     </div>
                     <div class="panel-body">
                         <div class="form-group row">
@@ -77,23 +86,53 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="col-md-4">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="text-center text-navy"> Privacidad </h3>
+                        <h3 class="text-center text-navy"> Actualizar Imagen </h3>
+                        <hr />
                     </div>
-                    <div class="panel-body">                       
-                                             
-                        <br />
-                        <div class="form-group">
-                            <div class="ydRDiv-centrado-40">
-                                <button class="btn btn-block btn-success" onclick="funSetEstado()"> <i class="fa fa-save"></i> &nbsp; Guardar Cambios  </button>
+                    <div class="panel-body">
+
+                        <form id="imageUploadForm" enctype="multipart/form-data">
+                            <div class="fileinput fileinput-new" data-provides="fileinput">
+                                <span class="btn btn-default btn-file">
+                                    <input type="file" id="imageFile" onchange="previewImage(event)" accept=".jpg,.png">
+                                    <span class="fileinput-new">Selecciona Archivo</span>
+                                    <span class="fileinput-exists">Cambiar Archivo</span>
+                                </span>
+                                <span class="fileinput-filename"></span>
                             </div>
+                            <input type="button" class="btn btn-success" value="Actualizar Imagen" onclick="uploadImage()" />
+                        </form>
+                        <div class="form-group">
+
                         </div>
+
+                        <hr />
+                        <div>
+                            <img class="ydR-imgPerfil" id="previewImage" src="" alt="Vista previa" style="display:none;" />
+                        </div>
+                        <div id="uploadMessage"></div>
+                        <br />
                     </div>
                 </div>
             </div>
+
+
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="text-center text-navy"> Lista Usuarios </h3>
+                        <hr />
+                    </div>
+                    <div class="panel-body">
+                        <div id="listaPub1ica"></div>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
     </div>
@@ -104,16 +143,80 @@ else
     <hr />
 }
 
+
+
+<script id="_subir_imagen">
+
+    function previewImage(event) {
+        var reader = new FileReader();
+        reader.onload = function () {
+            var output = document.getElementById('previewImage');
+            output.src = reader.result;  // Asigna la imagen cargada a la vista previa
+            output.style.display = "block";
+        };
+        reader.readAsDataURL(event.target.files[0]); // Lee el archivo de imagen
+    }
+
+
+    function uploadImage() {
+        console.log("entro aqui XD");
+        var formData = new FormData();
+        var imageFile = document.getElementById("imageFile").files[0];
+   
+        if (!imageFile) {
+            document.getElementById("uploadMessage").innerHTML = "Debe seleccionar una imagen.";
+            return;
+        }
+
+        formData.append("imageFile", imageFile);
+        formData.append("IdUser", document.getElementById('editId').value);
+
+        fetch('@Url.Action("UploadImage", "Usuario", new { Area = "AUsuario" })', {
+            method: "POST",
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+
+                    document.getElementById("ImgPerfil").src = data.imageUrl + "?" + new Date().getTime(); 
+                    document.getElementById("uploadMessage").innerHTML = "Imagen subida correctamente.";
+                } else {
+                    document.getElementById("uploadMessage").innerHTML = "Error al subir la imagen.";
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                document.getElementById("uploadMessage").innerHTML = "Error al subir la imagen.";
+            });
+
+}
+</script>
+
+
+<script id="_mostrar_lista">
+
+
+</script>
+
+
 <script>
     console.log("sexo -> " + "@objUser.IdSexo");
     console.log("cargo -> " + "@objUser.IdCargo");
     document.getElementById('mSexo').value = "@objUser.IdSexo";
     document.getElementById('mCargo').value = "@objUser.IdCargo";
+    document.getElementById('mEstado').value = "@objUser.Estado";
+    
 </script>
 
 <script>
+
+    funListaPublica();
+
     async function funEditar() {
-        console.log("entro edit usuario");
+        
+        let estado = document.getElementById('mEstado').value
+        console.log("entro edit usuario " + estado);
         var dataString = new FormData();
         dataString.append("Id", document.getElementById('editId').value);
         dataString.append("Clave", document.getElementById('mClave').value);
@@ -121,7 +224,7 @@ else
         dataString.append("Dni", document.getElementById('mDni').value);
         dataString.append("IdSexo", document.getElementById('mSexo').value);
         dataString.append("IdCargo", document.getElementById('mCargo').value);
-        dataString.append("Estado", document.getElementById('mEstado').value);
+        dataString.append("Estado", estado);
         console.log("cargo usuario");
         const response = await fetch('/AUsuario/Usuario/EditarUsuario', {
             method: 'POST',
@@ -136,7 +239,23 @@ else
                 console.log("Exito " + data.Mensaje);
                 funVerUsuario();
             }
-            
+
+        } else {
+            alert('Error en la respuesta: ' + response.status, response.statusText);
+        }
+    }
+
+
+    async function funListaPublica() {
+        console.log("entro lista");
+
+        const response = await fetch('/AUsuario/Usuario/ListaUsuario', {
+            method: 'POST',
+        });
+
+        if (response.ok) {
+            const data = await response.text();
+            $("#listaPub1ica").html(data);
         } else {
             alert('Error en la respuesta: ' + response.status, response.statusText);
         }

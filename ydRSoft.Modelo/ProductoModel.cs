@@ -27,11 +27,11 @@ namespace ydRSoft.Modelo
         public InfoModel Info { get; set; }
 
         public ProductoModel() {
-            Id = 1;
-            Nombre = "PLATANO";
-            PosX = 300;
-            PosY = 300;
-            Radio = 180;
+            Id = 0;
+            Nombre = "";
+            PosX = 0;
+            PosY = 0;
+            Radio = 0;
             Info = new InfoModel();
         }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -82,6 +83,15 @@ namespace ydRSoft.Web.Areas.AUsuario.Controllers
             return PartialView("_loadUsuario", objModel);
         }
 
+        public async Task<ActionResult> ListaUsuario()
+        {
+            var mLista = await UsuarioBL.getAll(Util.Variables.PUBLICO);
+
+            return PartialView("_listaUsuario", mLista);
+        }
+
+
+        
 
         public async Task<JsonResult> EditarUsuario(UsuarioModel objModel)
         {
@@ -98,5 +108,29 @@ namespace ydRSoft.Web.Areas.AUsuario.Controllers
 
             return Json(rpstaModel, JsonRequestBehavior.AllowGet);
         }
+
+
+        [HttpPost]
+        public JsonResult UploadImage(HttpPostedFileBase imageFile,int IdUser)
+        {
+            if (imageFile != null && imageFile.ContentLength > 0)
+            {
+                // Ruta donde se guardará la imagen
+                string fileName = Path.GetFileName(imageFile.FileName);
+                string path = Path.Combine(Server.MapPath("~/Content/Imagenes/Logos"), IdUser + ".jpg");
+
+                // Guardar la imagen en la ruta especificada
+                imageFile.SaveAs(path);
+
+                // Retornar la URL de la imagen como respuesta JSON
+                return Json(new { success = true, imageUrl = Url.Content("~/Content/Imagenes/Logos/" + IdUser + ".jpg") });
+            }
+            else
+            {
+                return Json(new { success = false });
+            }
+        }
+
+
     }
 }

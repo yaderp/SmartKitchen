@@ -22,6 +22,13 @@ namespace ydRSoft.BL
             return rpstaModel;
         }
 
+        public static async Task<RpstaModel> ActEstado(int IdUser, int recetaId)
+        {
+            var resultado = await FavoritoBD.ActEstado(IdUser, recetaId, 0);
+
+            return resultado;
+        }
+
         public static async Task<RecetaModel> GetAll(int IdUser)
         {
             var mLista = await FavoritoBD.GetAll(IdUser);

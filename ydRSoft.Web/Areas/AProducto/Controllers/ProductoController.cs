@@ -36,9 +36,34 @@ namespace ydRSoft.Web.Areas.AProducto.Controllers
 
         public ActionResult VistaProductos()
         {
-            return PartialView("vistaProductos");
+            return PartialView("_vistaProductos");
         }
 
+        public ActionResult LoadProductos()
+        {
+            return PartialView("_loadProductos");
+        }
+
+        public async Task<ActionResult> ListaProductos()
+        {
+            var mLista = await ProductoBL.ListaProducto();            
+            return PartialView("_listaProductos", mLista);
+        }
+
+        public async Task<ActionResult> BuscarProducto(string Nombre)
+        {
+            var modelo = await ProductoBL.GetInformacionN(Nombre);
+            
+            return PartialView("_newProducto", modelo);
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> GuardarInfoN(ProductoModel objModel)
+        {
+            var resultado = await ProductoBL.Guardar(objModel);
+
+            return Json(resultado, JsonRequestBehavior.AllowGet);
+        }
 
 
         [HttpPost]

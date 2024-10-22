@@ -1,0 +1,79 @@
+﻿
+<div class="row">
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3>Buscar Informacion Nutricional</h3>
+                <hr />
+            </div>
+            <div class="panel-body">
+                <div class="input-group">
+                    <input id="mFiltro" class="form-control text-navy text-uppercase" placeholder="Nombre Producto" autocomplete="off"> <span class="input-group-append">
+                        <button type="button" id="btnBuscar" onclick="funBuscarProd1g()" class="btn btn-primary"> <i class='fa fa-search'></i> Buscar </button>
+                    </span>
+                </div>                
+            </div>
+
+            <div class="panel-body">                
+                <div id="v1staNewProd"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3>Lista Productos</h3>
+                <hr />
+            </div>
+            <div class="panel-body">
+                <div id="vistaL1staProd"></div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<script>
+    funVerL1staProd();
+
+    async function funVerL1staProd() {
+
+        const response = await fetch('/AProducto/Producto/ListaProductos', {
+            method: 'POST',
+        });
+
+        if (response.ok) {
+            const data = await response.text();
+            $("#vistaL1staProd").html(data);
+        } else {
+            alert('Error en la respuesta: ' + response.status, response.statusText);
+        }
+    }
+
+
+    async function funBuscarProd1g() {
+        document.getElementById("btnBuscar").innerHTML = "<i class='fa fa-spinner'> Cargando...</i>";
+        document.getElementById("btnBuscar").disabled = true;
+
+        var dataString = new FormData();
+        dataString.append("Nombre", document.getElementById('mFiltro').value);
+
+        const response = await fetch('/AProducto/Producto/BuscarProducto', {
+            method: 'POST',
+            body: dataString
+        });
+
+        if (response.ok) {
+            const data = await response.text();
+            $("#v1staNewProd").html(data);
+        } else {
+            alert('Error en la respuesta: ' + response.status, response.statusText);
+        }
+
+        document.getElementById("btnBuscar").innerHTML = "<i class='fa fa-search'></i> Buscar ";
+        document.getElementById("btnBuscar").disabled = false;
+    }
+    
+</script>

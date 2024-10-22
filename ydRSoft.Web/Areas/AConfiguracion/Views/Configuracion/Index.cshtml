@@ -7,14 +7,30 @@
     UsuarioModel objUser = Model == null ? new UsuarioModel() : Model;
 }
 
-<input id="editId" class="form-control text-navy" value="@objUser.Id" hidden/>
+<input id="editId" class="form-control text-navy" value="@objUser.Id" />
+<input id="editNombr1e" class="form-control text-navy" value="@objUser.Nombres" hidden />
 
 <div id="resulVista"></div>
 
 
+
+
 <script>
 
-    funVistaPref();
+    funVistaSugerencia();    
+
+    async function funVistaSugerencia() {
+        const response = await fetch('/ASugerencia/Sugerencia/LoadSugerencia', {
+            method: 'POST',
+        });
+
+        if (response.ok) {
+            const data = await response.text();
+            $("#resulVista").html(data);
+        } else {
+            alert('Error en la respuesta: ' + response.status, response.statusText);
+        }
+    }
 
     async function funVerUsuario(entrada) {
         console.log("entro usuario");
@@ -56,6 +72,21 @@
         const response = await fetch('/AReceta/Receta/VistaRecetas', {
             method: 'POST',
             body: dataString,
+        });
+
+        if (response.ok) {
+            const data = await response.text();
+            $("#resulVista").html(data);
+        } else {
+            alert('Error en la respuesta: ' + response.status, response.statusText);
+        }
+    }
+
+    async function funVistaProductos() {
+
+        var dataString = new FormData();
+        const response = await fetch('/AProducto/Producto/LoadProductos', {
+            method: 'POST'
         });
 
         if (response.ok) {

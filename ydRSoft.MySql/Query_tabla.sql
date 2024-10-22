@@ -8,7 +8,7 @@ drop table usuario;
 
 
 use dbsk;
-
+-- 0 eliminado 1 privado 2 publico
 CREATE TABLE usuario (
     id INT PRIMARY KEY AUTO_INCREMENT,
     nombres VARCHAR(100) NOT NULL,
@@ -26,6 +26,9 @@ ALTER TABLE usuario MODIFY clave VARCHAR(50) NOT NULL COLLATE utf8mb4_bin;
 INSERT INTO usuario(nombres, dni, correo, clave, idsexo, idcargo, fechareg, estado) VALUES('INVITADO','12345678','correo@correo','123',1,0,now(),1);
 INSERT INTO usuario(nombres, dni, correo, clave, idsexo, idcargo, fechareg, estado) VALUES('YADER','43114343','yaderch@gmail.com','palomita',1,1,now(),1);
 INSERT INTO usuario(nombres, dni, correo, clave, idsexo, idcargo, fechareg, estado) VALUES('CARLOS','12345678','correo@gmail.com','1234',1,1,now(),1);
+INSERT INTO usuario(nombres, dni, correo, clave, idsexo, idcargo, fechareg, estado) VALUES('USUARIO1','12345678','correo@gmail.com','1234',1,1,now(),2);
+INSERT INTO usuario(nombres, dni, correo, clave, idsexo, idcargo, fechareg, estado) VALUES('USUARIO2','12345678','correo@gmail.com','1234',1,1,now(),2);
+INSERT INTO usuario(nombres, dni, correo, clave, idsexo, idcargo, fechareg, estado) VALUES('USUARIO3','12345678','correo@gmail.com','1234',1,1,now(),2);
 
 CREATE TABLE receta (
     id INT PRIMARY KEY AUTO_INCREMENT,
@@ -36,8 +39,12 @@ CREATE TABLE receta (
     ingredientes TEXT,
     preparacion TEXT,
     fechareg DATETIME,
-    estado INT NOT NULL
+    estado INT NOT NULL,
+    calificacion INT NOT NULL
 );
+
+ALTER TABLE receta
+ADD COLUMN calificacion INT NOT NULL;
 
 
 CREATE TABLE favoritos (
@@ -87,13 +94,25 @@ ADD FOREIGN KEY (iduser) REFERENCES usuario(id);
 ALTER TABLE preferencias
 ADD FOREIGN KEY (idprod) REFERENCES producto(id);
 
+CREATE TABLE sugerencias (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nombre VARCHAR(300),
+	idreceta INT NOT NULL,
+    iduser INT NOT NULL,
+	fechareg DATE
+);
+
+
 select *from usuario;
 select *from receta;
 
 
 select *from producto;
 select *from preferencias;
+select *from sugerencias;
+
+update receta
+set calificacion = 0
+where id>5;
 
 
-delete from preferencias
-where id>0

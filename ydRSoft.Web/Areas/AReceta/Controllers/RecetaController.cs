@@ -31,6 +31,21 @@ namespace ydRSoft.Web.Areas.AReceta.Controllers
             return PartialView("_verPagina", model);
         }
 
+        public async Task<ActionResult> BuscarReceta(string Nombre,string Region)
+        {
+            var receta = new RecetaModel();
+
+            if (!string.IsNullOrEmpty(Nombre))
+            {
+                receta = await RecetaBL.ConsultarNewReceta(Nombre,Region, 0);
+            }
+
+            //var receta = await RecetaBL.GetRecetaId(2);
+
+            return PartialView("_newReceta", receta);
+        }
+
+
         public async Task<ActionResult> verReceta(int Pagina)
         {
             var resultado = await RecetaBL.GetRecetaId(Pagina);
@@ -46,9 +61,46 @@ namespace ydRSoft.Web.Areas.AReceta.Controllers
             return PartialView("_verPagina", resultado);
         }
 
+        public async Task<JsonResult> ActEstado(int recetaId,int Estado)
+        {
+            var resultado = await RecetaBL.ActEstado(recetaId, Estado);
+
+            return Json(resultado, JsonRequestBehavior.AllowGet);
+        }
+
+        public async Task<JsonResult> Calificar(int recetaId, int Calificacion)
+        {
+            var resultado = await RecetaBL.Calificacion(recetaId, Calificacion);
+
+            return Json(resultado, JsonRequestBehavior.AllowGet);
+        }
+
+        public async Task<ActionResult> CargaReceta(int recetaId)
+        {
+            var resultado = await RecetaBL.GetRecetaId(recetaId);
+
+            return PartialView("_newReceta", resultado);
+        }
+
+
         public async Task<JsonResult> AddFavoritos(int IdUser, int IdRe)
         {
             var resultado = await FavoritoBL.Agregar(IdUser, IdRe);
+            return Json(resultado, JsonRequestBehavior.AllowGet);
+        }
+
+        public async Task<JsonResult> AddDelFav(int IdUser, int recetaId, int Estado)
+        {
+            RpstaModel resultado = new RpstaModel();
+            if (Estado == 0)
+            {
+                resultado = await FavoritoBL.ActEstado(IdUser, recetaId);
+            }
+            else
+            {
+                resultado = await FavoritoBL.Agregar(IdUser, recetaId);
+            }
+            
             return Json(resultado, JsonRequestBehavior.AllowGet);
         }
 
@@ -75,11 +127,27 @@ namespace ydRSoft.Web.Areas.AReceta.Controllers
             return PartialView("_vistaRecetas");
         }
 
-        public async Task<ActionResult> ListaRecetas(string Categoria, int Dificultad)
+        public async Task<ActionResult> ListaRecetas(int IdUser,string Categoria, int Dificultad,int Tiempo)
         {
-            var resultado = await RecetaBL.ListaFiltro(Categoria,Dificultad);
+            var listafav = (await RecetaBL.ListaFavorito(IdUser)).ListaId;
+            var mLista = await RecetaBL.ListaFiltro(Categoria, Dificultad, Tiempo);
 
-            return PartialView("_listaRecetas", resultado);
+            
+            if (listafav != null && mLista != null)
+            {
+
+                foreach (var item in mLista)
+                {
+                    if (listafav.Exists(x => x == item.Id))
+                    {
+                        item.Isfavorito = true;
+                    }
+                }
+            }
+
+
+
+            return PartialView("_listaRecetas", mLista);
         }
 
         public async Task<ActionResult> ListaRecetaNombre(string Nombre)

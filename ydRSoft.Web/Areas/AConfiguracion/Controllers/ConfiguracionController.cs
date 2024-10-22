@@ -24,8 +24,7 @@ namespace ydRSoft.Web.Areas.AConfiguracion.Controllers
         }
 
         public  ActionResult VerConfig()
-        {            
-
+        {  
             return PartialView("_verConfig");
         }
     }

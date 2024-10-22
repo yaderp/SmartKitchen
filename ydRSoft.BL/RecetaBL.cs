@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using ydRSoft.BD;
@@ -21,6 +22,74 @@ namespace ydRSoft.BL
 
             return objModel;
          }
+
+        public static async Task<RpstaModel> ActEstado(int recetaId,int Estado)
+        {
+            var resultado = await RecetaBD.ActEstado(recetaId, Estado);
+
+            return resultado;
+        }
+
+        public static async Task<RpstaModel> Calificacion(int recetaId, int Puntos)
+        {
+            var resultado = await RecetaBD.Calificacion(recetaId, Puntos);
+
+            return resultado;
+        }
+
+
+        public static async Task<RecetaModel> ConsultarNewReceta(string Nombre,string Region,int Estado)
+        {
+            RecetaModel receta  = await RecetaBD.GetRecetaNom(Nombre);
+
+            if (receta!=null)
+            {
+                receta.Ingredientes = StrToLista(receta.StrIngre);
+                receta.PasosPreparacion = StrToLista(receta.StrPas);
+
+                return receta;
+            }
+            
+            if (string.IsNullOrEmpty(Region))
+            {
+                Region = "";
+            }
+            else
+            {
+                Region = ". De procedencia " + Region;
+            }
+
+
+            string txtPregunta = "Genera 1 receta de o que contenga  " + Nombre + Region +
+                ". Proporciónalas en formato JSON que incluya un " +
+                "Id, Nombre, NivelDificultad (1 a 5), Tiempo (en minutos), Categoria (entrada o sopa o principal o postre ) " +
+                "una lista de Ingredientes, y una lista de PasosPreparacion. " +
+                "Devuelve solo el JSON. que comience y termine con corchetes ([y]) para indicar que es una lista y " +
+                "que no haya caracteres no deseados al principio o al final.";
+
+            var resultado = await ApiOpenAI.PreguntaApi(txtPregunta);
+            string jsonResponse = ApiOpenAI.MensajeContent(resultado);
+            try
+            {
+                var mLista = JsonConvert.DeserializeObject<List<RecetaModel>>(jsonResponse);
+
+                if (mLista != null && mLista.Count > 0)
+                {
+                    receta = mLista[0];
+                    receta.StrIngre = ListaToStr(receta.Ingredientes);
+                    receta.StrPas = ListaToStr(receta.PasosPreparacion);
+                    receta.Estado = Estado;
+                    var recetaId = await RecetaBD.Guardar(receta);
+                    receta.Id = recetaId.Id;
+                }
+            }
+            catch(Exception ex)
+            {
+                await Util.LogError.SaveLog("Receta new "+ex.Message);
+            }
+
+            return receta;
+        }
 
         public static async Task<RpstaModel> Guardar(RecetaModel objModel)
         {
@@ -81,29 +150,80 @@ namespace ydRSoft.BL
             var objModel = new RecetaModel(mLista);
             return objModel;
         }
-               
 
-        public static async Task<List<RecetaModel>> ListaFiltro(string Categoria,int Dificultad)
+        public static async Task<List<RecetaModel>> ListaFiltro(string Categoria,int Dificultad, int Tiempo)
         {
             List<RecetaModel> lista = new List<RecetaModel>();
 
-            if (string.IsNullOrEmpty(Categoria) && Dificultad == 0) {
+            if (string.IsNullOrEmpty(Categoria) && Dificultad == 0 && Tiempo == 0) {
 
                 lista = await RecetaBD.ListaRecetas();
             }
             else
             {
-                if (Dificultad == 0)
-                {
-                    lista = await RecetaBD.ListaCategoria(Categoria);
+                if (!string.IsNullOrEmpty(Categoria) && Tiempo > 0 && Dificultad > 0) {
+
+                    string query = "SELECT id, nombre, ndif, tiempo, categoria, calificacion FROM receta " +
+                                     "WHERE  tiempo <= " + Tiempo + " and ndif = " + Dificultad + " and  categoria = '" + Categoria +
+                                     "' and estado > 0;";
+
+                    lista = await RecetaBD.ListaFiltros(query);
                 }
                 else
                 {
-                    lista = await RecetaBD.ListaDificultad(Dificultad);
+                    if (Dificultad == 0 && Tiempo == 0)
+                    {
+                        lista = await RecetaBD.ListaCategoria(Categoria);
+                    }
+                    else
+                    {
+                        if (string.IsNullOrEmpty(Categoria) && Tiempo == 0)
+                        {
+                            lista = await RecetaBD.ListaDificultad(Dificultad);
+                        }
+                        else
+                        {
+                            if (string.IsNullOrEmpty(Categoria) && Dificultad == 0)
+                            {
+                                lista = await RecetaBD.ListaTiempo(Tiempo);
+                            }
+                            else
+                            {
+                                if (!string.IsNullOrEmpty(Categoria) && Tiempo > 0)
+                                {
+                                    string query = "SELECT id, nombre, ndif, tiempo, categoria, calificacion FROM receta " +
+                                                    "WHERE categoria = '" + Categoria + "' and tiempo <= " + Tiempo +
+                                                    " and estado > 0;";
+
+                                    lista = await RecetaBD.ListaFiltros(query);
+                                }
+                                else
+                                {
+                                    if (!string.IsNullOrEmpty(Categoria) && Dificultad > 0)
+                                    {
+                                        string query = "SELECT id, nombre, ndif, tiempo, categoria, calificacion FROM receta " +
+                                                    "WHERE categoria = '" + Categoria + "' and  ndif = " + Dificultad +
+                                                    " and  estado > 0;";
+
+                                        lista = await RecetaBD.ListaFiltros(query);
+                                    }
+                                    else
+                                    {
+                                        string query = "SELECT id, nombre, ndif, tiempo, categoria, calificacion FROM receta " +
+                                                       "WHERE tiempo <= " + Tiempo + " and ndif = " + Dificultad +
+                                                       " and estado > 0;";
+
+                                        lista = await RecetaBD.ListaFiltros(query);
+                                    }
+
+                                }
+                            }
+                        }
+                    }
                 }
             }
 
-            return lista;
+            return lista.OrderBy(x=>x.Nombre).ToList();
         }
 
         public static async Task<List<RecetaModel>> ListaFiltroNombre(string Nombre)
@@ -142,6 +262,9 @@ namespace ydRSoft.BL
 
             return mLista;
         }
+
+       
+
 
         public static async Task<RecetaModel> GuardarConsulta(List<RecetaModel> mLista)
         {

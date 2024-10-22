@@ -128,6 +128,8 @@
     <Compile Include="Areas\AProducto\Controllers\ProductoController.cs" />
     <Compile Include="Areas\AReceta\ARecetaAreaRegistration.cs" />
     <Compile Include="Areas\AReceta\Controllers\RecetaController.cs" />
+    <Compile Include="Areas\ASugerencia\ASugerenciaAreaRegistration.cs" />
+    <Compile Include="Areas\ASugerencia\Controllers\SugerenciaController.cs" />
     <Compile Include="Areas\AUsuario\AUsuarioAreaRegistration.cs" />
     <Compile Include="Areas\AUsuario\Controllers\UsuarioController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -171,10 +173,7 @@
     <Content Include="Content\Imagenes\Clima\clima11.png" />
     <Content Include="Content\Imagenes\Logos\logo.png" />
     <Content Include="Content\Imagenes\Logos\logohor.png" />
-    <Content Include="Content\Imagenes\Logos\logop.png" />
-    <Content Include="Content\Imagenes\Logos\logosk.png" />
     <Content Include="Content\Imagenes\Logos\logover.png" />
-    <Content Include="Content\Imagenes\Logos\logo_blanco.png" />
     <Content Include="Content\Imagenes\Logos\paw.png" />
     <Content Include="Content\Imagenes\Logos\sk_logo.png" />
     <Content Include="Content\Imagenes\molecula.png" />
@@ -304,6 +303,16 @@
     <Content Include="Areas\APreferencia\Views\Preferencia\_loadProducto.cshtml" />
     <Content Include="Areas\AReceta\Views\Receta\_listaRecetas.cshtml" />
     <Content Include="Areas\AReceta\Views\Receta\_vistaRecetas.cshtml" />
+    <Content Include="Areas\AUsuario\Views\Usuario\_listaUsuario.cshtml" />
+    <Content Include="Areas\AProducto\Views\Producto\_loadProductos.cshtml" />
+    <Content Include="Areas\AProducto\Views\Producto\_listaProductos.cshtml" />
+    <Content Include="Areas\AProducto\Views\Producto\_newProducto.cshtml" />
+    <Content Include="Areas\AReceta\Views\Receta\_newReceta.cshtml" />
+    <Content Include="Areas\AReceta\Views\Receta\_buscarReceta.cshtml" />
+    <Content Include="Areas\ASugerencia\Views\web.config" />
+    <Content Include="Areas\ASugerencia\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\ASugerencia\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\ASugerencia\Views\Sugerencia\_loadSugerencia.cshtml" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
@@ -332,6 +341,7 @@
     <Content Include="Views\Home\_verBotones.cshtml" />
     <Content Include="Views\Home\_verComandos.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
+    <Content Include="Views\Home\_recetaSug.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -339,6 +349,7 @@
     <Folder Include="Areas\APreferencia\Data\" />
     <Folder Include="Areas\AProducto\Data\" />
     <Folder Include="Areas\AReceta\Data\" />
+    <Folder Include="Areas\ASugerencia\Data\" />
     <Folder Include="Areas\AUsuario\Data\" />
     <Folder Include="Models\" />
   </ItemGroup>

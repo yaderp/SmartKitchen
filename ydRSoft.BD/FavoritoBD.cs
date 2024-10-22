@@ -80,7 +80,7 @@ namespace ydRSoft.BD
                         string query = @"
                                     SELECT idreceta
                                     FROM favoritos
-                                    WHERE iduser = @iduser";
+                                    WHERE iduser = @iduser and estado > 0;";
 
                         using (MySqlCommand command = new MySqlCommand(query, conexion))
                         {
@@ -108,6 +108,54 @@ namespace ydRSoft.BD
             }
 
             return mLista;
+        }
+
+        public static async Task<RpstaModel> ActEstado(int IdUser, int recetaId, int Estado)
+        {
+            RpstaModel model = new RpstaModel();
+
+            string query = "UPDATE favoritos SET estado = @estado " +
+                           "WHERE idreceta = @idreceta and iduser = @iduser;";
+
+            using (MySqlConnection conexion = MySqlConexion.MyConexion())
+            {
+                if (conexion != null)
+                {
+                    try
+                    {
+                        await conexion.OpenAsync();
+
+                        MySqlCommand cmd = new MySqlCommand(query, conexion);
+                        cmd.Parameters.AddWithValue("@estado", Estado);
+                        cmd.Parameters.AddWithValue("@iduser", IdUser);
+                        cmd.Parameters.AddWithValue("@idreceta", recetaId);
+
+                        var respuesta = await cmd.ExecuteNonQueryAsync();
+                        if (respuesta > 0)
+                        {
+                            model.Error = false;
+                            model.Mensaje = "Favorito actualizada correctamente.";
+                        }
+                        else
+                        {
+                            model.Error = true;
+                            model.Mensaje = "No se encontró la Favorito.";
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        model.Mensaje = ex.Message;
+                        await Util.LogError.SaveLog("Favorito Edit | " + ex.Message);
+                    }
+                    finally
+                    {
+                        await conexion.CloseAsync();
+                    }
+                }
+            }
+
+
+            return model;
         }
 
         public static async Task<bool> IsDuplicado(int IdUser, int IdRe)

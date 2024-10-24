@@ -15,8 +15,8 @@ namespace ydRSoft.BD
         {
             RpstaModel model = new RpstaModel();
 
-            string query = "INSERT INTO usuario (nombres, dni, correo, clave, idsexo, idcargo, fechareg, estado) " +
-                           "VALUES (@nombres, @dni, @correo, @clave, @idsexo, @idcargo, @fechareg, @estado)";
+            string query = "INSERT INTO usuario (nombres, dni, correo, clave, idsexo, idcargo, fechareg, estado, region) " +
+                           "VALUES (@nombres, @dni, @correo, @clave, @idsexo, @idcargo, @fechareg, @estado, @region)";
 
             using (MySqlConnection conexion = MySqlConexion.MyConexion())
             {
@@ -35,6 +35,7 @@ namespace ydRSoft.BD
                         cmd.Parameters.AddWithValue("@idcargo", objModel.IdCargo);
                         cmd.Parameters.AddWithValue("@fechareg", DateTime.Now);
                         cmd.Parameters.AddWithValue("@estado", 1);
+                        cmd.Parameters.AddWithValue("@region", objModel.Region);
 
                         var respuesta = await cmd.ExecuteNonQueryAsync();
                         if (respuesta > 0)
@@ -60,7 +61,7 @@ namespace ydRSoft.BD
         public static async Task<UsuarioModel> GetUsuario(string Nombre, string Clave)
         {
             string query = @"SELECT
-                            id, nombres, dni, correo, clave, idsexo, idcargo, estado
+                            id, nombres, dni, correo, clave, idsexo, idcargo, estado, region
                             FROM usuario 
                             WHERE nombres = @nombres and clave = @clave;";
 
@@ -89,7 +90,8 @@ namespace ydRSoft.BD
                                 Correo = !reader.IsDBNull(3) ? reader.GetString(3) : "",
                                 Clave = !reader.IsDBNull(4) ? reader.GetString(4) : "",
                                 IdSexo = !reader.IsDBNull(5) ? reader.GetInt32(5) : 0,
-                                Estado = !reader.IsDBNull(6) ? reader.GetInt32(6) : 0
+                                Estado = !reader.IsDBNull(6) ? reader.GetInt32(6) : 0,
+                                Region = !reader.IsDBNull(8) ? reader.GetString(8) : ""
                             };
                         }
                     }
@@ -109,7 +111,7 @@ namespace ydRSoft.BD
         public static async Task<UsuarioModel> GetUsuarioId(int id)
         {
             string query = @"SELECT
-                            id, nombres, dni, correo, clave, idsexo, idcargo, estado
+                            id, nombres, dni, correo, clave, idsexo, idcargo, estado, region
                             FROM usuario 
                             WHERE id = @id;";
 
@@ -139,7 +141,8 @@ namespace ydRSoft.BD
                                     Clave = !reader.IsDBNull(4) ? reader.GetString(4) : "",
                                     IdSexo = !reader.IsDBNull(5) ? reader.GetInt32(5) : 0,
                                     IdCargo = !reader.IsDBNull(6) ? reader.GetInt32(6) : 0,
-                                    Estado = !reader.IsDBNull(7) ? reader.GetInt32(7) : 0
+                                    Estado = !reader.IsDBNull(7) ? reader.GetInt32(7) : 0,
+                                    Region = !reader.IsDBNull(8) ? reader.GetString(8) : ""
                                 };
                             }
                         }
@@ -162,7 +165,7 @@ namespace ydRSoft.BD
         public static async Task<UsuarioModel> GetUsuarioNom(string Nombre)
         {
             string query = @"SELECT
-                            id, nombres, dni, correo, clave, idsexo, idcargo, estado
+                            id, nombres, dni, correo, clave, idsexo, idcargo, estado, region
                             FROM usuario 
                             WHERE nombres = @nombres;";
 
@@ -192,7 +195,8 @@ namespace ydRSoft.BD
                                     Clave = !reader.IsDBNull(4) ? reader.GetString(4) : "",
                                     IdSexo = !reader.IsDBNull(5) ? reader.GetInt32(5) : 0,
                                     IdCargo = !reader.IsDBNull(6) ? reader.GetInt32(6) : 0,
-                                    Estado = !reader.IsDBNull(7) ? reader.GetInt32(7) : 0
+                                    Estado = !reader.IsDBNull(7) ? reader.GetInt32(7) : 0,
+                                    Region = !reader.IsDBNull(8) ? reader.GetString(8) : ""
                                 };
                             }
                         }
@@ -216,7 +220,7 @@ namespace ydRSoft.BD
             RpstaModel model = new RpstaModel();
 
             string query = "UPDATE usuario SET dni = @dni, correo = @correo, " +
-                           "clave = @clave, idsexo = @idsexo, idcargo = @idcargo, estado = @estado " +
+                           "clave = @clave, idsexo = @idsexo, idcargo = @idcargo, estado = @estado, region= @region " +
                            "WHERE id = @id";
 
             using (MySqlConnection conexion = MySqlConexion.MyConexion())
@@ -235,6 +239,7 @@ namespace ydRSoft.BD
                         cmd.Parameters.AddWithValue("@idcargo", objModel.IdCargo);
                         cmd.Parameters.AddWithValue("@estado", objModel.Estado);
                         cmd.Parameters.AddWithValue("@id", objModel.Id);
+                        cmd.Parameters.AddWithValue("@region", objModel.Region);
 
                         var respuesta = await cmd.ExecuteNonQueryAsync();
                         if (respuesta > 0)
@@ -269,7 +274,7 @@ namespace ydRSoft.BD
             List<UsuarioModel> mLista = new List<UsuarioModel>();
 
             string query = @"SELECT
-                            id, nombres, dni, correo, clave, idsexo, idcargo, estado
+                            id, nombres, dni, correo, clave, idsexo, idcargo, estado, region
                             FROM usuario 
                             WHERE estado = @estado;";
 
@@ -298,7 +303,8 @@ namespace ydRSoft.BD
                                         Clave = !reader.IsDBNull(4) ? reader.GetString(4) : "",
                                         IdSexo = !reader.IsDBNull(5) ? reader.GetInt32(5) : 0,
                                         IdCargo = !reader.IsDBNull(6) ? reader.GetInt32(6) : 0,
-                                        Estado = !reader.IsDBNull(7) ? reader.GetInt32(7) : 0
+                                        Estado = !reader.IsDBNull(7) ? reader.GetInt32(7) : 0,
+                                        Region = !reader.IsDBNull(8) ? reader.GetString(8) : ""
                                     };
 
                                     mLista.Add(mUser);

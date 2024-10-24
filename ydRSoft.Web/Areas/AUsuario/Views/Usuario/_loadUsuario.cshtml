@@ -8,6 +8,7 @@
 <style>
     .ydR-imgPerfil{
         height: 400px;
+        width:300px;
         align-content:center;
     }
 </style>
@@ -28,6 +29,21 @@
                         <hr />
                     </div>
                     <div class="panel-body">
+
+                        <div class="form-group row">
+                            <label class="col-md-3 text-right">Region:</label>
+                            <div class="col-md-9">
+                                <select id="mRegion" class="form-control">
+                                    <option value="PERU">PERU</option>
+                                    <option value="BOLIVIA">BOLIVIA</option>
+                                    <option value="VENEZUELA">VENEZUELA</option>
+                                    <option value="ITALIA">ITALIA</option>
+                                    <option value="FRANCIA">FRANCIA</option>
+
+                                </select>
+                            </div>
+                        </div>
+
                         <div class="form-group row">
                             <label class="col-md-3 text-right">DNI:</label>
                             <div class="col-md-9">
@@ -206,7 +222,8 @@ else
     document.getElementById('mSexo').value = "@objUser.IdSexo";
     document.getElementById('mCargo').value = "@objUser.IdCargo";
     document.getElementById('mEstado').value = "@objUser.Estado";
-    
+    document.getElementById('mRegion').value = "@objUser.Region";
+
 </script>
 
 <script>
@@ -218,6 +235,7 @@ else
         let estado = document.getElementById('mEstado').value
         console.log("entro edit usuario " + estado);
         var dataString = new FormData();
+        dataString.append("Region", document.getElementById('mRegion').value);
         dataString.append("Id", document.getElementById('editId').value);
         dataString.append("Clave", document.getElementById('mClave').value);
         dataString.append("Correo", document.getElementById('mCorreo').value);

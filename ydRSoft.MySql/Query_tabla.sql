@@ -18,17 +18,21 @@ CREATE TABLE usuario (
     idsexo INT NOT NULL,
     idcargo INT NOT NULL,
     fechareg DATETIME,
-    estado INT NOT NULL
+    estado INT NOT NULL,
+    region VARCHAR(200)
 );
+
+ALTER TABLE usuario
+ADD COLUMN region VARCHAR(200);
 
 ALTER TABLE usuario MODIFY clave VARCHAR(50) NOT NULL COLLATE utf8mb4_bin;
 
-INSERT INTO usuario(nombres, dni, correo, clave, idsexo, idcargo, fechareg, estado) VALUES('INVITADO','12345678','correo@correo','123',1,0,now(),1);
-INSERT INTO usuario(nombres, dni, correo, clave, idsexo, idcargo, fechareg, estado) VALUES('YADER','43114343','yaderch@gmail.com','palomita',1,1,now(),1);
-INSERT INTO usuario(nombres, dni, correo, clave, idsexo, idcargo, fechareg, estado) VALUES('CARLOS','12345678','correo@gmail.com','1234',1,1,now(),1);
-INSERT INTO usuario(nombres, dni, correo, clave, idsexo, idcargo, fechareg, estado) VALUES('USUARIO1','12345678','correo@gmail.com','1234',1,1,now(),2);
-INSERT INTO usuario(nombres, dni, correo, clave, idsexo, idcargo, fechareg, estado) VALUES('USUARIO2','12345678','correo@gmail.com','1234',1,1,now(),2);
-INSERT INTO usuario(nombres, dni, correo, clave, idsexo, idcargo, fechareg, estado) VALUES('USUARIO3','12345678','correo@gmail.com','1234',1,1,now(),2);
+INSERT INTO usuario(nombres, dni, correo, clave, idsexo, idcargo, fechareg, estado, region) VALUES('INVITADO','12345678','correo@correo','123',1,0,now(),1,'PERU');
+INSERT INTO usuario(nombres, dni, correo, clave, idsexo, idcargo, fechareg, estado, region) VALUES('YADER','43114343','yaderch@gmail.com','palomita',1,1,now(),1,'PERU');
+INSERT INTO usuario(nombres, dni, correo, clave, idsexo, idcargo, fechareg, estado, region) VALUES('CARLOS','12345678','correo@gmail.com','1234',1,1,now(),1,'PERU');
+INSERT INTO usuario(nombres, dni, correo, clave, idsexo, idcargo, fechareg, estado, region) VALUES('USUARIO1','12345678','correo@gmail.com','1234',1,1,now(),2,'PERU');
+INSERT INTO usuario(nombres, dni, correo, clave, idsexo, idcargo, fechareg, estado, region) VALUES('USUARIO2','12345678','correo@gmail.com','1234',1,1,now(),2,'PERU');
+INSERT INTO usuario(nombres, dni, correo, clave, idsexo, idcargo, fechareg, estado, region) VALUES('USUARIO3','12345678','correo@gmail.com','1234',1,1,now(),2,'PERU');
 
 CREATE TABLE receta (
     id INT PRIMARY KEY AUTO_INCREMENT,
@@ -43,8 +47,7 @@ CREATE TABLE receta (
     calificacion INT NOT NULL
 );
 
-ALTER TABLE receta
-ADD COLUMN calificacion INT NOT NULL;
+
 
 
 CREATE TABLE favoritos (
@@ -56,10 +59,10 @@ CREATE TABLE favoritos (
 );
 
 ALTER TABLE favoritos
-ADD FOREIGN KEY (idreceta) REFERENCES receta(id) ON DELETE CASCADE ON UPDATE CASCADE;
+ADD FOREIGN KEY (idreceta) REFERENCES receta(id);
 
 ALTER TABLE favoritos
-ADD FOREIGN KEY (iduser) REFERENCES usuario(id) ON DELETE CASCADE ON UPDATE CASCADE;
+ADD FOREIGN KEY (iduser) REFERENCES usuario(id);
 
 
 CREATE TABLE producto (
@@ -102,17 +105,20 @@ CREATE TABLE sugerencias (
 	fechareg DATE
 );
 
+ALTER TABLE sugerencias
+ADD COLUMN estado INT NOT NULL;
+
+ALTER TABLE sugerencias
+ADD FOREIGN KEY (idreceta) REFERENCES receta(id);
 
 select *from usuario;
 select *from receta;
-
+select *from favoritos;
 
 select *from producto;
 select *from preferencias;
 select *from sugerencias;
 
-update receta
-set calificacion = 0
-where id>5;
-
-
+update sugerencias
+set estado = 1
+where id>0

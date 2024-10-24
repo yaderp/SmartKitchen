@@ -46,10 +46,10 @@
                     @if (item.Estado != 2)
                     {
                         <td>
-                            <button class="btn btnydR-Success btn btn-xs" onclick="funbtnl1stae(@item.Id)"> <i class="fa fa-edit"></i></button>
+                            <button class="btn btnydR-Success btn btn-xs" onclick="funbtn1a(@item.Id)"> <i class="fa fa-edit"></i></button>
                         </td>
                         <td>
-                            <button class="btn btnydR-Rojo btn btn-xs" onclick="funbtnl1stad(@item.Id)"> <i class="fa fa-trash"></i></button>
+                            <button class="btn btnydR-Rojo btn btn-xs" onclick="funbtn2a(@item.Id)"> <i class="fa fa-trash"></i></button>
                         </td>
                     }
 
@@ -76,13 +76,13 @@
 </table>
 
 <script>
-    function funbtnl1stae(id) {
+    function funbtn1a(id) {
         console.log("Editar -> " + id);
         
     }
 
     function funbtn2a(id) {
         console.log("eliminar -> " + id);
-        funbtnl1stad(id, 2);
+        funEliminaProd1g(id);
     }
 </script>

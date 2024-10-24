@@ -122,6 +122,8 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\AConfiguracion\AConfiguracionAreaRegistration.cs" />
     <Compile Include="Areas\AConfiguracion\Controllers\ConfiguracionController.cs" />
+    <Compile Include="Areas\AFavoritos\AFavoritosAreaRegistration.cs" />
+    <Compile Include="Areas\AFavoritos\Controllers\FavoritosController.cs" />
     <Compile Include="Areas\APreferencia\APreferenciaAreaRegistration.cs" />
     <Compile Include="Areas\APreferencia\Controllers\PreferenciaController.cs" />
     <Compile Include="Areas\AProducto\AProductoAreaRegistration.cs" />
@@ -313,6 +315,15 @@
     <Content Include="Areas\ASugerencia\Views\_ViewStart.cshtml" />
     <Content Include="Areas\ASugerencia\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\ASugerencia\Views\Sugerencia\_loadSugerencia.cshtml" />
+    <Content Include="Areas\AFavoritos\Views\web.config" />
+    <Content Include="Areas\AFavoritos\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\AFavoritos\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\AFavoritos\Views\Favoritos\_listaFavoritos.cshtml" />
+    <Content Include="Areas\AFavoritos\Views\Favoritos\_loadFavoritos.cshtml" />
+    <Content Include="Areas\AFavoritos\Views\Favoritos\_vistaFavoritos.cshtml" />
+    <Content Include="Areas\ASugerencia\Views\Sugerencia\_alertaSug.cshtml" />
+    <Content Include="Areas\ASugerencia\Views\Sugerencia\_vistaSugerencia.cshtml" />
+    <Content Include="Areas\ASugerencia\Views\Sugerencia\_listaSugerencia.cshtml" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
@@ -346,6 +357,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\AConfiguracion\Data\" />
+    <Folder Include="Areas\AFavoritos\Data\" />
     <Folder Include="Areas\APreferencia\Data\" />
     <Folder Include="Areas\AProducto\Data\" />
     <Folder Include="Areas\AReceta\Data\" />

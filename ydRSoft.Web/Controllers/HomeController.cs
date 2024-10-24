@@ -19,18 +19,18 @@ namespace ydRSoft.Web.Controllers
             await InfoSing.Instance.LoadProductos();
             await SugerenciaBL.LoadSugerencia();
 
-            var mUser = await UsuarioBL.GetUsuarioId(2);
+            //var mUser = await UsuarioBL.GetUsuarioId(2);
 
-            Session["objUser"] = mUser;
-            return RedirectToAction("Index", "Configuracion", new { Area = "AConfiguracion" });
+            //Session["objUser"] = mUser;
+            //return RedirectToAction("Index", "Configuracion", new { Area = "AConfiguracion" });
 
-            //UsuarioModel model = (UsuarioModel)Session["objUser"];
-            //if (model == null)
-            //{
-            //    return RedirectToAction("Login");
-            //}
+            UsuarioModel model = (UsuarioModel)Session["objUser"];
+            if (model == null)
+            {
+                return RedirectToAction("Login");
+            }
 
-            //return View(model);
+            return View(model);
         }
 
         public ActionResult Login()

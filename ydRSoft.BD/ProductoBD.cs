@@ -134,6 +134,57 @@ namespace ydRSoft.BD
             return producto;
         }
 
+        public static async Task<RpstaModel> ActProducto(int IdProd,int Estado)
+        {
+            RpstaModel  model = new RpstaModel();              
+
+            string query = @"UPDATE producto
+                            SET estado = @estado 
+                            WHERE id = @id";
+
+            using (MySqlConnection conexion = MySqlConexion.MyConexion())
+            {
+                if (conexion != null)
+                {
+                    try
+                    {
+                        await conexion.OpenAsync();
+
+                        using (MySqlCommand cmd = new MySqlCommand(query, conexion))
+                        {
+                            cmd.Parameters.AddWithValue("@id", IdProd);
+                            cmd.Parameters.AddWithValue("@estado", Estado);
+
+                            var respuesta = await cmd.ExecuteNonQueryAsync();
+                            if (respuesta > 0)
+                            {
+                                model.Error = false;
+                                model.Mensaje = "producto actualizada correctamente.";
+                            }
+                            else
+                            {
+                                model.Error = true;
+                                model.Mensaje = "No se encontró el producto.";
+                            }
+
+                        }
+
+                    }
+                    catch (Exception ex)
+                    {
+                        await Util.LogError.SaveLog("Prod Act | " + ex.Message);
+                    }
+                    finally
+                    {
+                        await conexion.CloseAsync();
+                    }
+                }
+            }
+
+            return model;
+        }
+
+
         public static async Task<List<ProductoModel>> ListaProd()
         {
             List<ProductoModel> mLista = new List<ProductoModel>();

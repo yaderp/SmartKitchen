@@ -46,7 +46,6 @@ namespace ydRSoft.BL
             }
         }
 
-
         public static async Task<RecetaModel> ConsultarSuger()
         {
             RecetaModel receta = new RecetaModel();
@@ -88,6 +87,30 @@ namespace ydRSoft.BL
             }
 
             return receta;
+        }
+
+
+        public static async Task<RpstaModel> ActEstado(int IdSug)
+        {
+            var resultado = await SugerenciaBD.ActEstado(IdSug, 0);
+
+            return resultado;
+        }
+
+        public static async Task<List<RecetaModel>> ListaSugerencia(string Nombre)
+        {
+            List<RecetaModel> mLista;
+
+            if (string.IsNullOrEmpty(Nombre))
+            {
+                mLista = await SugerenciaBD.ListaSug();
+            }
+            else
+            {
+                mLista = await SugerenciaBD.ListaSug(Nombre);
+            }
+
+            return mLista;
         }
     }
 }

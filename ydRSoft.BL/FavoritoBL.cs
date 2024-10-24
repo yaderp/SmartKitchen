@@ -29,6 +29,13 @@ namespace ydRSoft.BL
             return resultado;
         }
 
+        public static async Task<RpstaModel> ActEstado(int IdFav)
+        {
+            var resultado = await FavoritoBD.ActEstado(IdFav, 0);
+
+            return resultado;
+        }
+
         public static async Task<RecetaModel> GetAll(int IdUser)
         {
             var mLista = await FavoritoBD.GetAll(IdUser);
@@ -36,5 +43,22 @@ namespace ydRSoft.BL
 
             return objModel;
         }
+
+        public static async Task<List<RecetaModel>> ListaFavoritos(int IdUser, string Nombre)
+        {
+            List<RecetaModel> mLista;
+
+            if (string.IsNullOrEmpty(Nombre))
+            {
+                mLista = await FavoritoBD.ListaFavoritos(IdUser);
+            }
+            else
+            {
+                mLista = await FavoritoBD.ListaFavoritos(IdUser,Nombre);
+            }            
+
+            return mLista;
+        }
+
     }
 }

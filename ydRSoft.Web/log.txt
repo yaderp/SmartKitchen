@@ -11,3 +11,13 @@
 21/10/2024 20:57:17 | Receta lista Dif | You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '<= 15 and ndif = 3 and  categoria = 'principal' WHERE estado > 0' at line 1
 21/10/2024 20:57:19 | Receta lista Dif | You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '<= 30 and ndif = 3 and  categoria = 'principal' WHERE estado > 0' at line 1
 21/10/2024 20:57:20 | Receta lista Dif | You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '<= 999 and ndif = 3 and  categoria = 'principal' WHERE estado > 0' at line 1
+22/10/2024 13:15:43 | lista fav | Unknown column 'f.estado' in 'where clause'
+22/10/2024 13:18:42 | lista fav | Fatal error encountered during command execution.
+22/10/2024 13:18:42 | lista fav | Fatal error encountered during command execution.
+22/10/2024 13:18:46 | lista fav | Fatal error encountered during command execution.
+22/10/2024 13:18:48 | lista fav | Fatal error encountered during command execution.
+22/10/2024 13:18:48 | lista fav | Fatal error encountered during command execution.
+23/10/2024 17:53:02 | Guardar Receta |Field 'estado' doesn't have a default value
+23/10/2024 17:53:49 | Guardar Receta |Field 'estado' doesn't have a default value
+23/10/2024 17:55:31 | Guardar Receta |Field 'estado' doesn't have a default value
+23/10/2024 18:00:45 | Guardar Receta |Field 'estado' doesn't have a default value

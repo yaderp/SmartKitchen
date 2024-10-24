@@ -24,13 +24,17 @@ namespace ydRSoft.Web.Areas.AProducto.Controllers
         [HttpPost]
         public async  Task<JsonResult> Prueba(string image64)
         {
-            List<ProductoModel> mLista = new List<ProductoModel>();
-            mLista.Add(new ProductoModel(21,"PLATANO",300,280,250));
-            mLista.Add(new ProductoModel(34,"MANZANA",900,220,180));
-            mLista.Add(new ProductoModel(12, "ZANAHORIA", 750, 650, 200));
+            var model = await ProductoBL.GetInformacionN("PLATANO");
+            model.PosX = 300;
+            model.PosY = 300;
+            model.Radio = 280;
 
-            mLista = await InfoBL.CargarInfo(mLista);
+            var model2 = await ProductoBL.GetInformacionN("ZANAHORIA");
+            model2.PosX = 950;
+            model2.PosY = 350;
+            model2.Radio = 150;
 
+            List<ProductoModel> mLista = new List<ProductoModel> { model, model2 };
             return Json(mLista, JsonRequestBehavior.AllowGet);
         }
 
@@ -46,7 +50,8 @@ namespace ydRSoft.Web.Areas.AProducto.Controllers
 
         public async Task<ActionResult> ListaProductos()
         {
-            var mLista = await ProductoBL.ListaProducto();            
+            var mLista = await ProductoBL.ListaProducto();
+            mLista = mLista.OrderBy(x => x.Nombre).ToList();
             return PartialView("_listaProductos", mLista);
         }
 
@@ -61,6 +66,13 @@ namespace ydRSoft.Web.Areas.AProducto.Controllers
         public async Task<JsonResult> GuardarInfoN(ProductoModel objModel)
         {
             var resultado = await ProductoBL.Guardar(objModel);
+
+            return Json(resultado, JsonRequestBehavior.AllowGet);
+        }
+
+        public async Task<JsonResult> ActProducto(int IdProd)
+        {
+            var resultado = await ProductoBL.ActProducto(IdProd, 0);
 
             return Json(resultado, JsonRequestBehavior.AllowGet);
         }

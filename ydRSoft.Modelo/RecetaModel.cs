@@ -22,7 +22,7 @@ namespace ydRSoft.Modelo
         public List<string> PasosPreparacion { get; set; }        
         public List<int> ListaId { get; set; }
         public bool Isfavorito { get; set; }
-
+        public int IdFav { get; set; }
         public RecetaModel() {
             Id = 0;
             Nombre = "nombre01";

@@ -23,7 +23,7 @@
     <div class="col-md-8">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3>Lista Productos</h3>
+                <h3>Productos Informacion Nutricional por cada 100g</h3>
                 <hr />
             </div>
             <div class="panel-body">
@@ -74,6 +74,29 @@
 
         document.getElementById("btnBuscar").innerHTML = "<i class='fa fa-search'></i> Buscar ";
         document.getElementById("btnBuscar").disabled = false;
+    }
+
+    async function funEliminaProd1g(id) {
+       
+        var dataString = new FormData();
+        dataString.append("IdProd", id);
+
+        const response = await fetch('/AProducto/Producto/ActProducto', {
+            method: 'POST',
+            body: dataString
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            if (data.Error) {
+                alert(data.Mensaje);
+            } else {
+                funVerL1staProd();
+            }
+        } else {
+            alert('Error en la respuesta: ' + response.status, response.statusText);
+        }
+
     }
     
 </script>

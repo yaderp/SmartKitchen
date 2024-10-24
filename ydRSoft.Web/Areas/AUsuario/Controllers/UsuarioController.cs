@@ -99,6 +99,10 @@ namespace ydRSoft.Web.Areas.AUsuario.Controllers
             try
             {
                 rpstaModel = await UsuarioBL.Editar(objModel);
+                if (!rpstaModel.Error)
+                {
+                    Session["objUser"] = objModel;
+                }
             }
             catch (Exception ex)
             {
@@ -117,13 +121,13 @@ namespace ydRSoft.Web.Areas.AUsuario.Controllers
             {
                 // Ruta donde se guardará la imagen
                 string fileName = Path.GetFileName(imageFile.FileName);
-                string path = Path.Combine(Server.MapPath("~/Content/Imagenes/Logos"), IdUser + ".jpg");
+                string path = Path.Combine(Server.MapPath("~/Content/Imagenes/Avatar"), IdUser + ".jpg");
 
                 // Guardar la imagen en la ruta especificada
                 imageFile.SaveAs(path);
 
                 // Retornar la URL de la imagen como respuesta JSON
-                return Json(new { success = true, imageUrl = Url.Content("~/Content/Imagenes/Logos/" + IdUser + ".jpg") });
+                return Json(new { success = true, imageUrl = Url.Content("~/Content/Imagenes/Avatar/" + IdUser + ".jpg") });
             }
             else
             {

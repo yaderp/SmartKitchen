@@ -13,6 +13,7 @@
         <tr>
             <th width="1"> # </th>
             <th>Nombre</th>
+            <th width="20%">REGION</th>
             <th width="20%">DNI</th>
             <th width="30%">CORREO</th>
             <th width="1"></th>
@@ -29,6 +30,7 @@
                     <td hidden>@item.Id</td>
                     <td class="text-default">@Index.ToString().PadLeft(2, '0')</td>
                     <td>@item.Nombres</td>
+                    <td>@item.Region</td>
                     <td>@item.Dni</td>
                     <td>@item.Correo</td>
                     @if (item.IdSexo == ydRSoft.Util.Variables.HOMBRE)

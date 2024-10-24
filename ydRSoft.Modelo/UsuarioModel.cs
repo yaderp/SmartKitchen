@@ -13,6 +13,7 @@ namespace ydRSoft.Modelo
         public string Dni { get; set; }
         public string Correo { get; set; }
         public string Clave { get; set; }
+        public string Region { get; set; }
         public int IdSexo { get; set; }
         public int IdCargo { get; set; }
         public DateTime FechaReg { get; set; }

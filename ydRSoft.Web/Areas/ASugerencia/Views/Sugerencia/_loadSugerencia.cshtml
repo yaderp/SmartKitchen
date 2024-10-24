@@ -1,71 +1,38 @@
-﻿@using ydRSoft.Modelo
+﻿
+@using ydRSoft.Modelo
 @model RecetaModel
 
-@{ 
+
+@{
     RecetaModel receta = Model != null ? Model : new RecetaModel();
     int npaso = 1;
 }
 
-<input id="rece7aId" value="@receta.Id" hidden/>
-<div class="ydRDiv-centrado-40">
-    <div class="panel panel-success">
-        <div class="panel-heading text-center">
-            <h2> <strong> Receta Sugerida </strong>  </h2>
-            <h3>(@DateTime.Now.ToString("D"))</h3>
+<input id="rece7aId" value="@receta.Id" hidden />
+
+@if (receta.Id > 0)
+{
+    <h3>@receta.Nombre</h3>
+    <hr />
+    <strong> INGREDIENTES</strong> <span> (@receta.Categoria) &nbsp; Nivel :  @receta.NivelDificultad </span>
+    <hr />
+    foreach (var item in receta.Ingredientes)
+    {
+        <div>
+            <i class="fa fa-check-square-o"> &nbsp;</i> @item
         </div>
-        <div class="panel-body">
-            <h3>@receta.Nombre (@receta.Categoria)</h3>
-            <h4> Nivel Dificultad : @receta.NivelDificultad (1 de 5)</h4>
-
-            <hr />
-            <strong> INGREDIENTES :</strong>
-            @foreach (var item in receta.Ingredientes)
-            {
-                <div>
-                    <i class="fa fa-check-square-o"> &nbsp;</i> @item
-                </div>
-            }
-
-            <strong> PREPARACION</strong> <i class="fa fa-clock-o"> @receta.Tiempo min. </i>
-            <hr />
-
-            @foreach (var item in receta.PasosPreparacion)
-            {
-                <div><strong>Paso @(npaso++): </strong> @item</div>
-            }
-
-        </div>
-
-        @if (receta.Estado == 0)
-        {
-            <hr />
-            <div class="ydRDiv-centrado-40">
-                <button class="btn btn-success btn-block" onclick="funSaveSug1a()" > <i class='fa fa-save'> &nbsp; GUARDAR</i></button>
-            </div>
-        }
-
-        <br />
-    </div>
-</div>
-
-
-<script>
-    async function funSaveSug1a() {
-        var dataString = new FormData();
-        dataString.append("recetaId", document.getElementById('rece7aId').value);
-        dataString.append("Estado", 1);
-        //document.getElementById("idLoad1").innerHTML = "<i class='fa fa-spinner'> Cargando...</i>";
-        const response = await fetch('/AReceta/Receta/ActEstado', {
-            method: 'POST',
-            body: dataString
-        });
-        if (response.ok) {
-            const data = await response.json();
-            if (data.Error) {
-                alert(data.Mensaje);
-            } else {
-                funVistaSugerencia();
-            }            
-        }
     }
-</script>
+
+    <br />
+    <strong> PREPARACION</strong> <i class="fa fa-clock-o"> @receta.Tiempo min. </i>
+    <hr />
+
+    foreach (var item in receta.PasosPreparacion)
+    {
+        <div><strong>Paso @(npaso++): </strong> @item</div>
+    }
+}
+else
+{
+    <h3>Ninguna Receta Encontrada</h3>
+}

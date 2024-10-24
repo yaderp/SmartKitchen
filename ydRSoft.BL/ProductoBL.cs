@@ -103,14 +103,29 @@ namespace ydRSoft.BL
                     await InfoSing.Instance.LoadProductos();
                 }
             }
+            else
+            {
+                var prod = await ProductoBD.GetProducto(objModel.Nombre);
+                if (prod != null && prod.Id > 0 && prod.Estado == 0)
+                {
+                    rpstaModel = await ProductoBD.ActProducto(prod.Id, 1);
+
+                }
+            }
 
             return rpstaModel;
         }
 
+
+        public static async Task<RpstaModel> ActProducto(int IdProd,int Estado)
+        {
+            var resultado = await ProductoBD.ActProducto(IdProd, Estado);
+
+            return resultado;
+        }
+
         public static async Task<ProductoModel> GetInformacionN(string Nombre)
         {
-            
-
             var modelo = await ProductoBD.GetProducto(Nombre);
             if(modelo == null)
             {

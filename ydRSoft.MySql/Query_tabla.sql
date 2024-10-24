@@ -115,7 +115,8 @@ select *from usuario;
 select *from receta;
 select *from favoritos;
 
-select *from producto;
+select *from producto
+where estado =0;
 select *from preferencias;
 select *from sugerencias;
 

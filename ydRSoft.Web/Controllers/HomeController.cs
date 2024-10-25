@@ -19,9 +19,9 @@ namespace ydRSoft.Web.Controllers
             await InfoSing.Instance.LoadProductos();
             await SugerenciaBL.LoadSugerencia();
 
-            //var mUser = await UsuarioBL.GetUsuarioId(2);
+            var mUser = await UsuarioBL.GetUsuarioId(2);
 
-            //Session["objUser"] = mUser;
+            Session["objUser"] = mUser;
             //return RedirectToAction("Index", "Configuracion", new { Area = "AConfiguracion" });
 
             UsuarioModel model = (UsuarioModel)Session["objUser"];

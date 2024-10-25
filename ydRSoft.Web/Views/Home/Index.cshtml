@@ -336,21 +336,32 @@
 
     }
 
+
     function dibujarNombre(x, y, radioExterior, texto) {
         const radioInterior = radioExterior - anchoCorona;
 
         ctx.font = `${tamNombre}px ${Tipoletra}`;
         ctx.fillStyle = 'white';
-        const anguloInicio = 1; 
-        const anguloPaso = 0.25 * 100 / radioExterior;
+        const anguloInicio = 1.2; 
+       
 
         const radioTexto = radioInterior + 35;
 
+        const perimetro = 2 * Math.PI * radioTexto;
+
+        // Medir el ancho total del texto en píxeles
+        const anchoTexto = ctx.measureText(texto).width;
+
+        // Calcular el espaciado angular para que las letras estén uniformemente distribuidas
+        const anguloTotalDisponible = (Math.PI * 2);  // Espacio angular disponible en la circunferencia
+        const anguloPorLetra = anguloTotalDisponible * (anchoTexto / perimetro) / texto.length;
+
+        const factorSeparacion = 1.2;
         const index = texto.length - 1;
         let aux = 0;
 
         for (let i = index; i >= 0; i--) {
-            const angulo = anguloInicio + aux * anguloPaso;
+            const angulo = anguloInicio + aux * anguloPorLetra * factorSeparacion;
             const letraX = x + (radioTexto * Math.cos(angulo));
             const letraY = y + (radioTexto * Math.sin(angulo));
 
@@ -369,7 +380,7 @@
         ctx.font = `${tamInfo}px ${Tipoletra}`;
         ctx.fillStyle = 'white';
 
-        const anguloInicio = 5;
+        const anguloInicio = 5.2;
         const radioTexto = radioInterior + 20;
 
         const radioBase = 50; // Esto puede ser un valor de referencia para la separación constante
@@ -382,7 +393,7 @@
 
         for (let i = totalLetras - 1; i >= 0; i--) {
             const anguloLetra = anguloInicio - (anguloPorLetra * i);
-            console.log("angle Letra -> " + anguloLetra);
+            //console.log("angle Letra -> " + anguloLetra);
             // Calcular la posición de cada letra
             const xLetra = x + Math.cos(anguloLetra) * radioTexto;
             const yLetra = y + Math.sin(anguloLetra) * radioTexto;
@@ -400,53 +411,28 @@
         }
     }
 
-    function dibujarTexto_test(x, y, radioExterior) {
-        const texto = "Tamaño de porcion 100g";
-        const radioInterior = radioExterior - anchoCorona;
-        // Configuración de la fuente
-        ctx.font = `${tamInfo}px ${Tipoletra}`;
-        ctx.fillStyle = 'white'; // Color del texto
-
-        const anguloInicio = 5 // Comienza desde el lado izquierdo de la corona
-        const anguloPaso = 0.13 * 100 / radioExterior;
-
-        // Ajustar el radio donde se dibuja el texto
-        const radioTexto = radioInterior + 20; // Ajustar el radio para el texto
-
-        const index = texto.length - 1;
-        // Dibujar texto a lo largo de la curva en forma de "U"
-        let aux = 0;
-        for (let i = index; i >= 0; i--) {
-            const angulo = anguloInicio - aux * anguloPaso; // Ángulo para cada letra
-            const letraX = x + (radioTexto * Math.cos(angulo)); // Coordenada x
-            const letraY = y + (radioTexto * Math.sin(angulo)); // Coordenada y
-            //alert("texto -> " + texto[i] + " Angulo -> " + angulo);
-            // Rotar el texto para que siga la curva
-            ctx.save();
-            ctx.translate(letraX, letraY);
-            ctx.rotate(angulo + Math.PI / 2); // Alinea el texto hacia arriba
-            ctx.fillText(texto[i], 0, 0); // Dibujar letra
-            ctx.restore();
-            aux++;
-        }
-    }
-
     function dibujarLinea(x, y, radius, listValor) {
 
         console.log("data -> " + listValor);
         const centerX = x;
         const centerY = y;
-        const anguloInicio = 5.4;
-        const anguloPaso = 0.39;
+        const anguloInicio = 5.8;
+        const radioBase = 40;
+        const totalRayos = 4
+        const radioTexto = radius + 20;
 
         const listaInfo = ["Calorias", "Proteinas", "Colesterol", "Carbohidratos", "Nutrientes"]
-        
+
+        const anguloPorRayo = (Math.PI * 2) / totalRayos * (radioBase / radius);
+
+        let angulo = 0;
+
         for (let i = 0; i < CantInfo; i++) {
-            ctx.fillStyle = 'yellow';           
-            const angle = anguloInicio + i  * anguloPaso; 
+            ctx.fillStyle = 'yellow';
 
-            console.log("Angulo : "+angle);
+            const angle = anguloInicio + (anguloPorRayo * i);
 
+            console.log("rayo :" + angle);
             const x1 = centerX + (radius - 10) * Math.cos(angle);
             const y1 = centerY + (radius - 10) * Math.sin(angle);
             
@@ -470,34 +456,37 @@
 
             const textoValor = listValor[i];
             const textoNombre = listaInfo[i];
-            console.log("Valor : " + textoValor);
+
             ctx.fillStyle = 'white';
             ctx.font = `bold ${tamInfoV}px ${letraInfo}`;
             ctx.fillText(textoValor, x2 + 10, y2);
 
-            ctx.fillStyle = 'gray';
+            ctx.fillStyle = 'rgb(150,150,150)';
             ctx.font = `bold ${tamInfoN}px ${letraInfo}`;
             ctx.fillText(textoNombre, x2 + 10, y2 + 25);
+
+            angulo = angle;
         }
 
-        let angulo = anguloInicio + 4 * anguloPaso;
-        const xn2 = centerX + (radius + 20) * Math.cos(angulo); // Aumenta la longitud del rayo
-        const yn2 = centerY + (radius + 20) * Math.sin(angulo);
+        //const angulo = anguloInicio + (anguloPorRayo * CantInfo);
+        
+        const xn2 = centerX + (radius + 20) * Math.cos(angulo);
+        const yn2 = centerY + (radius + 20) * Math.sin(angulo) + 70;
 
         ctx.fillStyle = 'white';
         ctx.font = `bold ${tamInfoN + 5}px ${letraInfo}`;
         ctx.fillText("Nutrientes", xn2 + 10, yn2);
 
         ctx.font = `bold ${tamInfoV}px ${letraInfo}`;
-        ctx.fillText(listValor[CantInfo], xn2 + 10, yn2 + 30);
-        ctx.fillText(listValor[CantInfo + 1], xn2 + 10, yn2 + 80);
+        ctx.fillText(listValor[CantInfo], xn2 + 10, yn2 + 40);
+        ctx.fillText(listValor[CantInfo + 1], xn2 + 10, yn2 + 100);
 
-        ctx.fillStyle = 'rgb(108, 108, 108)';
+        ctx.fillStyle = 'rgb(150, 150, 150)';
         ctx.font = `bold ${tamInfoN}px ${letraInfo}`;
-        ctx.fillText("Azucar", xn2 + 10, yn2 + 50);
-        ctx.fillText("Grasa", xn2 + 10, yn2 + 100);
+        ctx.fillText("Azucar", xn2 + 10, yn2 + 60);
+        ctx.fillText("Grasa", xn2 + 10, yn2 + 120);
 
-        dibujarMolecula(xn2 - 40, yn2);
+        dibujarMolecula(xn2 + 160, yn2 + 5);
 
         @*const img = new Image();
         img.src = '@Url.Content("~/Content/Imagenes/molecula.png")';

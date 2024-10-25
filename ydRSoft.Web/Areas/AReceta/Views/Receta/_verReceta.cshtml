@@ -56,6 +56,14 @@
         font-family: "Franklin Gothic Medium";
         line-height: 1;
     }
+
+    .ydR-ingredientes{
+        font-family:Arial;
+        font-size:20px;
+        line-height:1.32;
+    }
+
+
 </style>
 
 <input id="idNombre1a" value="@vozNombre" hidden />
@@ -71,7 +79,7 @@
             <div class="color-dorado">
                 <strong> <i class="fa fa-microphone"></i> INGREDIENTES</strong><i class="text-VerdeF">(@receta.Categoria)  &nbsp; Nivel: @receta.NivelDificultad </i>
             </div>
-            <div class="texto-Ingredientes">
+            <div class="ydR-ingredientes">
                 @foreach (var item in receta.Ingredientes)
                 {
                     vozIngredientes = vozIngredientes + " " + item + ".";
@@ -89,7 +97,7 @@
                 {
                     vozPasos = vozPasos + " Paso " + npaso + ": " + item + ". ";
 
-                    <div class="texto-largo">
+                    <div class="ydR-ingredientes">
                         <span class="label">P@(npaso++):</span>
                         <span class="contenido01">@item</span>
                     </div>

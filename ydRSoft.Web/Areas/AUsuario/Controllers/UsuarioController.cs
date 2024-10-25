@@ -24,7 +24,7 @@ namespace ydRSoft.Web.Areas.AUsuario.Controllers
             RpstaModel resultado = new RpstaModel();
             if (Opcion == 1)
             {
-                var logi = await UsuarioBL.GetUsuario(Nombre,Clave);
+                var logi = await UsuarioBL.GetUsuario(Nombre, Clave);
                 if (logi != null) {
                     resultado.Error = false;
                     Session["objUser"] = logi;

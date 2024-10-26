@@ -192,6 +192,7 @@
     <Content Include="Content\js\plugins\sweetalert\sweetalert.min.js" />
     <Content Include="Content\js\popper.min.js" />
     <Content Include="Content\ydrsoft\CSSutil.css" />
+    <Content Include="Content\ydrsoft\gsap.min.js" />
     <Content Include="Content\ydrsoft\JSutil.js" />
     <Content Include="Content\Portada\banner.jpg" />
     <Content Include="Content\Site.css" />
@@ -324,6 +325,8 @@
     <Content Include="Areas\ASugerencia\Views\Sugerencia\_alertaSug.cshtml" />
     <Content Include="Areas\ASugerencia\Views\Sugerencia\_vistaSugerencia.cshtml" />
     <Content Include="Areas\ASugerencia\Views\Sugerencia\_listaSugerencia.cshtml" />
+    <Content Include="Content\font-awesome\webfonts\Inter-font.woff2" />
+    <Content Include="Content\font-awesome\fonts\Inter-font.woff2" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />

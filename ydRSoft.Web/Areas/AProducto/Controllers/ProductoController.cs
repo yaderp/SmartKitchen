@@ -27,14 +27,16 @@ namespace ydRSoft.Web.Areas.AProducto.Controllers
             var model = await ProductoBL.GetInformacionN("PLATANO");
             model.PosX = 300;
             model.PosY = 300;
-            model.Radio = 280;
+            model.Radio = 220;
 
             var model2 = await ProductoBL.GetInformacionN("ZANAHORIA");
             model2.PosX = 950;
             model2.PosY = 350;
-            model2.Radio = 150;
+            model2.Radio = 180;
 
             List<ProductoModel> mLista = new List<ProductoModel> { model, model2 };
+
+            //Session["ListaXY"] = mLista;
             return Json(mLista, JsonRequestBehavior.AllowGet);
         }
 

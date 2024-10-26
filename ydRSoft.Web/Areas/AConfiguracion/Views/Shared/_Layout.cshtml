@@ -3,7 +3,7 @@
 @{
     UsuarioModel SessionModel = (UsuarioModel)Session["objUser"];
     UsuarioModel logUsuario = SessionModel == null ? new UsuarioModel() : SessionModel;
-    string version = "v240419.0";
+    string version = "v241025.0";
 
     string imgPerfil = "/Content/Imagenes/Avatar/" + logUsuario.Id + ".jpg";
 }
@@ -62,7 +62,7 @@
                     </li>
 
                     <li>
-                        <a href="@Url.Action("Index","Home", new {Area = String.Empty})"><i class="fa fa-home"></i> <span class="nav-label">SmartKitchen</span> </a>
+                        <a href="@Url.Action("Index","Home", new {Area = String.Empty})"><i class="fa fa-sign-out"></i> <span class="nav-label">SmartKitchen</span> </a>
                     </li>
 
                     <li>
@@ -73,19 +73,19 @@
                         <a href="#" id="IndexUsuario" onclick="funVerUsuario(this)"><i class="fa fa-user"></i> <span class="nav-label">Usuarios</span> </a>
                     </li>
                     <li>
-                        <a href="#" id="IndexProd" onclick="funVistaProductos()"><i class="fa fa-chart-bar"></i> <span class="nav-label">Productos</span> </a>
-                    </li>
-                    <li class="active">
-                        <a href="#" id="IndexPref" onclick="funVistaPref()"><i class="fa fa-send-o"></i> <span class="nav-label">Preferencias</span> </a>
+                        <a href="#" id="IndexProd" onclick="funVistaProductos()"><i class="fa fa-shopping-cart"></i> <span class="nav-label">Productos</span> </a>
                     </li>
                     <li>
-                        <a href="#" id="IndexRecet" onclick="funVistaRecetas()"><i class="fa fa-chart-bar"></i> <span class="nav-label">Recetas</span> </a>
+                        <a href="#" id="IndexPref" onclick="funVistaPref()"><i class="fa fa-random"></i> <span class="nav-label">Preferencias</span> </a>
                     </li>
                     <li>
-                        <a href="#" id="IndexPref" onclick="funVistaSugerencia()"><i class="fa fa-chart-bar"></i> <span class="nav-label">Sugerencia</span> </a>
+                        <a href="#" id="IndexRecet" onclick="funVistaRecetas()"><i class="fa fa-list-ol"></i> <span class="nav-label">Recetas</span> </a>
                     </li>
                     <li>
-                        <a href="#" id="IndexPref" onclick="funVistaFavoritos()"><i class="fa fa-chart-bar"></i> <span class="nav-label">Favoritos</span> </a>
+                        <a href="#" id="IndexPref" onclick="funVistaSugerencia()"><i class="fa fa-thumbs-o-up"></i> <span class="nav-label">Sugerencia</span> </a>
+                    </li>
+                    <li>
+                        <a href="#" id="IndexPref" onclick="funVistaFavoritos()"><i class="fa fa-star"></i> <span class="nav-label">Favoritos</span> </a>
                     </li>
                 </ul>
             </div>
@@ -114,7 +114,7 @@
                             </form>
                         </li>
                         <li>
-                            Bienvenido a <strong class="m-r-sm text-success welcome-message"> ydRSoft </strong>
+                            Bienvenido a <strong class="m-r-sm text-success welcome-message"> P20241089 </strong>
                         </li>
                         <li>
                             <a href="@Url.Action("Index","Home", new {Area = String.Empty})">
@@ -130,7 +130,7 @@
             <br />
             <div class="footer">
                 <div class="text-right text-navy">
-                    @version &nbsp; <strong>Copyright</strong> ydRSoft &copy; @DateTime.Now.Year
+                    @version &nbsp; <strong>Copyright</strong> P20241089 &copy; @DateTime.Now.Year
                 </div>
             </div>
 

@@ -13,12 +13,6 @@
     string imgPerfil = "/Content/Imagenes/Avatar/" + mUser.Id + ".jpg";
 }
 
-<style>
-    .fondgd{
-        font-family:'Lucida Console';
-    }
-</style>
-
 <div class="texto-Arriba-Der" id="vistaMenu" hidden>
     <div class="contenido-ydR">
         <div class="menu-superior">
@@ -172,7 +166,7 @@
                     console.log('Imagen enviada con éxito:', data);
 
                     dibujarProd(data);
-                    //MostrarMenu(data);
+                    MostrarMenu(data);
 
                 } catch (error) {
                     console.error('Error al enviar la imagen:', error);
@@ -209,7 +203,7 @@
             divResult.innerHTML = '<h3> Ninguna receta Disponible </h3>';
         }
 
-        document.getElementById("idLoad1").innerHTML = "Bienvenido : " + ydR1bNom;
+        document.getElementById("idLoad1").innerHTML = "Bienvenido  " + ydR1bNom;
         document.getElementById("btnReceta").disabled = false;
     }
 
@@ -249,8 +243,8 @@
     const canvas = document.getElementById('canvasCorona');
     const ctx = canvas.getContext('2d');
     const anchoCorona = 50;
-    const Tipoletra = '"Lucida Console"';
-    const letraInfo = '"Lucida Console"';
+    const Tipoletra = '"Inter 18pt 18pt"';
+    const letraInfo = '"Inter 18pt 18pt"';
     const tamNombre = 30;
     const tamInfo = 20;
     const tamInfoN = 24;
@@ -283,7 +277,7 @@
         const vistaMenu = document.getElementById("vistaProd");
         vistaMenu.innerHTML = ""; // Limpiar contenido previo
 
-        
+        console.log("productos : " + productos);
         // Iterar sobre la lista de productos y mostrarlos
         productos.forEach((producto, index) => {
             vistaMenu.innerHTML += `<div> <i class="fa fa-hand-o-right texto-icon-VerdeF"></i> ${'1 '} ${producto.Nombre}</div>`;
@@ -342,26 +336,23 @@
 
         ctx.font = `${tamNombre}px ${Tipoletra}`;
         ctx.fillStyle = 'white';
-        const anguloInicio = 1.2; 
-       
+        const anguloInicio = 0.8;       
 
         const radioTexto = radioInterior + 35;
 
-        const perimetro = 2 * Math.PI * radioTexto;
-
-        // Medir el ancho total del texto en píxeles
-        const anchoTexto = ctx.measureText(texto).width;
-
-        // Calcular el espaciado angular para que las letras estén uniformemente distribuidas
-        const anguloTotalDisponible = (Math.PI * 2);  // Espacio angular disponible en la circunferencia
-        const anguloPorLetra = anguloTotalDisponible * (anchoTexto / perimetro) / texto.length;
-
-        const factorSeparacion = 1.2;
+        const factorSeparacion = 150;
+        const factorRadial = 200;
         const index = texto.length - 1;
-        let aux = 0;
 
+        let angulo = anguloInicio;
         for (let i = index; i >= 0; i--) {
-            const angulo = anguloInicio + aux * anguloPorLetra * factorSeparacion;
+            let anchoLetra = ctx.measureText(texto[i]).width;
+            let nextAgulo = anchoLetra / factorSeparacion;
+
+
+            angulo = angulo + nextAgulo * factorRadial / radioExterior;;
+
+
             const letraX = x + (radioTexto * Math.cos(angulo));
             const letraY = y + (radioTexto * Math.sin(angulo));
 
@@ -370,43 +361,40 @@
             ctx.rotate(angulo + 4.65);
             ctx.fillText(texto[i], 0, 0);
             ctx.restore();
-            aux++;
+
         }
     }
 
+   
     function dibujarTexto(x, y, radioExterior) {
-        const texto = "Tamaño de porcion 100g";
+        const texto = "Tamaño de porción 100g";
         const radioInterior = radioExterior - anchoCorona;
         ctx.font = `${tamInfo}px ${Tipoletra}`;
         ctx.fillStyle = 'white';
-
         const anguloInicio = 5.2;
+
         const radioTexto = radioInterior + 20;
 
-        const radioBase = 50; // Esto puede ser un valor de referencia para la separación constante
-        const totalLetras = texto.length;
+        const factorSeparacion = 150;
+        const factorRadial = 200;
 
-        const anguloPorLetra = (Math.PI * 2) / totalLetras * (radioBase / radioTexto);
+        const index = texto.length - 1;
 
-        const index = totalLetras - 1;
-        let aux = 0;
+        let angulo = anguloInicio;
 
-        for (let i = totalLetras - 1; i >= 0; i--) {
-            const anguloLetra = anguloInicio - (anguloPorLetra * i);
-            //console.log("angle Letra -> " + anguloLetra);
-            // Calcular la posición de cada letra
-            const xLetra = x + Math.cos(anguloLetra) * radioTexto;
-            const yLetra = y + Math.sin(anguloLetra) * radioTexto;
+        for (let i = index; i >= 0; i--) {            
+            let anchoLetra = ctx.measureText(texto[i]).width;
+            let nextAgulo = anchoLetra / factorSeparacion;
+            
+            angulo = angulo - nextAgulo * factorRadial / radioExterior;
 
-            // Rotar el contexto para alinear la letra con la circunferencia
+            const letraX = x + (radioTexto * Math.cos(angulo));
+            const letraY = y + (radioTexto * Math.sin(angulo));
+
             ctx.save();
-            ctx.translate(xLetra, yLetra);
-            ctx.rotate(anguloLetra + Math.PI / 2);  // Ajustar la rotación para que sigan la curva
-
-            // Dibujar la letra
-            ctx.fillText(texto[totalLetras - i - 1], 0, 0);
-
-            // Restaurar el contexto
+            ctx.translate(letraX, letraY);
+            ctx.rotate(angulo + Math.PI / 2); 
+            ctx.fillText(texto[i], 0, 0);
             ctx.restore();
         }
     }
@@ -416,7 +404,7 @@
         console.log("data -> " + listValor);
         const centerX = x;
         const centerY = y;
-        const anguloInicio = 5.8;
+        const anguloInicio = 5.6;
         const radioBase = 40;
         const totalRayos = 4
         const radioTexto = radius + 20;
@@ -486,7 +474,7 @@
         ctx.fillText("Azucar", xn2 + 10, yn2 + 60);
         ctx.fillText("Grasa", xn2 + 10, yn2 + 120);
 
-        dibujarMolecula(xn2 + 160, yn2 + 5);
+        dibujarMolecula(xn2 -40, yn2);
 
         @*const img = new Image();
         img.src = '@Url.Content("~/Content/Imagenes/molecula.png")';

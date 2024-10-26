@@ -21,3 +21,4 @@
 23/10/2024 17:53:49 | Guardar Receta |Field 'estado' doesn't have a default value
 23/10/2024 17:55:31 | Guardar Receta |Field 'estado' doesn't have a default value
 23/10/2024 18:00:45 | Guardar Receta |Field 'estado' doesn't have a default value
+25/10/2024 10:14:42 | Receta new Unexpected character encountered while parsing value: {. Path '[0].Ingredientes', line 8, position 5.

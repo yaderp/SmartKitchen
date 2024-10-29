@@ -524,6 +524,7 @@ namespace ydRSoft.BD
             string query = @"SELECT
                             nombre
                             FROM receta
+                            WHERE estado = 1
                             ORDER BY id DESC
                             LIMIT 4";
 

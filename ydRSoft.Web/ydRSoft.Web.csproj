@@ -173,6 +173,8 @@
     <Content Include="Content\Imagenes\Avatar\hombre.png" />
     <Content Include="Content\Imagenes\Avatar\mujer.png" />
     <Content Include="Content\Imagenes\Clima\clima11.png" />
+    <Content Include="Content\Imagenes\Logos\gorrito-sk.png" />
+    <Content Include="Content\Imagenes\Logos\gorrito-sk1.png" />
     <Content Include="Content\Imagenes\Logos\logo.png" />
     <Content Include="Content\Imagenes\Logos\logohor.png" />
     <Content Include="Content\Imagenes\Logos\logover.png" />

@@ -30,7 +30,7 @@
 
 <style>
     .ydR-titulo {
-        font-family: 'Inter 18pt 18pt';
+        font-family: 'Inter 24pt 24pt';
         font-size: 30px;
         background-color: rgb(64, 150, 84);
         color: black;
@@ -111,7 +111,7 @@
         </div>
         <div class="ydR-texto-pi">
             <div class="ydR-subtitulo">
-                <strong> <i class="fa fa-microphone"></i> Ingredientes <small> (@receta.Categoria)  &nbsp; Nivel: @receta.NivelDificultad </small></strong> 
+                <strong> <a class="fa fa-microphone" onclick="hablarIngredientes()"></a> Ingredientes <small> (@receta.Categoria)  &nbsp; Nivel: @receta.NivelDificultad </small></strong> 
             </div>
             <div class="ydR-ingredientes">
                 @foreach (var item in receta.Ingredientes)
@@ -124,7 +124,7 @@
 
             </div>
             <div class="ydR-subtitulo">
-                <strong> <i class="fa fa-microphone"></i> Preparación  &nbsp;&nbsp; <i class="fa fa-clock-o"></i> <small>  @receta.Tiempo min.</small></strong>
+                <strong> <a class="fa fa-microphone" onclick="hablarPasos()"></a> Preparación  &nbsp;&nbsp; <i class="fa fa-clock-o"></i> <small>  @receta.Tiempo min.</small></strong>
             </div>
             <div>
                 @foreach (var item in receta.PasosPreparacion)

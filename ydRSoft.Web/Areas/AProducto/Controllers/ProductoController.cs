@@ -24,7 +24,7 @@ namespace ydRSoft.Web.Areas.AProducto.Controllers
         [HttpPost]
         public async  Task<JsonResult> Prueba(string image64)
         {
-            var model = await ProductoBL.GetInformacionN("PLATANO");
+            var model = await ProductoBL.GetInformacionN("PLÁTANO");
             model.PosX = 300;
             model.PosY = 300;
             model.Radio = 220;

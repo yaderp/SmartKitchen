@@ -22,3 +22,17 @@
 23/10/2024 17:55:31 | Guardar Receta |Field 'estado' doesn't have a default value
 23/10/2024 18:00:45 | Guardar Receta |Field 'estado' doesn't have a default value
 25/10/2024 10:14:42 | Receta new Unexpected character encountered while parsing value: {. Path '[0].Ingredientes', line 8, position 5.
+26/10/2024 16:12:59 | ->Error al enviar la solicitud.
+26/10/2024 16:56:18 | ->Error al enviar la solicitud.
+26/10/2024 17:02:28 | ->Error al enviar la solicitud.
+26/10/2024 17:02:31 | ->Error al enviar la solicitud.
+26/10/2024 17:02:34 | ->Error al enviar la solicitud.
+26/10/2024 17:02:37 | ->Error al enviar la solicitud.
+26/10/2024 17:02:40 | ->Error al enviar la solicitud.
+26/10/2024 17:02:43 | ->Error al enviar la solicitud.
+26/10/2024 17:02:46 | ->Error al enviar la solicitud.
+26/10/2024 17:02:49 | ->Error al enviar la solicitud.
+26/10/2024 17:02:52 | ->Error al enviar la solicitud.
+26/10/2024 17:02:55 | ->Error al enviar la solicitud.
+26/10/2024 17:02:58 | ->Error al enviar la solicitud.
+26/10/2024 17:03:02 | ->Error al enviar la solicitud.

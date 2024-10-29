@@ -27,6 +27,11 @@ namespace ydRSoft.Web.Areas.AReceta.Controllers
             {
                 model = await RecetaBL.ObtenerRecetas(txtNombre);
             }
+            else
+            {
+                model = await RecetaBL.GetRecetaId(2);
+                model.ListaId = new List<int> { 2, 1 };
+            }
 
             return PartialView("_verPagina", model);
         }

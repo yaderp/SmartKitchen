@@ -1,4 +1,17 @@
-﻿
+﻿<style>
+    .circular-button7c {
+        width: 30px;
+        height: 30px;
+        border: 2px solid rgb(64, 150, 84);
+        border-radius: 50%;
+        background-color: transparent;
+        color: rgb(64, 150, 84);
+        font-size: 15px;
+        text-align: center;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+</style>
 
 <div class="floatingBotones">
     <div hidden>
@@ -6,18 +19,17 @@
         <hr />
     </div>
     <div id="tiempoEjec"> 0s </div>
-    <button class="btn btn-circle btn-primary" id="btnComandos" onclick="funComandos()">1</button>
+    <button class="circular-button7c" id="btnComandos" onclick="funComandos()">1</button>
     <button class="btn btn-circle btn-success" id="startCapture" onclick="IniciarCaptura()">2</button>
-    <button class="btn btn-circle btn-primary" id="btnReceta" onclick="funRecetas()">3</button>
-    <button class="btn btn-circle btn-primary" id="btnMenu" onclick="funMenu()">4</button>
-    <button class="btn btn-circle btn-primary" id="btnFavoritos" onclick="funFavoritos()">5</button>
-    <button class="btn btn-circle btn-primary" id="btncategoria" onclick="funCategoria()">6</button>
-    <button class="btn btn-circle btn-primary" id="btnBotones" onclick="funBotones()">7</button>
-    <button class="btn btn-circle btn-primary" id="btnBuscar" onclick="funBuscar()">8</button>
-    <button class="btn btn-circle btn-primary" id="btnConfiguracion" onclick="funConfiguracion()">9</button>
-    <button class="btn btn-circle btn-danger" id="btnReiniciar" onclick="funReiniciar()">10</button>
-    <button class="btn btn-circle btn-danger" id="btnSalir" onclick="funSalir()">11</button>
-    <button class="btn btn-circle btn-danger" id="btnPantalla" onclick="funPantalla()">12</button>
+    <button class="circular-button7c" id="btnReceta" onclick="funRecetas()">3</button>
+    <button class="circular-button7c" id="btnMenu" onclick="funMenu()">4</button>
+    <button class="circular-button7c" id="btnFavoritos" onclick="funFavoritos()">5</button>
+    <button class="circular-button7c" id="btncategoria" onclick="funCategoria()">6</button>
+    <button class="circular-button7c" id="btnBotones" onclick="funBotones()">7</button>
+    <button class="circular-button7c" id="btnConfiguracion" onclick="funConfiguracion()">8</button>
+    <button class="circular-button7c" id="btnSalir" onclick="funSalir()">9</button>
+    <button class="circular-button7c" id="btnReiniciar" onclick="funReiniciar()" hidden>9</button>
+    <button class="circular-button7c" id="btnPantalla" onclick="funPantalla()" hidden>11</button>
 </div>
 
 <script>
@@ -103,13 +115,13 @@
     }
 
     async function mostrarFavoritos(idu) {
-        console.log("mostrar favoritos");
+        console.log("mostrar favoritos x6");
 
         $("#viewPaginas").html("");
         
         var dataString = new FormData();
         dataString.append("IdUser", idu);
-
+        setOcultar("idLoad1", false);
         document.getElementById("idLoad1").innerHTML = "<i class='fa fa-spinner'> Cargando Recetas ...</i>";
 
         const response = await fetch('/AReceta/Receta/VerFavoritos', {
@@ -122,7 +134,7 @@
             console.log("exito ver fav");
         }
 
-        document.getElementById("idLoad1").innerHTML = "Bienvenido  " + ydR1bNom;
+        setOcultar("idLoad1", true);
     }
 
 </script>

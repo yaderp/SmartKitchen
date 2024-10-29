@@ -1,43 +1,84 @@
 ﻿
-@{ 
+@{
     var mLista = ydRSoft.BL.ConexionBL.ListaCom();
 }
 
+<style>
+    .ydR-titulo {
+        font-family: 'Inter 18pt 18pt';
+        font-size: 30px;
+        background-color: rgb(64, 150, 84);
+        color: black;
+        padding: 10px;
+        line-height: 1.2;
+    }
+
+    .ydR-subtitulo {
+        font-family: 'Inter 18pt 18pt';
+        font-size: 28px;
+        color: rgb(64, 150, 84);
+        padding: 10px;
+    }
+
+    .circular-button7b {
+        width: 30px;
+        height: 30px;
+        border: 2px solid rgb(64, 150, 84);
+        border-radius: 50%;
+        background-color: transparent;
+        color: rgb(64, 150, 84);
+        font-size: 15px;
+        text-align: center;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .ydR-deta11e {
+        font-family: 'Inter 18pt 18pt';
+        font-size: 18px;
+        color: white;
+        padding: 10px;
+    }
+</style>
 
 <div class="modal inmodal fade" id="modalComandos" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg">
-        <button class="btn btn-circle btn-danger float-right" data-dismiss="modal"><i class="fa fa-close"></i></button>
-
-        <div class="panel panel-success">
-            <div class="panel-heading">
-                <h1 class="text-center"> <strong>Comandos de voz</strong></h1>
+       
+        <div style="background-color:rgb(49,49,49)">
+            <div class="ydR-titulo">
+                <strong class="text-center" id="nomReceta1">Comandos de voz</strong>
             </div>
-            <div class="panel-body">
-                <table class="table text-navy" style="font-size:21px; font-weight:bold">
-                    <thead>
+
+            <table class="table">
+                <thead>
+                    <tr class="ydR-subtitulo">
+                        <th width="1"></th>
+                        <th width="30%">Comando</th>
+                        <th>Descripcion</th>
+                    </tr>
+                </thead>
+                <tbody class="ydR-deta11e">
+
+                    @foreach (var item in mLista)
+                    {
                         <tr>
-                            <th width="1">#</th>
-                            <th width="1">Icono</th>
-                            <th width="1">Comando</th>
-                            <th>Descripcion</th>
+                            <td> <button class="circular-button7b"> @item.Id </button> </td>
+                            <td>@item.Nombre</td>
+                            <td>@item.Detalle</td>
                         </tr>
-                    </thead>
-                    <tbody>
+                    }
 
-                        @foreach (var item in mLista)
-                        {
-                            <tr>
-                                <td class="text-default">@item.Id</td>
-                                <td><i class="btn btn-circle btn-primary"> @item.Id</i></td>
-                                <td class="text-Verde">@item.Nombre</td>
-                                <td>@item.Detalle</td>
-                            </tr>
-                        }
-
-                    </tbody>
-                </table>
-            </div>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>                       
+                    </tr>
+                </tfoot>
+            </table>
         </div>
+
 
     </div>
 </div>

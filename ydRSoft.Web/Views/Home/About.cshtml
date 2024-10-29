@@ -1,5 +1,6 @@
 ﻿@{
     ViewBag.Title = "About";
+    var mLista = ydRSoft.BL.ConexionBL.ListaCom();
     Layout = null;
 }
 
@@ -21,24 +22,74 @@
     <link href="@Url.Content("~/Content/css/plugins/sweetalert/sweetalert.css")" rel="stylesheet" />
 
     <style>
-        canvas {
-            border: 1px solid #000;
+        .ydR-titulo {
+            font-family: 'Inter 18pt 18pt';
+            font-size: 30px;
+            background-color: rgb(64, 150, 84);
+            color: black;
+            padding: 10px;
+            line-height: 1.2;
+        }
+
+        .ydR-subtitulo {
+            font-family: 'Inter 18pt 18pt';
+            font-size: 28px;
+            color: rgb(64, 150, 84);
+            padding: 10px;
+        }
+
+        .circular-button7a {
+            width: 30px;
+            height: 30px;
+            border: 2px solid rgb(64, 150, 84);
+            border-radius: 50%;
+            background-color: transparent;
+            color: rgb(64, 150, 84);
+            font-size: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .ydR-deta11e {
+            font-family: 'Inter 18pt 18pt';
+            font-size: 18px;
+            color: white;
+            padding: 10px;
         }
     </style>
+  
 </head>
 <body>
 
-    <div class="row">
-        <div class="col-md-4">
-            Hola Mundo
+    <div style="background-color:rgb(49,49,49)">
+        <div class="ydR-titulo">
+            <strong class="text-center" id="nomReceta1">Comandos de voz</strong>
         </div>
-        <div class="col-md-8">
-            melas
-        </div>
+        <hr />
 
-    </div>
+        <table class="table">
+            <thead>
+                <tr class="ydR-subtitulo">
+                    <th width="1">Icono</th>
+                    <th width="1">Comando</th>
+                    <th>Descripcion</th>
+                </tr>
+            </thead>
+            <tbody class="ydR-deta11e">
 
-    <canvas id="canvas" width="400" height="400"></canvas>
+                @foreach (var item in mLista)
+                {
+                    <tr>
+                        <td> <button class="circular-button7a"> @item.Id </button> </td>
+                        <td>@item.Nombre</td>
+                        <td>@item.Detalle</td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>    
 
 
     <script src="@Url.Content("~/Content/js/ydrsoft/util.js")"></script>
@@ -52,50 +103,5 @@
     <script src="@Url.Content("~/Content/js/plugins/sweetalert/sweetalert.min.js")"></script>
     <script src="@Url.Content("~/Content/js/plugins/jasny/jasny-bootstrap.min.js")"></script>
 
-
-    <script>
-        const canvas = document.getElementById('canvas');
-        const ctx = canvas.getContext('2d');
-
-        // Datos
-        const text = "MUNDO"; // Cambia este texto según sea necesario
-        const radius = 100; // Radio de la circunferencia
-        const centerX = canvas.width / 2;
-        const centerY = canvas.height / 2;
-        const n = text.length; // Número de letras
-
-        // Calcular los ángulos para la posición de cada letra (semicircunferencia inferior antihoraria)
-        const angles = [];
-        for (let i = 0; i < n; i++) {
-            // Distribuir los ángulos desde 0° hasta 180° (rango de radianes π a 0)
-            const angle = Math.PI - (Math.PI / (n - 1)) * i; // De π a 2π
-            angles.push(angle);
-        }
-
-        // Dibujar el texto en la circunferencia
-        ctx.font = 'bold 20px Arial';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-
-        for (let i = 0; i < n; i++) {
-            const angle = angles[i];
-            const x = centerX + radius * Math.cos(angle);
-            const y = centerY + radius * Math.sin(angle);
-
-            // Rotar el texto (ajustar la rotación para que esté derecha)
-            ctx.save(); // Guardar el estado del contexto
-            ctx.translate(x, y); // Mover el origen al punto de la letra
-            ctx.rotate(angle + Math.PI / 2); // Rotar el contexto 90 grados para orientarlas correctamente
-            ctx.fillText(text[i], 0, 0); // Dibujar la letra
-            ctx.restore(); // Restaurar el estado del contexto
-        }
-
-        // Dibujar la circunferencia
-        ctx.beginPath();
-        ctx.arc(centerX, centerY, radius, 0, Math.PI, false); // Semicircunferencia inferior
-        ctx.strokeStyle = 'blue';
-        ctx.setLineDash([5, 3]); // Línea discontinua
-        ctx.stroke();
-    </script>
 </body>
 </html>

@@ -13,12 +13,31 @@
     string imgPerfil = "/Content/Imagenes/Avatar/" + mUser.Id + ".jpg";
 }
 
+<style>
+    .ydR-titulo1f {
+        font-family: 'Inter 24pt 24pt';
+        font-size: 24px;
+        background-color: rgb(64, 150, 84);
+        color: black;
+        padding: 10px;
+        line-height: 1.2;
+    }
+
+    .ydR-subtitulo1f {
+        font-family: 'Inter 18pt 18pt';
+        font-size: 20px;
+        color: white;
+        background-color: rgb(49, 49, 49);
+        padding: 10px;
+    }
+</style>
+
 <div class="texto-Arriba-Der" id="vistaMenu" hidden>
     <div class="contenido-ydR">
-        <div class="menu-superior">
+        <div class="ydR-titulo1f">
             <strong> <i class="fa fa-shopping-cart"></i> PRODUCTOS  </strong>
         </div>
-        <div class="menu-inferior">
+        <div class="ydR-subtitulo1f">
             <div id="vistaProd">
             </div>
         </div>
@@ -30,18 +49,8 @@
 <input id="IdInydRc" value="@mUser.Id" hidden />
 <div class="row">
     <div class="col-md-3">
-        <div class="ydRNombres text-success">
-            <div class="row">
-                <div class="col-md-2">
-                    <div>
-                        <img width="40" class="img-circle" src="@imgPerfil" />
-                    </div>
-                </div>
-                <div class="col-md-10" id="idLoad1">
-                    Bienvenido  @mUser.Nombres.ToUpper()
-                </div>
-            </div>
-
+        <div class="ydR-titulo1f" id="idLoad1" hidden>
+            
         </div>
         <div id="viewReceta"> </div>
     </div>
@@ -125,7 +134,7 @@
                         //captureAndSendImage();
                         EnviarImagen();
                     }
-                }, 1000);
+                }, 1500);
             } else {
                 isCapturing = false;
                 startCaptureButton.classList.remove('btn-primary');
@@ -189,6 +198,7 @@
 
     async function funRecetas() {        
         $("#viewPaginas").html("");
+        setOcultar("idLoad1", false);
         document.getElementById("idLoad1").innerHTML = "<i class='fa fa-spinner'> Cargando Recetas ...</i>";
         document.getElementById("btnReceta").disabled = true;
 
@@ -203,7 +213,7 @@
             divResult.innerHTML = '<h3> Ninguna receta Disponible </h3>';
         }
 
-        document.getElementById("idLoad1").innerHTML = "Bienvenido  " + ydR1bNom;
+        setOcultar("idLoad1", true);
         document.getElementById("btnReceta").disabled = false;
     }
 
@@ -280,7 +290,7 @@
         console.log("productos : " + productos);
         // Iterar sobre la lista de productos y mostrarlos
         productos.forEach((producto, index) => {
-            vistaMenu.innerHTML += `<div> <i class="fa fa-hand-o-right texto-icon-VerdeF"></i> ${'1 '} ${producto.Nombre}</div>`;
+            vistaMenu.innerHTML += `<div> <i class="fa fa-check-circle texto-verd3"></i> ${'1 '} ${producto.Nombre}</div>`;
         });
     }
 

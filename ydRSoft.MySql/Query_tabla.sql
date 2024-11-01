@@ -23,7 +23,7 @@ CREATE TABLE usuario (
 );
 
 ALTER TABLE usuario
-ADD COLUMN region VARCHAR(200);
+ADD COLUMN sugonff INT NOT NULL default 1;
 
 ALTER TABLE usuario MODIFY clave VARCHAR(50) NOT NULL COLLATE utf8mb4_bin;
 

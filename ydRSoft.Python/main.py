@@ -42,16 +42,11 @@ def set_item():
         #traceback.print_exc()  # Imprimir el stack trace completo
         return jsonify({"error": str(e)}), 500
 
-def guardarImg(image_data):
-    image_path = "D:/Imagenes/imagen_copia4.png"
-    with open(image_path, "wb") as f:
-        f.write(image_data)
-
 
 def procesar_imagen_yolo(image_data):
     print("Detectando Productos ... ")
 
-    modelo = YOLO('modelo/yolov8m.pt')
+    modelo = YOLO('modelo/smartkitchenv2.pt')
 
     nparr = np.frombuffer(image_data, np.uint8)
     imagen = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
@@ -64,8 +59,20 @@ def procesar_imagen_yolo(image_data):
         47: "MANZANA",
         46: "PLATANO",
         51: "ZANAHORIA",
-        49: "NARANJA",
-        28: "Nombre_Personalizado_60"
+        49: "NARANJA"
+    }
+
+    ids_otros = {
+        0: "MANZANA",
+        1: "PLÁTANO",
+        2: "ZANAHORIA",
+        3: "PEPINILLO",
+        4: "LIMÓN",
+        5: "MANGO",
+        6: "NARANJA",
+        7: "PAPA",
+        8: "TOMATE",
+        9: "CALABACIN"
     }
 
     lprod = ""
@@ -76,8 +83,8 @@ def procesar_imagen_yolo(image_data):
             py = int((y1 + y2) / 2)
             radio = int(math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2) / 2)
             print(str(modelo.names[int(clase)])+" -> "+str(int(px)))
-            if int(clase) in ids_nombres:
-                nombre = ids_nombres[int(clase)]
+            if int(clase) in ids_otros:
+                nombre = ids_otros[int(clase)]
                 item = {
                     "Id": int(clase),
                     "Nombre": nombre,
@@ -85,6 +92,7 @@ def procesar_imagen_yolo(image_data):
                     "PosY": py,
                     "Radio": radio,
                 }
+
                 #Consultar.guardarProductoTxt(item)
                 lprod = lprod + " - "+nombre+"("+str(px)+","+str(py)+ ",R"+str(radio) +") "
                 items.append(item)

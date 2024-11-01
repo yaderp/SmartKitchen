@@ -134,7 +134,7 @@
                         //captureAndSendImage();
                         EnviarImagen();
                     }
-                }, 1500);
+                }, 2500);
             } else {
                 isCapturing = false;
                 startCaptureButton.classList.remove('btn-primary');
@@ -224,25 +224,53 @@
     function dibujarCirculo() {
         var canvas = document.getElementById('canvasCorona');
         if (canvas.getContext) {
-            var ctx = canvas.getContext('2d');
+
+            let xcc = 603;
+            let ycc = 652;
+
+            ycc = ycc + (ycc + 160) * 60 / 152;
+            xcc = xcc + (xcc - 503) * 60 / 160;
+
+            const RadioXY = 89;
+            const radioExterior = RadioXY + 90;
+            const radioInterior = radioExterior - 50;
+            console.log("Radio " + radioExterior);
+            // Dibujar círculo exterior
+            ctx.beginPath();
+            ctx.arc(xcc, ycc, radioExterior, 0, Math.PI * 2, false);
+            ctx.fillStyle = 'rgb(64, 150, 84)';
+            ctx.fill();
+
+            // Dibujar círculo interior (eliminar el centro)
+            ctx.globalCompositeOperation = 'destination-out';
+            ctx.beginPath();
+            ctx.arc(xcc, ycc, radioInterior, 0, Math.PI * 2, false);
+            ctx.fill();
+
+            // Restaurar el modo de dibujo
+            ctx.globalCompositeOperation = 'source-over';
+
+
+            /*
             //ctx.clearRect(0, 0, canvas.width, canvas.height);  // Limpiar el canvas
 
-            ctx.beginPath();
-            ctx.strokeStyle = 'white';
-            ctx.lineWidth = 5;  // Ancho del borde
-            ctx.strokeRect(0, 75, 1420, 995);  //rectangulo
+            //ctx.beginPath();
+            //ctx.strokeStyle = 'white';
+            //ctx.lineWidth = 5;  // Ancho del borde
+            //ctx.strokeRect(0, 75, 1420, 995);  //rectangulo
 
-            ctx.beginPath();
-            ctx.fillStyle = 'red';
-            ctx.fillRect(0, 70, 60, 60);
+            //ctx.beginPath();
+            //ctx.fillStyle = 'red';
+            //ctx.fillRect(0, 70, 60, 60);
 
-            ctx.beginPath();
-            ctx.fillStyle = 'red';
-            ctx.fillRect(0, 70, 10, 995);
+            //ctx.beginPath();
+            //ctx.fillStyle = 'red';
+            //ctx.fillRect(0, 70, 10, 995);
 
-            ctx.beginPath();
-            ctx.fillStyle = 'red';
-            ctx.fillRect(0, 70, 1420, 10);
+            //ctx.beginPath();
+            //ctx.fillStyle = 'red';
+            //ctx.fillRect(0, 70, 1420, 10);
+            */
         }
     }
 
@@ -264,6 +292,8 @@
     function ajustarCanvas() {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
+
+        dibujarCirculo();
         //dibujarMolecula(300,300);
     }
 
@@ -313,6 +343,10 @@
         listaValor.push(producto.Calcio);
         listaValor.push(producto.Grasa);
 
+        posX = posX + (posX - 550) * 60 / 152;
+        posY = posY + (posY + 210) * 60 / 152;
+        radio = radio + 100;
+
         dibujarCorona(posX, posY, radio);
         dibujarTexto(posX, posY, radio);
         dibujarNombre(posX, posY, radio, nombre);
@@ -323,6 +357,7 @@
     function dibujarCorona(x, y, radioExterior) {
         const radioInterior = radioExterior - anchoCorona;
         console.log("Radio " + radioExterior);
+
         // Dibujar círculo exterior
         ctx.beginPath();
         ctx.arc(x, y, radioExterior, 0, Math.PI * 2, false);

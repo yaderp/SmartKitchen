@@ -187,9 +187,9 @@ namespace ydRSoft.BL
                 {
                     for (int i = 0; i < listaModel.Count; i++)
                     {
-                        listaModel[i].PosX = GetPosX(listaModel[i].PosX);
-                        listaModel[i].PosY = GetPosY(listaModel[i].PosY);
-                        listaModel[i].Radio = listaModel[i].Radio + 90;
+                        //listaModel[i].PosX = GetPosX(listaModel[i].PosX);
+                        //listaModel[i].PosY = GetPosY(listaModel[i].PosY);
+                        //listaModel[i].Radio = listaModel[i].Radio + 90;
 
                         var model = mLista.Where(x => x.Nombre == listaModel[i].Nombre).FirstOrDefault();
                         if (model != null)
@@ -200,7 +200,7 @@ namespace ydRSoft.BL
                             var dif = model.Radio - listaModel[i].Radio;
                             int dr = Math.Abs((int)dif);
 
-                            if (dx < 5 && dy < 5 && dr < 5)
+                            if (dx < 5 && dy < 5)
                             {
                                 listaModel[i].PosX = mLista[i].PosX;
                                 listaModel[i].PosY = mLista[i].PosY;
@@ -213,16 +213,7 @@ namespace ydRSoft.BL
                 {
 
                 }
-            }
-            else
-            {
-                for (int i = 0; i < listaModel.Count; i++)
-                {
-                    listaModel[i].PosX = GetPosX(listaModel[i].PosX);
-                    listaModel[i].PosY = GetPosY(listaModel[i].PosY);
-                    listaModel[i].Radio = listaModel[i].Radio + 90;
-                }
-            }
+            }           
 
             return listaModel;
         }

@@ -1,0 +1,88 @@
+﻿
+@using ydRSoft.Modelo
+@model List<ProductoModel>
+
+@{
+    var mLista = Model == null ? new List<ProductoModel>() : Model;
+    int Index = 0;
+}
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th width="1"> # </th>
+            <th class="text-navy">Producto</th>
+            <th width="10%">Calorías</th>
+            <th width="10%">Prot </th>
+            <th width="10%">Col</th>
+            <th width="10%">Carb</th>
+            <th width="10%">Az</th>
+            <th width="10%">Sod</th>
+            <th width="10%">Gras</th>
+            <th width="1"></th>
+            <th width="1"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (mLista.Count > 0)
+        {
+            foreach (var item in mLista)
+            {
+                Index++;
+
+                <tr class="text-navy">
+                    <td hidden>@item.Id</td>
+                    <td class="text-default">@Index.ToString().PadLeft(2, '0')</td>
+                    <td><strong> @item.Nombre </strong> </td>
+                    <td>@item.Calorias</td>
+                    <td>@item.Proteinas</td>
+                    <td>@item.Colesterol</td>
+                    <td>@item.Carbohidratos</td>
+                    <td>@item.Azucares</td>
+                    <td>@item.Sodio</td>
+                    <td>@item.Grasa</td>
+
+                    @if (item.Estado != 2)
+                    {
+                        <td>
+                            <button class="btn btnydR-Success btn btn-xs" onclick="funbtn1a(@item.Id)"> <i class="fa fa-edit"></i></button>
+                        </td>
+                        <td>
+                            <button class="btn btnydR-Rojo btn btn-xs" onclick="funbtn2a(@item.Id)"> <i class="fa fa-trash"></i></button>
+                        </td>
+                    }
+
+                </tr>
+            }
+        }
+
+    </tbody>
+    <tfoot>
+        <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+    </tfoot>
+</table>
+
+<script>
+    function funbtn1a(id) {
+        console.log("Editar -> " + id);
+        
+    }
+
+    function funbtn2a(id) {
+        console.log("eliminar -> " + id);
+        funEliminaProd1g(id);
+    }
+</script>

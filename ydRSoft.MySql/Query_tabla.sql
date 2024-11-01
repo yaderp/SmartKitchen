@@ -19,7 +19,8 @@ CREATE TABLE usuario (
     idcargo INT NOT NULL,
     fechareg DATETIME,
     estado INT NOT NULL,
-    region VARCHAR(200)
+    region VARCHAR(200),
+    sugonff INT NOT NULL
 );
 
 ALTER TABLE usuario
@@ -44,10 +45,12 @@ CREATE TABLE receta (
     preparacion TEXT,
     fechareg DATETIME,
     estado INT NOT NULL,
-    calificacion INT NOT NULL
+    calificacion INT NOT NULL,
+    iduser INT NOT NULL
 );
 
-
+ALTER TABLE receta
+ADD COLUMN iduser INT NOT NULL default 1;
 
 
 CREATE TABLE favoritos (

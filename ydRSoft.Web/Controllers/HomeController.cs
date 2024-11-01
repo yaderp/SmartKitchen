@@ -16,14 +16,11 @@ namespace ydRSoft.Web.Controllers
     {
         public async Task<ActionResult> Index()
         {
-            await InfoSing.Instance.LoadProductos();
-            await SugerenciaBL.LoadSugerencia();
+            UsuarioModel model = (UsuarioModel)Session["objUser"];
 
             //var mUser = await UsuarioBL.GetUsuarioId(2);
 
             //Session["objUser"] = mUser;
-
-            UsuarioModel model = (UsuarioModel)Session["objUser"];
 
             //return RedirectToAction("Index", "Configuracion", new { Area = "AConfiguracion" });
             //return RedirectToAction("About", "Home", new { Area = string.Empty });
@@ -32,6 +29,9 @@ namespace ydRSoft.Web.Controllers
             {
                 return RedirectToAction("Login");
             }
+
+            await InfoSing.Instance.LoadProductos();
+            await SugerenciaBL.LoadSugerencia(model.Id);
 
             return View(model);
         }

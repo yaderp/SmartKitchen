@@ -28,6 +28,12 @@ namespace ydRSoft.BL
             return resultado;
         }
 
+        public static async Task<UsuarioModel> getUsuarioNom(string Nombre)
+        {
+            var resultado = await UsuarioBD.GetUsuarioNom(Nombre);
+            return resultado;
+        }
+
         public static async Task<UsuarioModel> GetUsuarioId(int Id)
         {
             var resultado = await UsuarioBD.GetUsuarioId(Id);

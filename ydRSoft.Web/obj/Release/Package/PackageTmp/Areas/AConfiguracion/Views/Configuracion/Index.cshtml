@@ -1,0 +1,130 @@
+﻿@using ydRSoft.Modelo
+@model UsuarioModel
+
+@{
+    ViewBag.Title = "Configuracion";
+
+    UsuarioModel objUser = Model == null ? new UsuarioModel() : Model;
+}
+
+<input id="editId" class="form-control text-navy" value="@objUser.Id" hidden/>
+<input id="editNombr1e" class="form-control text-navy" value="@objUser.Nombres" hidden />
+<input id="editReg1on" class="form-control text-navy" value="@objUser.Region" hidden />
+<div id="resulVista"></div>
+
+
+<script>
+
+    funAlertaSug();
+
+    async function funAlertaSug() {
+        const response = await fetch('/ASugerencia/Sugerencia/AlertaSug', {
+            method: 'POST',
+        });
+
+        if (response.ok) {
+            const data = await response.text();
+            $("#resulVista").html(data);
+        } else {
+            alert('Error en la respuesta: ' + response.status, response.statusText);
+        }
+    }
+
+
+    async function funVistaSugerencia() {
+        const response = await fetch('/ASugerencia/Sugerencia/VistaSugerencia', {
+            method: 'POST',
+        });
+
+        if (response.ok) {
+            const data = await response.text();
+            $("#resulVista").html(data);
+        } else {
+            alert('Error en la respuesta: ' + response.status, response.statusText);
+        }
+    }
+
+
+    async function funVerUsuario(entrada) {
+        console.log("entro usuario");
+        var dataString = new FormData();
+        dataString.append("IdUser", document.getElementById('editId').value);
+        const response = await fetch('/AUsuario/Usuario/LoadUsuario', {
+            method: 'POST',
+            body: dataString,
+        });
+
+        if (response.ok) {
+            const data = await response.text();
+            $("#resulVista").html(data);
+        } else {
+            alert('Error en la respuesta: ' + response.status, response.statusText);
+        }
+    }
+
+    async function funVistaPref() {
+        console.log("entro vista todos");
+        var dataString = new FormData();
+        dataString.append("IdUser", document.getElementById('editId').value);
+
+        const response = await fetch('/APreferencia/Preferencia/VistaPref', {
+            method: 'POST',
+            body: dataString,
+        });
+
+        if (response.ok) {
+            const data = await response.text();
+            $("#resulVista").html(data);
+        } else {
+            alert('Error en la respuesta: ' + response.status, response.statusText);
+        }
+    }
+
+    async function funVistaRecetas() {
+        var dataString = new FormData();
+        const response = await fetch('/AReceta/Receta/VistaRecetas', {
+            method: 'POST',
+            body: dataString,
+        });
+
+        if (response.ok) {
+            const data = await response.text();
+            $("#resulVista").html(data);
+        } else {
+            alert('Error en la respuesta: ' + response.status, response.statusText);
+        }
+    }
+
+    async function funVistaProductos() {
+
+        var dataString = new FormData();
+        const response = await fetch('/AProducto/Producto/LoadProductos', {
+            method: 'POST'
+        });
+
+        if (response.ok) {
+            const data = await response.text();
+            $("#resulVista").html(data);
+        } else {
+            alert('Error en la respuesta: ' + response.status, response.statusText);
+        }
+    }
+
+    async function funVistaFavoritos() {
+        var dataString = new FormData();
+        const response = await fetch('/AFavoritos/Favoritos/VistaFavoritos', {
+            method: 'POST',
+            body: dataString,
+        });
+
+        if (response.ok) {
+            const data = await response.text();
+            $("#resulVista").html(data);
+        } else {
+            alert('Error en la respuesta: ' + response.status, response.statusText);
+        }
+    }
+
+    
+</script>
+

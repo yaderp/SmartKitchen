@@ -1,0 +1,254 @@
+﻿
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SK |  @ViewBag.Title</title>
+
+
+    <link rel="shortcut icon" href="~/Content/Imagenes/Logos/gorrito-sk1.png">
+
+    <link href="@Url.Content("~/Content/css/bootstrap.min.css")" rel="stylesheet">
+    <link href="@Url.Content("~/Content/font-awesome/css/font-awesome.css")" rel="stylesheet">
+    <link href="@Url.Content("~/Content/css/animate.css")" rel="stylesheet">
+    <link href="@Url.Content("~/Content/css/estiloydR.css")" rel="stylesheet">
+    <link href="@Url.Content("~/Content/css/animate.css")" rel="stylesheet">
+    <link href="@Url.Content("~/Content/ydrsoft/CSSutil.css")" rel="stylesheet">
+
+    <link href="@Url.Content("~/Content/css/plugins/jasny/jasny-bootstrap.min.css")" rel="stylesheet">
+    <link href="@Url.Content("~/Content/css/plugins/sweetalert/sweetalert.css")" rel="stylesheet" />
+
+</head>
+<body>
+    <div class="floatingTiempo">
+        <div style="display: flex; align-items: flex-end; justify-content: center;">
+            <img src="~/Content/Imagenes/Clima/clima11.png" width="90" alt="Clima" />
+            <p style="margin-left: 0px; margin-bottom: 15px; font-size:32px">18&deg;</p>
+        </div>
+        <div id="clockDiv"></div>
+        <div>@DateTime.Now.ToShortDateString()</div>
+    </div>
+    <div id="vistaBtones">
+        @Html.Partial("_verBotones")
+    </div>
+
+    @RenderBody()
+
+    <script src="@Url.Content("~/Content/js/jquery-3.1.1.min.js")"></script>
+    <script src="@Url.Content("~/Content/js/popper.min.js")"></script>
+    <script src="@Url.Content("~/Content/js/bootstrap.js")"></script>
+    <script src="@Url.Content("~/Content/js/inspinia.js")"></script>
+    <script src="@Url.Content("~/Content/ydrsoft/JSutil.js")"></script>
+
+    <script src="@Url.Content("~/Content/js/plugins/metisMenu/jquery.metisMenu.js")"></script>
+    <script src="@Url.Content("~/Content/js/plugins/slimscroll/jquery.slimscroll.min.js")"></script>
+    <script src="@Url.Content("~/Content/js/plugins/sweetalert/sweetalert.min.js")"></script>
+    <script src="@Url.Content("~/Content/js/plugins/jasny/jasny-bootstrap.min.js")"></script>
+
+</body>
+</html>
+<script>
+    window.onload = function () {
+        ydR1bNom = document.getElementById('nomInydRc').value;
+        funModales('modalComandos');
+        //vozBienvenida();
+    };
+</script>
+
+<script>
+    let ydR1bNom = "";
+
+    function isModalOpen(entrada) {
+        const modal = document.getElementById(entrada);
+        return modal.classList.contains('show');
+    }
+
+    function funModales(entrada) {
+        const modalElement = document.getElementById(entrada);
+        const modal = $(modalElement).modal(); // Usar jQuery para manejar el modal
+
+        if (isModalOpen(entrada)) {
+            $(modalElement).modal('hide'); // Cerrar modal con jQuery
+            console.log('El modal se ha cerrado');
+        } else {
+            $(modalElement).modal('show'); // Abrir modal con jQuery
+            console.log('El modal se ha abierto');
+        }
+    }
+
+</script>
+
+
+<script id="_Captura_de_voz_">
+
+    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+
+    recognition.lang = 'es-ES';
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+
+    recognition.start();
+    function normalizarTexto(texto) {
+        // Reemplaza la "á" por "a" y convierte todo a minúsculas
+        return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+    }
+
+    recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript.toLowerCase();
+        //const textoNormalizado = normalizarTexto(transcript); // Normalizar el texto
+        console.log('Transcripción:', transcript); // Mostrar la transcripción en la consola
+
+        if (transcript === 'iniciar') {
+            console.log("entro a iniciar");
+            IniciarCaptura();
+        }
+
+        if (transcript === 'receta') {
+            var boton = document.getElementById("btnReceta");
+
+            if (boton.disabled) {
+                console.log("El botón está deshabilitado.");
+            } else {                
+                funRecetas();
+            }
+        }
+
+        if (transcript === 'cámara') {
+            funModales('modalCamara');
+            console.log("entro a camara");
+        }
+
+        if (transcript === 'comandos') {            
+            console.log("entro a camandos");
+            funModales('modalComandos');
+        }
+
+        if (transcript === 'mostrar categorías' || transcript === 'cerrar categorías') {
+            console.log("entro a categoria");
+            funModales('modalCategoria');
+        }
+
+        if (transcript === 'botones') {
+            console.log("entro a botones");
+            funBotones();
+        }
+
+        if (transcript === 'productos') {
+            console.log("entro a menu");
+            funMenu();
+        }
+
+        if (transcript === 'mostrar favoritos') {
+            console.log("entro a favoritos");
+            funFavoritos();
+        }
+
+        if (transcript === 'siguiente') {            
+            console.log("entro a siguiente");   
+            moverPagina(1);
+        }
+
+        if (transcript === 'anterior') {            
+            console.log("entro a anterior");
+            moverPagina(-1);
+        }
+
+
+        if (transcript === 'nombre receta') {
+            console.log("entro a nombre receta");
+            hablarNombre();
+        }
+
+        if (transcript === 'ingredientes') {
+            console.log("entro a ingredientes");
+            hablarIngredientes();
+        }
+
+        if (transcript === 'preparación') {
+            console.log("entro a preparación");
+            hablarPasos();
+        }
+
+        if (transcript === 'categoría entradas') {
+            console.log("entro a entradas");
+            cargarCategoria(1);
+        }
+
+        if (transcript === 'categoría sopas') {
+            console.log("entro a Sopas");
+            cargarCategoria(2);
+
+        }
+        if (transcript === 'categoría principal') {
+            console.log("entro a principal");
+            cargarCategoria(3);
+
+        }
+
+        if (transcript === 'categoría postres') {
+            console.log("entro a postres");
+            cargarCategoria(4);
+        }
+
+        if (transcript === 'agregar favorito') {
+            console.log("entro a add favorito");
+            funAddFavorito();
+        }
+
+        if (transcript === 'configuración') {
+            console.log("entro a configuracion");
+            funConfiguracion();
+        }
+
+        
+
+        if (transcript === 'pantalla completa') {
+            console.log("entro a pantalla");
+            funPantalla();
+        }
+
+        if (transcript === 'reiniciar') {
+            console.log("entro a reiniciar");
+            funReiniciar();
+        }
+
+        if (transcript === 'salir') {
+            console.log("entro a cerrar");
+            cerrarSesion();
+        }
+
+    };
+
+    recognition.onerror = (event) => {
+        console.error('Error de reconocimiento de voz:', event.error);
+    };
+
+    recognition.onend = () => {
+        recognition.start();
+    };
+</script>
+
+<script>
+    async function cerrarSesion() { 
+        const response = await fetch('/AUsuario/Usuario/CerrarSesion', {
+            method: 'POST',
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            if (data.Error) {
+                alert(data.Mensaje);
+            } else {
+                window.location.href = '/Home/Login';
+            }
+
+        } else {
+            console.log('Error en la respuesta: ' + response.status, response.statusText);
+        }
+    }
+</script>
+
+
+
+

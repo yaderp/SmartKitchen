@@ -70,10 +70,10 @@ namespace ydRSoft.BD
             return rpstaModel;
         }
         
-        public static async Task<int> GetRecetaId()
+        public static async Task<SugerModel> GetRecetaId()
         {
-            int recetaId = 0;
-            string query = @"SELECT idreceta 
+            SugerModel sugerModel = new SugerModel();
+            string query = @"SELECT id, idreceta 
                             FROM sugerencias
                             WHERE DATE(fechareg) = CURDATE();";
 
@@ -91,7 +91,10 @@ namespace ydRSoft.BD
                             {
                                 if (await reader.ReadAsync())
                                 {
-                                    recetaId = !reader.IsDBNull(0) ? reader.GetInt32(0) : 0;
+                                    sugerModel.Id = !reader.IsDBNull(0) ? reader.GetInt32(0) : 0;
+                                    sugerModel.IdReceta = !reader.IsDBNull(1) ? reader.GetInt32(1) : 0;
+
+                                    
                                 }
                             }
                         }
@@ -107,7 +110,7 @@ namespace ydRSoft.BD
                 }
             }
 
-            return recetaId;
+            return sugerModel;
         }
 
         public static async Task<List<RecetaModel>> ListaSug(string Nombre)

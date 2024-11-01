@@ -1,0 +1,38 @@
+﻿@using ydRSoft.Modelo
+@model RecetaModel
+
+@{
+    RecetaModel receta = Model != null ? Model : new RecetaModel();
+    int npaso = 1;
+}
+
+@if (receta.Id > 0)
+{
+    <h3>@receta.Nombre</h3>
+    <hr />
+    <strong> INGREDIENTES</strong> <span> (@receta.Categoria) &nbsp; Nivel :  @receta.NivelDificultad </span>
+    <hr />
+
+    foreach (var item in receta.Ingredientes)
+    {
+        <div>
+            <i class="fa fa-check-square-o"> &nbsp;</i> @item
+        </div>
+    }
+
+    <br />
+    <strong> PREPARACION</strong> <i class="fa fa-clock-o"> @receta.Tiempo min. </i>
+    <hr />
+
+    foreach (var item in receta.PasosPreparacion)
+    {
+        <div class="texto-largo">
+            <span>Paso @(npaso++): @item</span>
+        </div>
+    }
+
+}
+else
+{
+    <h3>NInguna Receta disponible</h3>
+}

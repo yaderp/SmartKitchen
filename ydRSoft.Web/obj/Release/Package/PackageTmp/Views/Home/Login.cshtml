@@ -1,0 +1,324 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "Login";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Altura completa de la pantalla */
+            margin: 0;
+        }
+
+        .mi-caja {
+            width: 40%;
+            background-color: white;
+            padding: 20px 80px;
+            box-sizing: border-box;
+            border-radius: 15px;
+            margin: 0; /* Quita los márgenes, ya que el flexbox se encarga del centrado */
+        }
+        
+
+        .mi-input {
+            width: 100%;
+            border-radius: 10px;
+            padding: 10px;
+            font-size: 16px;
+            box-sizing: border-box;
+            border: 2px solid #ccc;
+            color: navy;
+            outline: none;
+        }
+
+        .color_btn1a {
+            background-color: #3D9656;
+            color: white;
+            border: none;
+            border-radius: 15px;
+            padding: 10px;
+            width: 100%;
+            cursor: pointer;
+            margin: 15px auto;
+            display: block;
+            box-sizing: border-box;
+            font-size:24px;
+        }
+
+
+
+        .color_btn2b {
+            color: #fff;
+            background-color: #1F6332;
+            border: none;
+            border-radius: 15px;
+            padding: 10px;
+            width: 100%;
+            cursor: pointer;
+            margin: 15px auto;
+            display: block;
+            box-sizing: border-box;
+            font-size: 24px;
+        }
+
+        .color_btn3c {
+            color: #fff;
+            background-color: #17341E;
+            border:none;
+            border-radius: 15px;
+            padding: 10px;
+            width: 100%;
+            cursor: pointer;
+            margin: 15px auto;
+            display: block;
+            box-sizing: border-box;
+            font-size: 24px;
+        }
+
+        .div-centrado{
+            text-align:center;
+        }
+
+        
+
+    </style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title> SK |  @ViewBag.Title</title>
+
+    <link rel="shortcut icon" href="~/Content/Imagenes/Logos/gorrito-sk1.png">
+
+    <link href="@Url.Content("~/Content/css/bootstrap.min.css")" rel="stylesheet">
+    <link href="@Url.Content("~/Content/font-awesome/css/font-awesome.min.css")" rel="stylesheet">
+    <link href="@Url.Content("~/Content/css/animate.css")" rel="stylesheet">
+    <link href="@Url.Content("~/Content/css/estiloydR.css")" rel="stylesheet">
+
+</head>
+
+
+<body style="background-color: black; font-size: 24px">
+    <div class="mi-caja">
+        <div class="div-centrado">
+            <img src="~/Content/Imagenes/Logos/sk_logo.png" height="250" />
+        </div>
+        <br />
+        <div id="verLogin">
+            <div class="form-group text-left">
+                Usuario <br />
+                <input id="mUser" class="mi-input" autocomplete="off" placeholder="Di tu usuario" maxlength="25" />
+            </div>
+            <div class="form-group text-left">
+                Clave<br />
+                <input type="password" id="mClave" class="mi-input" autocomplete="off" placeholder="Di tu Clave" />
+            </div>
+        </div>
+        <p>Di la accion que deseas realizar:</p>
+        <button class="color_btn1a" onclick="funIngresar(1)" id="btnIngresar"> Ingresar</button>
+        <button class="color_btn2b" onclick="funIngresar(2)" id="btnRegistro"> Registrar</button>
+        <button class="color_btn3c" onclick="funIngresar(0)" id="btnInvitado"> Invitado</button>
+        <span id="mMensaje1a" class="text-danger"></span>
+        <div id="clockDiv" class=" text-center text-black-50"></div>
+    </div>
+
+    
+    <!-- Mainly scripts -->
+    <script src="@Url.Content("~/Content/ydrsoft/JSutil.js")"></script>
+    <script src="@Url.Content("~/Content/js/jquery-3.1.1.min.js")"></script>
+    <script src="@Url.Content("~/Content/js/popper.min.js")"></script>
+    <script src="@Url.Content("~/Content/js/bootstrap.js")"></script>
+
+</body>
+</html>
+
+<script id="_Captura_de_voz_">
+
+    function VozTextoYdR(texto) {
+        const utterance1a = new SpeechSynthesisUtterance(texto); // Crear una nueva instancia de SpeechSynthesisUtterance
+        window.speechSynthesis.speak(utterance1a); // Hablar el texto
+    }
+
+    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+
+    recognition.lang = 'es-ES';
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+
+    recognition.start();
+    function normalizarTexto(texto) {
+        // Reemplaza la "á" por "a" y convierte todo a minúsculas
+        return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+    }
+
+    recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript.toLowerCase();
+        //const textoNormalizado = normalizarTexto(transcript); // Normalizar el texto
+        console.log('Transcripción:', transcript); // Mostrar la transcripción en la consola
+
+
+        if (transcript === 'usuario') {            
+            setFocus('mUser');
+        } else {
+            if (transcript === 'clave') {
+                setFocus('mClave');
+            } else {                
+                if (transcript === 'ingresar') {
+                    funIngresar(1);
+                } else {
+                    if (transcript === 'invitado') {
+                        funIngresar(0);
+                    } else {
+                        if (transcript === 'registrar') {
+                            funIngresar(2);
+                        } else {
+                            if (transcript === 'limpiar') {
+                                document.getElementById('mUser').value="";
+                                document.getElementById('mClave').value = "";
+                                setFocus('mMensaje1a')
+                            } else {
+                                EscribirTexto(transcript);
+                            }
+
+                        }
+                    }
+                }
+            }
+        }
+    };
+
+    recognition.onerror = (event) => {
+        console.error('Error de reconocimiento de voz:', event.error);
+    };
+
+    recognition.onend = () => {
+        recognition.start();
+    };
+</script>
+
+
+<script>
+    setFocus('mUser');
+    function EscribirTexto(txtLetra) {
+        const elementoActivo = document.activeElement;
+
+        // Verifica si el elemento activo es un input de texto
+        if (elementoActivo.tagName === "INPUT") {
+            // Reemplaza cualquier texto anterior con el nuevo texto
+            let resultado = txtLetra.replace(/\s+/g, '');
+            elementoActivo.value = resultado;
+        } else {
+            console.log("No hay ningún input de texto enfocado.");
+        }
+
+    }
+
+    async function funIngresar(opc) {
+        console.log("ingreso");        
+        let nombre = document.getElementById('mUser').value;
+        let clave = document.getElementById('mClave').value;
+
+        let tamnom = nombre.length;
+        let tamcla = clave.length;
+
+        if (opc != 0) {
+
+            if (tamnom == 0) {
+                setTextIn('mMensaje1a', "Por favor, Ingrese un Nombre");
+                VozTextoYdR("Por favor, Ingrese un Nombre");
+                setFocus('mUser');
+                return;
+            } 
+
+            if (tamcla == 0) {
+                setTextIn('mMensaje1a', "Por favor, Ingrese una Contraseña");
+                VozTextoYdR("Por favor, Ingrese una Contraseña");
+                setFocus('mClave');
+                return;
+            }
+        }
+
+        initUsuario(opc);
+
+        console.log("salio");
+    }
+
+    async function initUsuario(opc) {
+        
+        let nombre = document.getElementById('mUser').value;
+        let clave = document.getElementById('mClave').value; 
+
+        //setDisabled(entrada, true);
+        var dataString = new FormData();
+        dataString.append("Nombre", nombre);
+        dataString.append("Clave", clave);
+        dataString.append("Opcion", opc);
+
+        const response = await fetch('/AUsuario/Usuario/InicioUsuario', {
+            method: 'POST',
+            body: dataString,
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            if (data.Error) {
+                setTextIn('mMensaje1a', data.Mensaje)
+                VozTextoYdR(data.Mensaje);
+            } else {
+                window.location.href = '/Home/Index';
+            }
+
+        } else {
+            console.log('Error en la respuesta: ' + response.status, response.statusText);
+        }
+
+        //setDisabled(entrada, false);
+    }
+
+
+    function setFocus(entrada) {
+        let outInput = document.getElementById(entrada);
+        if (outInput && typeof outInput.focus === 'function') {
+            outInput.focus();
+        }
+    }
+
+    function setDisabled(entrada, activo) {
+        let outInput = document.getElementById(entrada);
+        let contenidoHTML = outInput.innerHTML; 
+        console.log(contenidoHTML);
+        outInput.disabled = activo;
+
+        if (activo) {
+            outInput.innerHTML = "CARGANDO &nbsp; &nbsp; <i class='fa fa-spinner'></i>";
+        } else {
+            outInput.innerHTML = contenidoHTML;
+        }
+    }
+
+    function setTextIn(entrada, texto) {
+        let outInput = document.getElementById(entrada);
+        outInput.innerHTML = texto;
+    }
+
+
+    function validarFoco(entrada) {
+        const input = document.getElementById(entrada);
+        if (document.activeElement === input) {
+            alert("El input está enfocado.");
+        } else {
+            alert("El input NO está enfocado.");
+        }
+    }
+
+   
+</script>
+
+
+
+
+

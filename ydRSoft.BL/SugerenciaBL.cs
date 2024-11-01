@@ -13,12 +13,13 @@ namespace ydRSoft.BL
     public class SugerenciaBL
     {
 
-        public static async Task LoadSugerencia()
+        public static async Task LoadSugerencia(int Iduser)
         {
-            var recetaId = await SugerenciaBD.GetRecetaId();
+            var recetaId = (await SugerenciaBD.GetRecetaId()).Id;
+
             if (recetaId == 0)
             {
-                var recetas = await RecetaBD.ListaSugerida();
+                var recetas = await RecetaBD.ListaSugerida(Iduser);
                 if (!string.IsNullOrEmpty(recetas))
                 {
                     string txtPregunta = "basado en estas recetas" + recetas +
@@ -46,20 +47,21 @@ namespace ydRSoft.BL
             }
         }
 
-        public static async Task<RecetaModel> ConsultarSuger()
+        public static async Task<RecetaModel> ConsultarSuger(int IdUser)
         {
             RecetaModel receta = new RecetaModel();
 
-            var recetaId = await SugerenciaBD.GetRecetaId();
+            var sugr7a = await SugerenciaBD.GetRecetaId();
+            var recetaId = sugr7a.IdReceta;
 
             if (recetaId > 0)
             {
                 receta = await RecetaBL.GetRecetaId(recetaId);
-                
+                receta.IdFav = sugr7a.Id;
             }
             else
             {
-                var recetas = await RecetaBD.ListaSugerida();
+                var recetas = await RecetaBD.ListaSugerida(IdUser);
                 if (!string.IsNullOrEmpty(recetas))
                 {
                     string txtPregunta = "basado en estas recetas" + recetas +
@@ -90,9 +92,9 @@ namespace ydRSoft.BL
         }
 
 
-        public static async Task<RpstaModel> ActEstado(int IdSug)
+        public static async Task<RpstaModel> ActEstado(int IdSug, int Estado)
         {
-            var resultado = await SugerenciaBD.ActEstado(IdSug, 0);
+            var resultado = await SugerenciaBD.ActEstado(IdSug, Estado);
 
             return resultado;
         }

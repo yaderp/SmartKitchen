@@ -22,7 +22,7 @@ namespace ydRSoft.Web.Areas.AUsuario.Controllers
         {
             Session["objUser"] = null;
             RpstaModel resultado = new RpstaModel();
-            if (Opcion == 1)
+            if (Opcion == 1) //ingresar
             {
                 var logi = await UsuarioBL.GetUsuario(Nombre, Clave);
                 if (logi != null) {
@@ -36,7 +36,7 @@ namespace ydRSoft.Web.Areas.AUsuario.Controllers
             }
             else
             {
-                if (Opcion == 2)
+                if (Opcion == 2) // registrar
                 {
                     UsuarioModel usuarioModel = new UsuarioModel();
                     usuarioModel.Nombres = Nombre;
@@ -45,9 +45,9 @@ namespace ydRSoft.Web.Areas.AUsuario.Controllers
                     resultado = await UsuarioBL.Agregar(usuarioModel);
                     if (!resultado.Error)
                     {
-                        Session["objUser"] = usuarioModel;
+                        var userObj = await UsuarioBL.getUsuarioNom(Nombre);
+                        Session["objUser"] = userObj;
                     }
-                    //registars
                 }
                 else
                 {

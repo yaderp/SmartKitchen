@@ -1,0 +1,141 @@
+﻿
+@using ydRSoft.Modelo
+@model RecetaModel
+
+
+@{
+    RecetaModel receta = Model != null ? Model : new RecetaModel();
+    int npaso = 1;
+}
+
+<style>
+    .texto-calif label {
+        font-size: 16px; /* Tamaño de letra de 20px */
+        margin-right: 20px; /* Separación de 20px entre los inputs */
+    }
+</style>
+
+<input id="rece7aId" value="@receta.Id" hidden />
+
+
+@if (receta.Id > 0)
+{
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="panel-body">
+                <h3>@receta.Nombre</h3>
+                <hr />
+                <strong> INGREDIENTES</strong> <span> (@receta.Categoria) &nbsp; Nivel :  @receta.NivelDificultad </span>
+                <hr />
+                @foreach (var item in receta.Ingredientes)
+                {
+                    <div>
+                        <i class="fa fa-check-square-o"> &nbsp;</i> @item
+                    </div>
+                }
+
+                <br />
+                <strong> PREPARACION</strong> <i class="fa fa-clock-o"> @receta.Tiempo min. </i>
+                <hr />
+
+                @foreach (var item in receta.PasosPreparacion)
+                {
+                    <div><strong>Paso @(npaso++): </strong> @item</div>
+                }
+
+                <hr />
+
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+            @if (receta.Estado == 0)
+            {
+
+                <div class="ydRDiv-centrado-40">
+                    <button class="btn btn-success btn-block" onclick="funac7a()"> <i class='fa fa-save'> &nbsp; GUARDAR</i></button>
+                </div>
+            }
+            else
+            {
+                <div class="form-group text-center">
+                    <h3>Calificacion:</h3>
+
+                    <div class="texto-calif">
+                        <label>
+                            <input type="radio" value="1" id="optionsRadios1" name="optionsRadios"> 1
+                        </label>
+                        <label>
+                            <input type="radio" value="2" id="optionsRadios2" name="optionsRadios"> 2
+                        </label>
+                        <label>
+                            <input type="radio" value="3" id="optionsRadios2" name="optionsRadios"> 3
+                        </label>
+                        <label>
+                            <input type="radio" value="4" id="optionsRadios2" name="optionsRadios"> 4
+                        </label>
+                        <label>
+                            <input type="radio" value="5" id="optionsRadios2" name="optionsRadios"> 5
+                        </label>
+                    </div>
+                    <hr />
+
+                    <button class="btn btn-success" onclick="funEnviarCalif()">Enviar Opción Elegida</button>
+                </div>
+            }
+        </div>
+    </div>
+
+}
+else
+{
+    <h3>Ninguna Receta Encontrada</h3>
+}
+
+<script>
+    funcapturaradio('@receta.Calificacion');
+
+    function funac7a() {
+        let id = document.getElementById('rece7aId').value;
+        funSaveSug1a(id, 1);
+    }
+
+
+
+    async function funEnviarCalif() {
+        var seleccion = document.querySelector('input[name="optionsRadios"]:checked');
+
+        if (seleccion) {
+            var dataString = new FormData();
+            dataString.append("recetaId", document.getElementById('rece7aId').value);
+            dataString.append("Calificacion", seleccion.value);
+
+            const response = await fetch('/AReceta/Receta/Calificar', {
+                method: 'POST',
+                body: dataString
+            });
+            if (response.ok) {
+                const data = await response.json();
+                if (data.Error) {
+                    alert(data.Mensaje);
+                } else {
+                    funVistaRecetas();
+                }
+            }
+        }
+    }
+
+    function funcapturaradio(numero) {
+        console.log("bton act");
+        // Seleccionar el radio button según el número (value del input)
+        var radio = document.querySelector(`input[value="${numero}"]`);
+
+        // Si se encuentra el radio button, se activa
+        if (radio) {
+            radio.checked = true;
+        }
+    }
+</script>

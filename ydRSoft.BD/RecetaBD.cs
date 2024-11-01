@@ -23,8 +23,8 @@ namespace ydRSoft.BD
                 return rpstaModel;
             }
 
-            string query = @"INSERT INTO receta (nombre, ndif, tiempo,categoria,ingredientes,preparacion, fechareg, estado,calificacion) 
-                                        VALUES (@nombre, @ndif, @tiempo,@categoria,@ingredientes,@preparacion, @fechareg, @estado,@calificacion);
+            string query = @"INSERT INTO receta (nombre, ndif, tiempo,categoria,ingredientes,preparacion, fechareg, estado,calificacion, iduser) 
+                                        VALUES (@nombre, @ndif, @tiempo,@categoria,@ingredientes,@preparacion, @fechareg, @estado,@calificacion, @iduser);
                                         SELECT LAST_INSERT_ID();";
 
             using (MySqlConnection connection = MySqlConexion.MyConexion()) 
@@ -46,6 +46,7 @@ namespace ydRSoft.BD
                             command.Parameters.AddWithValue("@fechareg", DateTime.Now);
                             command.Parameters.AddWithValue("@estado", objModel.Estado);
                             command.Parameters.AddWithValue("@calificacion", 0);
+                            command.Parameters.AddWithValue("@iduser", objModel.IdUser);
                             var resultado = await command.ExecuteScalarAsync();
 
                             if (resultado != null && int.TryParse(resultado.ToString(), out int recetaId) && recetaId > 0)
@@ -130,7 +131,7 @@ namespace ydRSoft.BD
             RecetaModel objModel = null;
 
             string query = @"SELECT
-                            id, nombre, ndif, tiempo, categoria, ingredientes, preparacion, fechareg, estado, calificacion
+                            id, nombre, ndif, tiempo, categoria, ingredientes, preparacion, fechareg, estado, calificacion, iduser
                             FROM receta
                             WHERE id = @recetaId;";
 
@@ -161,7 +162,8 @@ namespace ydRSoft.BD
                                         StrPas = !reader.IsDBNull(6) ? reader.GetString(6) : "",
                                         FechaRegistro = !reader.IsDBNull(7) ? reader.GetDateTime(7) : DateTime.Now,
                                         Estado = !reader.IsDBNull(8) ? reader.GetInt32(8) : 0,
-                                        Calificacion = !reader.IsDBNull(9) ? reader.GetInt32(9) : 0
+                                        Calificacion = !reader.IsDBNull(9) ? reader.GetInt32(9) : 0,
+                                        IdUser = !reader.IsDBNull(10) ? reader.GetInt32(10) : 1
                                     };
 
                                     objModel = receta;
@@ -190,7 +192,7 @@ namespace ydRSoft.BD
             RecetaModel objModel = null;
 
             string query = @"SELECT
-                            id, nombre, ndif, tiempo, categoria, ingredientes, preparacion, fechareg, estado, calificacion
+                            id, nombre, ndif, tiempo, categoria, ingredientes, preparacion, fechareg, estado, calificacion, iduser
                             FROM receta
                             WHERE nombre = @recetaNom";
 
@@ -222,6 +224,7 @@ namespace ydRSoft.BD
                                         FechaRegistro = !reader.IsDBNull(7) ? reader.GetDateTime(7) : DateTime.Now,
                                         Estado = !reader.IsDBNull(8) ? reader.GetInt32(8) : 0,
                                         Calificacion = !reader.IsDBNull(9) ? reader.GetInt32(9) : 0,
+                                        IdUser = !reader.IsDBNull(10) ? reader.GetInt32(10) : 1
                                     };
 
                                     objModel = receta;
@@ -413,12 +416,21 @@ namespace ydRSoft.BD
 
         public static async Task<List<RecetaModel>> ListaTiempo(int Tiempo)
         {
+            int MinTiempo = 0;
+            switch (Tiempo)
+            {
+                case 5: MinTiempo = 0; break;
+                case 15: MinTiempo = 5; break;
+                case 30: MinTiempo = 15; break;
+                case 999: MinTiempo = 30; break;
+            }
+
             List<RecetaModel> mLista = new List<RecetaModel>();
 
             string query = @"SELECT
                             id, nombre, ndif, tiempo, categoria, calificacion
                             FROM receta
-                            WHERE tiempo <= @tiempo and estado > 0;";
+                            WHERE tiempo <= @tiempo  and tiempo > @mintiempo and estado > 0;";
 
             using (MySqlConnection connection = MySqlConexion.MyConexion())
             {
@@ -431,6 +443,7 @@ namespace ydRSoft.BD
                         using (MySqlCommand command = new MySqlCommand(query, connection))
                         {
                             command.Parameters.AddWithValue("@tiempo", Tiempo);
+                            command.Parameters.AddWithValue("@mintiempo", MinTiempo);
 
                             using (DbDataReader reader = await command.ExecuteReaderAsync())
                             {
@@ -517,14 +530,14 @@ namespace ydRSoft.BD
             return mLista;
         }
 
-        public static async Task<string> ListaSugerida()
+        public static async Task<string> ListaSugerida(int IdUser)
         {
             string recetas = "";
 
             string query = @"SELECT
                             nombre
                             FROM receta
-                            WHERE estado = 1
+                            WHERE estado = 1 and iduser = @iduser
                             ORDER BY id DESC
                             LIMIT 4";
 
@@ -538,6 +551,7 @@ namespace ydRSoft.BD
 
                         using (MySqlCommand command = new MySqlCommand(query, connection))
                         {
+                            command.Parameters.AddWithValue("@iduser", IdUser);
                             using (DbDataReader reader = await command.ExecuteReaderAsync())
                             {
                                 while (await reader.ReadAsync())

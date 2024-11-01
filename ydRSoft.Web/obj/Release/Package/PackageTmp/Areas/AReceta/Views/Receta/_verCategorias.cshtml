@@ -1,0 +1,99 @@
+﻿<style>
+
+    .ydR-titulo {
+        font-family: 'Inter 18pt 18pt';
+        font-size: 30px;
+        background-color: rgb(64, 150, 84);
+        color: black;
+        padding: 10px;
+        line-height: 1.2;
+    }
+
+    .ydR-subtitulo {
+        font-family: 'Inter 18pt 18pt';
+        font-size: 28px;
+        color: rgb(64, 150, 84);
+        padding: 10px;
+    }
+    .ydR-deta11e {
+        font-family: 'Inter 18pt 18pt';
+        font-size: 18px;
+        color: white;
+        padding: 10px;
+    }
+
+    .texto-verd3 {
+        color: rgb(64, 150, 84);
+    }
+
+</style>
+
+<div class="modal inmodal fade" id="modalCategoria" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">        
+        <div style="background-color:rgb(49,49,49)">
+            <div class="ydR-titulo">
+                <strong class="text-center">Comandos de voz</strong>
+            </div>
+           
+            <table class="table">
+                <thead>
+                    <tr class="ydR-subtitulo">
+                        <th width="1"></th>
+                        <th>Comando</th>
+                    </tr>
+                </thead>
+                <tbody class="ydR-deta11e">
+                    <tr>
+                        <td>1</td>
+                        <td><i class="fa fa-microphone texto-verd3"></i> Categoría Entradas</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td> <i class="fa fa-microphone texto-verd3"></i> Categoría Sopas</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td> <i class="fa fa-microphone texto-verd3"></i> Categoría Principal</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td><i class="fa fa-microphone texto-verd3"></i> Categoría Postres</td>
+                    </tr>
+
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+
+<script>
+    async function cargarCategoria(opc) {
+        $("#viewPaginas").html("");
+        console.log("Categoria " + opc);
+
+        var dataString = new FormData();
+        dataString.append("Opc", opc);
+        
+        document.getElementById("idLoad1").innerHTML = "<i class='fa fa-spinner'> Cargando Recetas ...</i>";
+        const response = await fetch('/AReceta/Receta/GetCategorias', {
+            method: 'POST',
+            body: dataString
+        });
+        if (response.ok) {
+            const data = await response.text();
+            $("#viewPaginas").html(data);
+        }
+
+        document.getElementById("idLoad1").innerHTML = "Bienvenido : " + ydR1bNom;
+    }
+
+</script>

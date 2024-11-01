@@ -9,6 +9,7 @@ namespace ydRSoft.Modelo
     public class RecetaModel
     {
         public int Id { get; set; }
+        public int IdUser { get; set; }
         public string Nombre { get; set; }
         public int NivelDificultad { get; set; }
         public int Tiempo { get; set; }

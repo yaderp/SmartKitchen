@@ -1,0 +1,78 @@
+﻿
+
+<div class="row text-navy">
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3>Receta Favorita Detalle</h3>
+            </div>
+            <div class="panel-body">
+                <div id="v1staRece7a"></div>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-8">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div>Buscar</div>
+                <div class="input-group">
+                    <input id="mFiltro" onkeyup="funListaSugerencia()" class="form-control text-navy text-uppercase" placeholder="Nombre Receta" autocomplete="off"> <span class="input-group-append">
+                        <button type="button" id="btnBuscar" onclick="funListaSugerencia()" class="btn btn-primary"><i class="fa fa-search"></i> Buscar  </button>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div id="listaSug3renc1a"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    funListaSugerencia();
+
+    async function funListaSugerencia() {
+        
+        var dataString = new FormData();
+        dataString.append("Nombre", document.getElementById('mFiltro').value);
+        const response = await fetch('/ASugerencia/Sugerencia/ListaSugerencia', {
+            method: 'POST',
+            body: dataString,
+        });
+
+        if (response.ok) {
+            const data = await response.text();
+            $("#listaSug3renc1a").html(data);
+        } else {
+            alert('Error en la respuesta: ' + response.status, response.statusText);
+        }
+    }
+
+    async function funEliminaSug(id) {
+        var dataString = new FormData();
+        dataString.append("IdSug", id);
+
+        const response = await fetch('/ASugerencia/Sugerencia/ActSugerencia', {
+            method: 'POST',
+            body: dataString,
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            if (data.Error) {
+                alert(data.Mensaje);
+            } else {
+                funListaSugerencia();
+            }
+        } else {
+            alert('Error en la respuesta: ' + response.status, response.statusText);
+        }
+    }
+
+</script>

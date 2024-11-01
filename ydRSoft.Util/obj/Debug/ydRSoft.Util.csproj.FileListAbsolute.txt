@@ -1,6 +1,0 @@
-D:\TP02\SmartKitchen\ydRSoft.Util\bin\Debug\ydRSoft.Util.dll
-D:\TP02\SmartKitchen\ydRSoft.Util\bin\Debug\ydRSoft.Util.pdb
-D:\TP02\SmartKitchen\ydRSoft.Util\obj\Debug\ydRSoft.Util.csproj.AssemblyReference.cache
-D:\TP02\SmartKitchen\ydRSoft.Util\obj\Debug\ydRSoft.Util.csproj.CoreCompileInputs.cache
-D:\TP02\SmartKitchen\ydRSoft.Util\obj\Debug\ydRSoft.Util.dll
-D:\TP02\SmartKitchen\ydRSoft.Util\obj\Debug\ydRSoft.Util.pdb

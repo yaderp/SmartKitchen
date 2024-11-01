@@ -1,0 +1,117 @@
+﻿@using ydRSoft.Modelo
+@model RecetaModel
+
+@{
+    var receta = new RecetaModel();
+    List<int> listaId = new List<int>();
+    if (Model != null)
+    {
+        receta = Model;
+        if (receta.ListaId.Count > 0)
+        {
+            listaId = receta.ListaId;
+        }
+    }
+
+    int Index = 1;
+}
+
+<style>
+    .floatingbtn {
+        position: fixed;
+        bottom: -15px;
+        left: 460px;
+        padding: 20px;
+        border-radius: 5px;
+        z-index: 9999;
+        color: white;
+        font-weight: bold;
+        font-family: 'Inter 18pt 18pt';
+    }
+
+    .circular-button7a {
+        width: 50px; /* Tamaño del botón */
+        height: 50px;
+        border: 2px solid rgb(64, 150, 84);
+        border-radius: 50%; /* Hacer el botón circular */
+        background-color: transparent; /* Fondo blanco inicial */
+        color: rgb(64, 150, 84);
+        font-size: 20px; /* Tamaño de fuente */
+        text-align: center; /* Centrar el texto */
+        line-height: 46px; /* Alineación vertical */
+        cursor: pointer;
+        transition: background-color 0.3s ease; /* Animación de cambio de color */
+    }
+
+        /* Estilo para el botón activo */
+        .circular-button7a.active {
+            background-color: rgb(64, 150, 84); /* Fondo verde cuando está activo */
+            color: white; /* Texto blanco cuando esté activo */
+        }
+
+</style>
+
+<input id="IdUno" value="@receta.Id" hidden />
+
+
+<div class="floatingbtn">
+    <div>
+        @foreach (var item in listaId)
+        {
+            var ActItem = Index == 1 ? "active" : "";
+
+            <button class="circular-button7a @ActItem" onclick="funPagina(this,@item)" id="@("btnPag"+Index)">@(Index++)</button>
+        }
+    </div>   
+</div>
+
+
+<script id="_recetas_">
+
+    funVerReceta(document.getElementById("IdUno").value);
+
+    async function funVerReceta(idr) {
+        console.log("IdR : " + idr);
+        var dataString = new FormData();
+        dataString.append("Pagina", idr);
+
+        const response = await fetch('/AReceta/Receta/verReceta', {
+            method: 'POST',
+            body: dataString,
+        });
+
+        console.log("response");
+        if (response.ok) {
+            const data = await response.text();
+            console.log("muestra data");
+            $("#viewReceta").html(data);
+        } else {
+            divResult.innerHTML = '<h3> Ninguna receta Disponible </h3>';
+        }
+    }
+
+    function funPagina(boton, pagina) {
+        funVerReceta(pagina);
+        document.querySelectorAll('.circular-button7a').forEach(function (btn) {
+            btn.classList.remove('active');
+        });
+
+        boton.classList.add('active');
+    }
+
+    indexDeseado = 1;
+
+    function moverPagina(num) {
+        indexDeseado = indexDeseado + num;
+        if (indexDeseado > 3) {
+            indexDeseado = 1;
+        } else {
+            if (indexDeseado < 1) {
+                indexDeseado = 3;
+            }
+        }
+
+        var boton = document.getElementById("btnPag" + indexDeseado);
+        boton.click();
+    }
+</script>

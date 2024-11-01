@@ -1,0 +1,93 @@
+﻿@using ydRSoft.Modelo
+@model List<RecetaModel>
+
+@{
+    List<RecetaModel> mLista = Model != null ? Model : new List<RecetaModel>();
+    int Index = 0;
+    int recetaId = 0;
+    if (mLista.Count > 0)
+    {
+        recetaId = mLista[0].Id;
+    }
+}
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th width="1"></th>
+            <th width="1"> # </th>
+            <th>Nombre</th>
+            <th width="10%"><i class="fa fa-clock-o"></i> </th>
+            <th width="10%">Dificultad</th>
+            <th width="10%">Categoria</th>
+            <th width="1"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (mLista.Count > 0)
+        {
+            foreach (var item in mLista)
+            {
+                Index++;
+
+                <tr class="text-navy">
+                    <td hidden>@item.Id</td>
+                    <td><button class="btn btnydR-Success" onclick="funCargaSug(@item.Id)"><i class="fa fa-hand-o-left"></i></button></td>
+                    <td class="text-default">@Index.ToString().PadLeft(2, '0')</td>
+                    <td>@item.Nombre</td>
+                    <td>@item.Tiempo min</td>
+                    <td>Nivel @item.NivelDificultad</td>
+                    <td>@item.Categoria</td>
+                    <td>
+                        <button class="btn btnydR-Rojo btn btn-xs" onclick="funDe11(@item.IdFav)"> <i class="fa fa-trash"></i> </button>
+                    </td>
+                </tr>
+            }
+        }
+
+    </tbody>
+    <tfoot>
+        <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+    </tfoot>
+</table>
+
+<script>
+
+    funCargaSug("@recetaId");
+
+    async function funCargaSug(id) {
+        console.log("sug " + id);
+        if (id == 0) {
+            return;
+        }
+
+        var dataString = new FormData();
+        dataString.append("recetaId", id);
+
+        const response = await fetch('/ASugerencia/Sugerencia/LoadSugerencia', {
+            method: 'POST',
+            body: dataString,
+        });
+
+        if (response.ok) {
+            const data = await response.text();
+            $("#v1staRece7a").html(data);
+        } else {
+            alert('Error en la respuesta: ' + response.status, response.statusText);
+        }
+    }
+
+    function funDe11(id) {
+        console.log("del " + id);
+        funEliminaSug(id);
+    }
+</script>

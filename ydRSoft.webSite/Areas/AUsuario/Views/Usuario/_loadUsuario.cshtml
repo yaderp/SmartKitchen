@@ -1,0 +1,284 @@
+﻿@using ydRSoft.Modelo
+@model UsuarioModel
+
+@{
+    UsuarioModel objUser = Model == null ? new UsuarioModel() : Model;
+}
+
+<style>
+    .ydR-imgPerfil{
+        height: 400px;
+        width:300px;
+        align-content:center;
+    }
+</style>
+
+
+@if (Model != null)
+{
+    <div class="text-navy">
+
+        <h3 class="text-center"> <strong> Configuracion de Usuario </strong> &nbsp; &nbsp; <small>@objUser.Nombres</small></h3>
+        <hr />
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="text-center text-navy"> Informacion Personal &nbsp; @Html.Raw(ydRSoft.Util.Funciones.GetPrivacidad(objUser.Estado))</h3>
+                        <hr />
+                    </div>
+                    <div class="panel-body">
+
+                        <div class="form-group row">
+                            <label class="col-md-3 text-right">Region:</label>
+                            <div class="col-md-9">
+                                <select id="mRegion" class="form-control">
+                                    <option value="PERU">PERU</option>
+                                    <option value="BOLIVIA">BOLIVIA</option>
+                                    <option value="VENEZUELA">VENEZUELA</option>
+                                    <option value="ITALIA">ITALIA</option>
+                                    <option value="FRANCIA">FRANCIA</option>
+
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-3 text-right">DNI:</label>
+                            <div class="col-md-9">
+                                <input id="mDni" class="form-control text-navy" autocomplete="off" placeholder="DNI" value="@objUser.Dni" />
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-3 text-right">Correo:</label>
+                            <div class="col-md-9">
+                                <input id="mCorreo" class="form-control text-navy" autocomplete="off" placeholder="Correo" value="@objUser.Correo" />
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-3 text-right">Contraseña:</label>
+                            <div class="col-md-9">
+                                <input type="password" id="mClave" class="form-control text-navy" autocomplete="off" placeholder="Contraseña" value="@objUser.Clave" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-3 text-right">Cargo:</label>
+                            <div class="col-md-9">
+                                <select id="mCargo" class="form-control">
+                                    <option value="0">INVITADO</option>
+                                    <option value="1">ADMIN</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-3 text-right">Sexo:</label>
+                            <div class="col-md-9">
+                                <select id="mSexo" class="form-control">
+                                    <option value="1">HOMBRE</option>
+                                    <option value="2">MUJER</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-3 text-right">Estado:</label>
+                            <div class="col-md-9">
+                                <select id="mEstado" class="form-control">
+                                    <option value="1">PRIVADO</option>
+                                    <option value="2">PUBLICO</option>
+                                </select>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="form-group row">
+                            <div class="col-md-3"></div>
+                            <div class="col-md-6">
+                                <button class="btn btn-block btn-success" onclick="funEditar()"> <i class="fa fa-save"></i> &nbsp; Guardar Cambios  </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="text-center text-navy"> Actualizar Imagen </h3>
+                        <hr />
+                    </div>
+                    <div class="panel-body">
+
+                        <form id="imageUploadForm" enctype="multipart/form-data">
+                            <div class="fileinput fileinput-new" data-provides="fileinput">
+                                <span class="btn btn-default btn-file">
+                                    <input type="file" id="imageFile" onchange="previewImage(event)" accept=".jpg,.png">
+                                    <span class="fileinput-new">Selecciona Archivo</span>
+                                    <span class="fileinput-exists">Cambiar Archivo</span>
+                                </span>
+                                <span class="fileinput-filename"></span>
+                            </div>
+                            <input type="button" class="btn btn-success" value="Actualizar Imagen" onclick="uploadImage()" />
+                        </form>
+                        <div class="form-group">
+
+                        </div>
+
+                        <hr />
+                        <div>
+                            <img class="ydR-imgPerfil" id="previewImage" src="" alt="Vista previa" style="display:none;" />
+                        </div>
+                        <div id="uploadMessage"></div>
+                        <br />
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="text-center text-navy"> Lista Usuarios </h3>
+                        <hr />
+                    </div>
+                    <div class="panel-body">
+                        <div id="listaPub1ica"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+}
+else
+{
+    <h3> Actualize pagina</h3>
+    <hr />
+}
+
+
+
+<script id="_subir_imagen">
+
+    function previewImage(event) {
+        var reader = new FileReader();
+        reader.onload = function () {
+            var output = document.getElementById('previewImage');
+            output.src = reader.result;  // Asigna la imagen cargada a la vista previa
+            output.style.display = "block";
+        };
+        reader.readAsDataURL(event.target.files[0]); // Lee el archivo de imagen
+    }
+
+
+    function uploadImage() {
+        console.log("entro aqui XD");
+        var formData = new FormData();
+        var imageFile = document.getElementById("imageFile").files[0];
+   
+        if (!imageFile) {
+            document.getElementById("uploadMessage").innerHTML = "Debe seleccionar una imagen.";
+            return;
+        }
+
+        formData.append("imageFile", imageFile);
+        formData.append("IdUser", document.getElementById('editId').value);
+
+        fetch('@Url.Action("UploadImage", "Usuario", new { Area = "AUsuario" })', {
+            method: "POST",
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+
+                    document.getElementById("ImgPerfil").src = data.imageUrl + "?" + new Date().getTime(); 
+                    document.getElementById("uploadMessage").innerHTML = "Imagen subida correctamente.";
+                } else {
+                    document.getElementById("uploadMessage").innerHTML = "Error al subir la imagen.";
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                document.getElementById("uploadMessage").innerHTML = "Error al subir la imagen.";
+            });
+
+}
+</script>
+
+
+<script id="_mostrar_lista">
+
+
+</script>
+
+
+<script>
+    console.log("sexo -> " + "@objUser.IdSexo");
+    console.log("cargo -> " + "@objUser.IdCargo");
+    document.getElementById('mSexo').value = "@objUser.IdSexo";
+    document.getElementById('mCargo').value = "@objUser.IdCargo";
+    document.getElementById('mEstado').value = "@objUser.Estado";
+    document.getElementById('mRegion').value = "@objUser.Region";
+
+</script>
+
+<script>
+
+    funListaPublica();
+
+    async function funEditar() {
+        
+        let estado = document.getElementById('mEstado').value
+        console.log("entro edit usuario " + estado);
+        var dataString = new FormData();
+        dataString.append("Region", document.getElementById('mRegion').value);
+        dataString.append("Id", document.getElementById('editId').value);
+        dataString.append("Clave", document.getElementById('mClave').value);
+        dataString.append("Correo", document.getElementById('mCorreo').value);
+        dataString.append("Dni", document.getElementById('mDni').value);
+        dataString.append("IdSexo", document.getElementById('mSexo').value);
+        dataString.append("IdCargo", document.getElementById('mCargo').value);
+        dataString.append("Estado", estado);
+        console.log("cargo usuario");
+        const response = await fetch('/AUsuario/Usuario/EditarUsuario', {
+            method: 'POST',
+            body: dataString,
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            if (data.Error) {
+                console.log("error -> " + data.Mensaje);
+            } else {
+                console.log("Exito " + data.Mensaje);
+                funVerUsuario();
+            }
+
+        } else {
+            alert('Error en la respuesta: ' + response.status, response.statusText);
+        }
+    }
+
+
+    async function funListaPublica() {
+        console.log("entro lista");
+
+        const response = await fetch('/AUsuario/Usuario/ListaUsuario', {
+            method: 'POST',
+        });
+
+        if (response.ok) {
+            const data = await response.text();
+            $("#listaPub1ica").html(data);
+        } else {
+            alert('Error en la respuesta: ' + response.status, response.statusText);
+        }
+    }
+</script>
+
+
+

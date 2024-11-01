@@ -1,0 +1,100 @@
+﻿@{
+    ViewBag.Title = "About";
+    var mLista = ydRSoft.BL.ConexionBL.ListaCom();
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Texto en Circunferencia Inferior Antihorario</title>
+    <link rel="shortcut icon" href="~/Content/Imagenes/Logos/paw.png">
+
+    <link href="@Url.Content("~/Content/css/bootstrap.min.css")" rel="stylesheet">
+    <link href="@Url.Content("~/Content/font-awesome/css/font-awesome.css")" rel="stylesheet">
+    <link href="@Url.Content("~/Content/css/animate.css")" rel="stylesheet">
+    <link href="@Url.Content("~/Content/css/estiloydR.css")" rel="stylesheet">
+    <link href="@Url.Content("~/Content/css/animate.css")" rel="stylesheet">
+
+    <link href="@Url.Content("~/Content/css/plugins/jasny/jasny-bootstrap.min.css")" rel="stylesheet">
+    <link href="@Url.Content("~/Content/css/plugins/sweetalert/sweetalert.css")" rel="stylesheet" />
+
+
+</head>
+<body>
+
+    <video id="video" width="640" height="480" autoplay></video>
+    <canvas id="canvas1" width="320" height="240" style="display: none;"></canvas>
+    <canvas id="canvas2" width="320" height="240" style="display: none;"></canvas>
+
+    <script src="@Url.Content("~/Content/js/jquery-3.1.1.min.js")"></script>
+    <script src="@Url.Content("~/Content/js/popper.min.js")"></script>
+    <script src="@Url.Content("~/Content/js/bootstrap.js")"></script>
+    <script src="@Url.Content("~/Content/js/inspinia.js")"></script>
+
+    <script src="@Url.Content("~/Content/js/plugins/metisMenu/jquery.metisMenu.js")"></script>
+    <script src="@Url.Content("~/Content/js/plugins/slimscroll/jquery.slimscroll.min.js")"></script>
+    <script src="@Url.Content("~/Content/js/plugins/sweetalert/sweetalert.min.js")"></script>
+    <script src="@Url.Content("~/Content/js/plugins/jasny/jasny-bootstrap.min.js")"></script>
+
+</body>
+</html>
+
+
+
+<script>
+    // Obtener acceso a la cámara
+    navigator.mediaDevices.getUserMedia({ video: true })
+        .then(stream => {
+            document.getElementById('video').srcObject = stream;
+        });
+
+    const video = document.getElementById('video');
+    const canvas1 = document.getElementById('canvas1');
+    const canvas2 = document.getElementById('canvas2');
+    const context1 = canvas1.getContext('2d');
+    const context2 = canvas2.getContext('2d');
+
+    function capturarImagen(context, canvas) {
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+        // Convertir a escala de grises
+        const grayData = new Uint8Array(imageData.width * imageData.height);
+        for (let i = 0; i < imageData.data.length; i += 4) {
+            const avg = (imageData.data[i] + imageData.data[i + 1] + imageData.data[i + 2]) / 3;
+            grayData[i / 4] = avg;
+        }
+        return grayData;
+    }
+
+    function compararImagenes(data1, data2, tolerancia) {
+        let totalDiff = 0;
+        for (let i = 0; i < data1.length; i++) {
+            totalDiff += Math.abs(data1[i] - data2[i]);
+        }
+        const avgDiff = totalDiff / data1.length;
+        return avgDiff > tolerancia; // Cambia si la diferencia promedio supera el umbral
+    }
+
+    function verificarCambio() {
+        const imagen1 = capturarImagen(context1, canvas1);
+        setTimeout(() => {
+            const imagen2 = capturarImagen(context2, canvas2);
+            const cambioDetectado = compararImagenes(imagen1, imagen2, 15);  // 15 es el umbral de diferencia promedio
+
+            if (cambioDetectado) {
+                console.log("Cambio detectado en la imagen");
+            } else {
+                console.log("Sin cambios significativos");
+            }
+
+            // Repetir continuamente
+            requestAnimationFrame(verificarCambio);
+        }, 500);  // Intervalo entre capturas
+    }
+
+    video.addEventListener('play', verificarCambio);
+</script>
+

@@ -1,0 +1,223 @@
+﻿﻿@using ydRSoft.Modelo
+@model RecetaModel
+
+@{
+    var receta = new RecetaModel();
+    List<int> listaId = new List<int>();
+    string vozNombre = "Ninguna Receta Disponible";
+    if (Model != null)
+    {
+        receta = Model;
+        if (receta.Id > 0)
+        {
+
+            if (receta.ListaId.Count > 0)
+            {
+                listaId = receta.ListaId;
+            }
+
+            vozNombre = "Categoria Tipo. " + receta.Categoria + ". " + receta.Nombre + ". Nivel de dificultad. " + receta.NivelDificultad;
+        }
+
+    }
+    int npaso = 1;
+
+    string vozIngredientes = "LISTA DE INGREDIENTES.";
+
+    string vozPasos = "TIEMPO DE PREPARACION " + receta.Tiempo + "minutos. INICIAMOS. ";
+
+}
+
+<style>
+    .ydR-titulo {
+        font-family: 'Inter 24pt 24pt';
+        font-size: 30px;
+        background-color: rgb(64, 150, 84);
+        color: black;
+        padding: 10px;
+        line-height:1.2;
+    }
+
+    .ydR-subtitulo {
+        font-family: 'Inter 18pt 18pt';
+        font-size: 28px;
+        color: rgb(64, 150, 84);
+        padding:10px;
+    }
+
+        .ydR-subtitulo small {
+            color: white;
+        }
+
+    .ydR-ingredientes {
+        font-family: 'Inter 18pt 18pt';
+        font-size: 20px;
+        line-height: 1.32;
+        padding: 0 5px 0 10px;
+    }
+
+        .ydR-ingredientes i {
+            color: rgb(64, 150, 84);
+        }
+
+    .ydR-preparacion {
+        font-family: 'Inter 18pt 18pt';
+        font-size: 20px;
+        line-height: 1.32;
+    }
+
+    .recetaSug1a {
+        width: 460px;
+        background-color: rgb(64, 150, 84);
+        color:black;
+        position: fixed;
+        bottom: 0px;
+        left: 10px;
+        padding: 10px;
+        border-radius: 5px;
+        z-index: 9999;
+        font-size: 24px;
+        font-family: 'Inter 18pt 18pt';
+        line-height:1;
+
+    }
+
+    .ydR-texto-pi {
+        background-color: rgb(49, 49, 49);
+        height: calc(100% - 20px);
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        color: white;
+        box-sizing: border-box;
+        padding: 5px 0 10px 0;
+    }
+
+    .texto-verd3 {
+        color: rgb(64, 150, 84);
+    }
+   
+
+</style>
+
+<input id="idNombre1a" value="@vozNombre" hidden />
+<input id="idReceta1a" value="@receta.Id" hidden />
+@if (receta.Id > 0)
+{
+
+    <div class="contenido-ydR">
+        <div class="ydR-titulo">
+            <strong class="text-center" id="nomReceta1">@receta.Nombre</strong>
+        </div>
+        <div class="ydR-texto-pi">
+            <div class="ydR-subtitulo">
+                <strong> <a class="fa fa-microphone" onclick="hablarIngredientes()"></a> Ingredientes <small> (@receta.Categoria)  &nbsp; Nivel: @receta.NivelDificultad </small></strong> 
+            </div>
+            <div class="ydR-ingredientes">
+                @foreach (var item in receta.Ingredientes)
+                {
+                    vozIngredientes = vozIngredientes + " " + item + ".";
+
+                    <i class="fa fa-check-circle"> &nbsp;</i> @item <br />
+                }
+
+
+            </div>
+            <div class="ydR-subtitulo">
+                <strong> <a class="fa fa-microphone" onclick="hablarPasos()"></a> Preparación  &nbsp;&nbsp; <i class="fa fa-clock-o"></i> <small>  @receta.Tiempo min.</small></strong>
+            </div>
+            <div>
+                @foreach (var item in receta.PasosPreparacion)
+                {
+                    vozPasos = vozPasos + " Paso " + npaso + ": " + item + ". ";
+
+                    <div class="ydR-ingredientes row">
+                        <div class="col-md-1 texto-verd3">
+                            P@(npaso++):
+                        </div>
+                        <div class="col-md-11">
+                            @item
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <input id="idIngred1a" value="@vozIngredientes" hidden />
+    <input id="idPasos1a" value="@vozPasos" hidden />
+
+    <div class="recetaSug1a">
+        <label>Receta Sugerida </label>
+        <div>@receta.Nombre <small>(Nivel-@receta.NivelDificultad)</small></div>
+    </div>
+}
+else
+{
+
+    <div class="recetaSug1a">
+        <span style="font-size:18px">Ninguna Receta Disponible &nbsp; <i class="fa fa-bug"></i></span>
+    </div>
+}
+
+<script>
+
+    //hablarNombre();
+
+    function hablarNombre() {
+        var txtletra = document.getElementById("idNombre1a").value
+        hablarTexto(txtletra);
+    }
+
+    function hablarIngredientes() {
+        var txtletra = document.getElementById("idIngred1a").value
+        hablarTexto(txtletra);
+    }
+
+    function hablarPasos() {
+        var txtletra = document.getElementById("idPasos1a").value
+        hablarTexto(txtletra);
+    }
+
+    function funAddFavorito() {
+        console.log("ingreso add favoritos x2");
+        let iduser = document.getElementById("IdInydRc").value;
+        if (iduser > 1) {
+            let id = document.getElementById("idReceta1a").value
+
+            if (id > 0) {
+                AgregarFavoritos(iduser, id);
+            } else {
+                console.log("no hay receta");
+            }
+
+
+        } else {
+            console.log("No puede agregar");
+            hablarTexto("Tiene que iniciar sesion para agregar favoritos");
+        }
+
+    }
+
+    async function AgregarFavoritos(idu, idr) {
+        var dataString = new FormData();
+
+        dataString.append("IdUser", idu);
+        dataString.append("IdRe", idr);
+
+        document.getElementById("idLoad1").innerHTML = "<i class='fa fa-spinner'> Cargando Recetas ...</i>";
+        const response = await fetch('/AReceta/Receta/AddFavoritos', {
+            method: 'POST',
+            body: dataString
+        });
+        if (response.ok) {
+            const data = await response.json();
+            hablarTexto(data.Mensaje);
+            console.log(data.Mensaje);
+        }
+
+        document.getElementById("idLoad1").innerHTML = "Bienvenido  " + ydR1bNom;
+    }
+
+
+
+</script>

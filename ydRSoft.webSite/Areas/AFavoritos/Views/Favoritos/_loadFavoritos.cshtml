@@ -1,0 +1,46 @@
+﻿
+@using ydRSoft.Modelo
+@model RecetaModel
+
+
+@{
+    RecetaModel receta = Model != null ? Model : new RecetaModel();
+    int npaso = 1;
+}
+
+<input id="rece7aId" value="@receta.Id" hidden />
+
+
+
+@if (receta.Id > 0)
+{
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            <h3>@receta.Nombre</h3>
+        </div>
+        <div class="panel-body">
+            <strong> INGREDIENTES</strong> <span> (@receta.Categoria) &nbsp; Nivel :  @receta.NivelDificultad </span>
+            <hr />
+            @foreach (var item in receta.Ingredientes)
+            {
+            <div>
+                <i class="fa fa-check-square-o"> &nbsp;</i> @item
+            </div>
+            }
+
+            <br />
+            <strong> PREPARACION</strong> <i class="fa fa-clock-o"> @receta.Tiempo min. </i>
+            <hr />
+
+            @foreach (var item in receta.PasosPreparacion)
+            {
+            <div><strong>Paso @(npaso++): </strong> @item</div>
+            }
+        </div>
+    </div>
+    
+}
+else
+{
+    <h3>Ninguna Receta Encontrada</h3>
+}

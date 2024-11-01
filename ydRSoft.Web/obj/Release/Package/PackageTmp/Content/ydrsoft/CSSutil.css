@@ -1,0 +1,210 @@
+﻿
+body, html {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+}
+
+.ydRNombres {
+    background-color: white;
+    color: black;
+    font-family: 'Segoe UI';
+    font-size: 24px;
+    padding: 5px 0 5px 20px;
+    margin: 0 0 0 20px
+}
+
+#canvasCorona {
+    display: block;
+}
+
+canvas {
+    border: 1px solid black;
+    display: block;
+    margin: auto;
+}
+
+
+.floatingTiempo {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 9999;
+    font-size: 24px;
+}
+
+
+.texto-Arriba-Der {
+    position: fixed;
+    right: 40px;
+    color: red;
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 9998;
+    font-size: 14px;
+}
+
+.floatingBotones {
+    position: fixed;
+    right: 5px;
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 9999;
+    font-size: 14px;
+    display: flex;
+    flex-direction: column; /* Alinea los elementos en columna */
+    gap: 10px; /* Añade un espacio de 10px entre los botones */
+}
+
+
+.letra-ydRp {
+    font-size: 24px;
+    font-family: 'Segoe UI', 'Lucida Console';
+    font-weight: bold;
+}
+
+
+.color-dorado {
+    color: rgb(244,209,90);
+    align-items: center;
+    padding: 10px 0 10px 10px;
+    border-radius: 5px;
+    text-align: left;
+    font-size: 28px;
+    font-family: 'Franklin Gothic Medium';
+}
+
+.texto-Ingredientes {
+    color: white;
+    align-items: center;
+    padding: 0 10px 0 20px;
+    font-size: 20px;
+    font-family: Arial;
+    line-height: 1;
+}
+
+.texto-Pasos {
+    color: white;
+    align-items: center;
+    padding: 0 0 0 10px;
+    font-size: 24px;
+    font-family: Arial;
+    line-height: 1.2;
+}
+
+.contenido-ydR {
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    margin: 10px 0 0 10px;
+}
+
+
+.parte-superior {
+    background-color: rgb(149,244,178);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: black;
+    font-weight: bold;
+    box-sizing: border-box;
+    padding: 10px 0 5px 0;
+    font-size: 30px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.parte-inferior {
+    background-color: rgb(108, 108, 108);
+    height: calc(100% - 20px);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    color: white;
+    box-sizing: border-box;
+    padding: 5px 0 10px 0;
+}
+
+.text-VerdeF {
+    color: rgb(149,244,178);
+    font-size: 24px;
+}
+
+.texto-icon-VerdeF {
+    color: rgb(149,244,178);
+    font-size: 16px;
+}
+
+.texto-largo {
+    display: flex;
+    align-items: flex-start;
+    font-size: 20px;
+    font-family: Arial, sans-serif;
+    line-height: 1.2;
+    margin: 0 0 10px 0;
+}
+
+.label {
+    flex-shrink: 0; /* Evita que el texto "dato 1:" se divida en varias líneas */
+    margin-right: 4px; /* Espacio entre "dato 1:" y el contenido */
+    font-weight: bold; /* Opcional: hace el texto en negrita */
+    background-color: transparent;
+    color: rgb(149,244,178);
+    font-size: 20px;
+}
+
+.contenido01 {
+    white-space: normal; /* Permite el ajuste del contenido en varias líneas */
+    word-wrap: break-word; /* Asegura que palabras largas se rompan y no excedan el contenedor */
+}
+
+.recetaSugerida {
+    width: 460px;
+    background-color: rgb(149,244,178);
+    position: fixed;
+    bottom: 50px;
+    left: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 9999;
+    font-size: 24px;
+    font-family: "Franklin Gothic Medium";
+    line-height:1;
+}
+
+
+.menu-superior {
+    background-color: rgb(149,244,178);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: black;
+    font-weight: bold;
+    box-sizing: border-box;
+    padding: 10px 10px 5px 10px;
+    font-size: 24px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    border-top-left-radius: 15px; /* Ajusta el valor según necesites */
+    border-top-right-radius: 15px; /* Ajusta el valor según necesites */
+}
+
+.menu-inferior {
+    background-color: rgb(108, 108, 108);
+    height: calc(100% - 20px);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    color: white;
+    box-sizing: border-box;
+    padding: 10px 10px 10px 20px;
+    font-size: 24px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    border-bottom-left-radius: 15px; /* Ajusta el valor según necesites */
+    border-bottom-right-radius: 15px; /* Ajusta el valor según necesites */
+}
+

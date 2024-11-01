@@ -1,0 +1,75 @@
+﻿
+
+<div class="row text-navy">
+    <div class="col-md-4">
+        <h3>Detalle Receta</h3>
+        <hr />
+        <div id="v1staRece7a"></div>
+    </div>
+    <div class="col-md-8">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div>Buscar</div>
+                <div class="input-group">
+                    <input id="mFiltro" onkeyup="funListaFavorito()" class="form-control text-navy text-uppercase" placeholder="Nombre Receta" autocomplete="off"> <span class="input-group-append">
+                        <button type="button" id="btnBuscar" onclick="funListaFavorito()" class="btn btn-primary"><i class="fa fa-search"></i> Buscar  </button>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div id="listaFavor17os"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    funListaFavorito();
+
+    async function funListaFavorito() {
+        let nombre = document.getElementById('mFiltro').value;
+
+        var dataString = new FormData();
+        dataString.append("IdUser", document.getElementById('editId').value);
+        dataString.append("Nombre", nombre);
+
+        const response = await fetch('/AFavoritos/Favoritos/ListaFavoritos', {
+            method: 'POST',
+            body: dataString,
+        });
+
+        if (response.ok) {
+            const data = await response.text();
+            $("#listaFavor17os").html(data);
+        } else {
+            alert('Error en la respuesta: ' + response.status, response.statusText);
+        }
+    }
+
+    async function funEliminaFav(id) {
+        var dataString = new FormData();
+        dataString.append("IdFav", id);
+
+        const response = await fetch('/AFavoritos/Favoritos/ActFavoritos', {
+            method: 'POST',
+            body: dataString,
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            if (data.Error) {
+                alert(data.Mensaje);
+            } else {
+                funListaFavorito();
+            }
+        } else {
+            alert('Error en la respuesta: ' + response.status, response.statusText);
+        }
+    }
+
+</script>

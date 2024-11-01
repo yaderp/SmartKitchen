@@ -1,0 +1,88 @@
+﻿@using ydRSoft.Modelo
+@model List<RecetaModel>
+
+@{
+    List<RecetaModel> mLista = Model != null ? Model : new List<RecetaModel>();
+    int Index = 0;
+}
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th width="1"></th>
+            <th width="1"> # </th>
+            <th>Nombre</th>
+            <th width="10%"><i class="fa fa-clock-o"></i> </th>
+            <th width="10%">Dificultad</th>
+            <th width="10%">Categoria</th>
+            <th width="1"> <i class="fa fa-star"></i></th>
+            <th width="1" class="text-center"> <i class="fa fa-heart text-danger"></i> </th>
+            <th width="1"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (mLista.Count > 0)
+        {
+            foreach (var item in mLista)
+            {
+                Index++;
+
+                <tr class="text-navy">
+                    <td hidden>@item.Id</td>
+                    <td><button class="btn btnydR-Success" onclick="funReceta1z(@item.Id)"><i class="fa fa-hand-o-left"></i></button></td>
+                    <td class="text-default">@Index.ToString().PadLeft(2, '0')</td>
+                    <td>@item.Nombre</td>
+                    <td>@item.Tiempo min</td>
+                    <td>Nivel @item.NivelDificultad</td>
+                    <td>@item.Categoria</td>
+                    <td>@item.Calificacion</td>
+                    <td>
+                        @if (item.Isfavorito)
+                        {
+                            <button class="btn btnydR-Verde btn btn-xs" onclick="funReceta1a(@item.Id,0)"> <i class="fa fa-check"></i> </button>
+                        }
+                        else
+                        {
+                            <button class="btn btnydR-Rojo btn btn-xs" onclick="funReceta1a(@item.Id,1)"> <i class="fa fa-times"></i> </button>
+                        }
+
+                    </td>
+                    <td>
+                        <button class="btn btnydR-Rojo btn btn-xs" onclick="funReceta1b(@item.Id)"> <i class="fa fa-trash"></i> </button>
+                    </td>
+                </tr>
+            }
+        }
+
+    </tbody>
+    <tfoot>
+        <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+    </tfoot>
+</table>
+
+<script>
+    function funReceta1a(id,tipo) {
+        console.log("fav " + id);
+        console.log("tipo " + tipo);
+
+        funAddDelfav(id, tipo);
+    }
+
+    function funReceta1b(id) {
+        console.log("del " + id);
+        funSaveSug1a(id, 0);
+    }
+
+    function funReceta1z(id) {
+        fungetSug1a(id);
+    }
+</script>

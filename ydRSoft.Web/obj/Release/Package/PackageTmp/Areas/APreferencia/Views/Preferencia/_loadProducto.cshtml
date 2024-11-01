@@ -1,0 +1,87 @@
+﻿@using ydRSoft.Modelo
+@model List<ProductoModel>
+
+@{ 
+    var mLista = Model == null ? new List<ProductoModel>() : Model;
+    int Index = 0;
+}
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th width="1"> # </th>
+            <th width="10">Producto</th>
+            <th>Calorías</th>
+            <th>Prot </th>
+            <th>Col</th>
+            <th>Carb</th>
+            <th>Az</th>
+            <th>Sod</th>
+            <th>Gras</th>
+            <th width="1"></th>
+            <th width="1"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (mLista.Count > 0)
+        {
+            foreach (var item in mLista)
+            {
+                Index++;
+
+                <tr class="text-navy">
+                    <td hidden>@item.Id</td>
+                    <td class="text-default">@Index.ToString().PadLeft(2, '0')</td>
+                    <td>@item.Nombre</td>
+                    <td>@item.Calorias</td>
+                    <td>@item.Proteinas</td>
+                    <td>@item.Colesterol</td>
+                    <td>@item.Carbohidratos</td>
+                    <td>@item.Azucares</td>
+                    <td>@item.Sodio</td>
+                    <td>@item.Grasa</td>
+
+                    @if (item.Estado != 2)
+                    {
+                        <td>
+                            <button class="btn btn-primary btn btn-xs" onclick="funbtn1a(@item.Id)">Prefe</button>
+                        </td>
+                        <td>
+                            <button class="btn btn-danger btn btn-xs" onclick="funbtn2a(@item.Id)">Alerg</button>
+                        </td>
+                    }
+
+                </tr>
+            }
+        }
+       
+    </tbody>
+    <tfoot>
+        <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+    </tfoot>
+</table>
+
+<script>
+    function funbtn1a(id) {
+        console.log("pref -> " + id);
+        funAddProdPref(id, 1);
+    }
+
+    function funbtn2a(id) {
+        console.log("aler -> " + id);
+        funAddProdPref(id, 2);
+    }    
+</script>

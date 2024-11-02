@@ -18,7 +18,7 @@ namespace ydRSoft.Modelo
         public int IdCargo { get; set; }
         public DateTime FechaReg { get; set; }
         public int Estado { get; set; }
-
+        public int Sugonff { get; set; }
         public UsuarioModel() {
             Id = 1;
             Nombres = "INVITADO";
@@ -29,6 +29,8 @@ namespace ydRSoft.Modelo
             IdCargo = 0;
             FechaReg = DateTime.Now;
             Estado = 1;
+            Sugonff = 1;
+            Region = "PERU";
         }
     }
 }

@@ -111,11 +111,11 @@
         <div id="verLogin">
             <div class="form-group text-left">
                 Usuario <br />
-                <input id="mUser" class="mi-input" autocomplete="off" placeholder="Di tu usuario" maxlength="25" />
+                <input id="mUser" class="mi-input" autocomplete="off" placeholder="Di tu usuario" maxlength="25" onkeyup="funEntrar(event)"/>
             </div>
             <div class="form-group text-left">
                 Clave<br />
-                <input type="password" id="mClave" class="mi-input" autocomplete="off" placeholder="Di tu Clave" />
+                <input type="password" id="mClave" class="mi-input" autocomplete="off" placeholder="Di tu Clave" onkeyup="funEntrar(event)"/>
             </div>
         </div>
         <p>Di la accion que deseas realizar:</p>
@@ -202,6 +202,14 @@
 
 
 <script>
+
+    function funEntrar(event) {
+        if (event.key === 'Enter') {
+            console.log("entro con enter");
+            funIngresar(1);
+        }
+    }
+
     setFocus('mUser');
     function EscribirTexto(txtLetra) {
         const elementoActivo = document.activeElement;

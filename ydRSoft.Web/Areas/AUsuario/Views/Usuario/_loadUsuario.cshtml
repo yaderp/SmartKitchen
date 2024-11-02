@@ -92,6 +92,16 @@
                                 </select>
                             </div>
                         </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-3 text-right">Sugerencia:</label>
+                            <div class="col-md-9">
+                                <select id="mSugonff" class="form-control">
+                                    <option value="1">ON</option>
+                                    <option value="2">OFF</option>
+                                </select>
+                            </div>
+                        </div>
                         <br />
                         <div class="form-group row">
                             <div class="col-md-3"></div>
@@ -223,7 +233,7 @@ else
     document.getElementById('mCargo').value = "@objUser.IdCargo";
     document.getElementById('mEstado').value = "@objUser.Estado";
     document.getElementById('mRegion').value = "@objUser.Region";
-
+    document.getElementById('mSugonff').value = "@objUser.Sugonff";
 </script>
 
 <script>
@@ -242,6 +252,7 @@ else
         dataString.append("Dni", document.getElementById('mDni').value);
         dataString.append("IdSexo", document.getElementById('mSexo').value);
         dataString.append("IdCargo", document.getElementById('mCargo').value);
+        dataString.append("Sugonff", document.getElementById('mSugonff').value);
         dataString.append("Estado", estado);
         console.log("cargo usuario");
         const response = await fetch('/AUsuario/Usuario/EditarUsuario', {

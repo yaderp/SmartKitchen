@@ -25,14 +25,14 @@ namespace ydRSoft.Web.Areas.AProducto.Controllers
         public async  Task<JsonResult> Prueba(string image64)
         {
             var model = await ProductoBL.GetInformacionN("PLÁTANO");
-            model.PosX = 300;
-            model.PosY = 300;
-            model.Radio = 220;
+            model.PosX = 350;
+            model.PosY = 150;
+            model.Radio = 130;
 
-            var model2 = await ProductoBL.GetInformacionN("ZANAHORIA");
-            model2.PosX = 950;
-            model2.PosY = 350;
-            model2.Radio = 180;
+            var model2 = await ProductoBL.GetInformacionN("MANZANA");
+            model2.PosX = 800;
+            model2.PosY = 200;
+            model2.Radio = 90;
 
             List<ProductoModel> mLista = new List<ProductoModel> { model, model2 };
 

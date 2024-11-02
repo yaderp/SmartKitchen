@@ -10,12 +10,17 @@
 <input id="editId" class="form-control text-navy" value="@objUser.Id" hidden/>
 <input id="editNombr1e" class="form-control text-navy" value="@objUser.Nombres" hidden />
 <input id="editReg1on" class="form-control text-navy" value="@objUser.Region" hidden />
+<input id="editSugonff" class="form-control text-navy" value="@objUser.Sugonff" hidden />
 <div id="resulVista"></div>
 
 
 <script>
 
-    funAlertaSug();
+    if (document.getElementById('editSugonff').value == 1) {
+        console.log("entro mostrar sugerencia");
+        funAlertaSug();
+    }
+    
 
     async function funAlertaSug() {
         const response = await fetch('/ASugerencia/Sugerencia/AlertaSug', {

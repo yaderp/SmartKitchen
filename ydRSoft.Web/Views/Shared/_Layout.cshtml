@@ -51,8 +51,8 @@
 <script>
     window.onload = function () {
         ydR1bNom = document.getElementById('nomInydRc').value;
-        //funModales('modalComandos');
-        //vozBienvenida();
+        funModales('modalComandos');
+        vozBienvenida();
     };
 </script>
 
@@ -101,7 +101,14 @@
 
         if (transcript === 'iniciar') {
             console.log("entro a iniciar");
-            IniciarCaptura();
+            //IniciarCaptura();
+            verInfoProdOnff();
+        }
+
+        if (transcript === 'información') {
+            console.log("entro a iniciar");
+            //IniciarCaptura();
+            verInfoProdOnff();
         }
 
         if (transcript === 'receta') {

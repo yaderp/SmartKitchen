@@ -205,6 +205,7 @@ namespace ydRSoft.BL
                                 listaModel[i].PosX = mLista[i].PosX;
                                 listaModel[i].PosY = mLista[i].PosY;
                                 listaModel[i].Radio = mLista[i].Radio;
+                                listaModel[i].Nombre = mLista[i].Nombre;
                             }
                         }
                     }

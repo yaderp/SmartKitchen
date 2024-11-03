@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -22,7 +23,7 @@ namespace ydRSoft.Web.Areas.AReceta.Controllers
         public async Task<ActionResult> ObtenerRecetas()
         {
             //string txtNombre = TxtProductos();
-            string txtNombre = "";
+            string txtNombre = TxtProductos();
             var model = new RecetaModel();
             if (txtNombre.Count() > 0)
             {
@@ -31,7 +32,7 @@ namespace ydRSoft.Web.Areas.AReceta.Controllers
             else
             {
                 model = await RecetaBL.GetRecetaId(2);
-                model.ListaId = new List<int> { 2, 1 };
+                model.ListaId = new List<int> { 29, 30};
             }
 
             return PartialView("_verPagina", model);
@@ -43,7 +44,7 @@ namespace ydRSoft.Web.Areas.AReceta.Controllers
 
             if (!string.IsNullOrEmpty(Nombre))
             {
-                receta = await RecetaBL.ConsultarNewReceta(Nombre,Region, 0);
+                receta = await RecetaBL.ConsultarNewReceta(Nombre, Region, 0);
             }
 
             //var receta = await RecetaBL.GetRecetaId(2);

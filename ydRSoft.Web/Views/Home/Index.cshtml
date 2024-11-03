@@ -123,22 +123,27 @@
         window.IniciarCaptura = IniciarCaptura;
 
         function IniciarCaptura() {
+            
             if (!isCapturing) {
                 isCapturing = true;
 
                 startCaptureButton.classList.remove('btn-success');
                 startCaptureButton.classList.add('btn-primary');
+                //InfoVerOnff = false;
                 // Iniciar la captura cada 2 segundos
                 captureInterval = setInterval(() => {
                     if (!isSending) {
                         //captureAndSendImage();
+                        //InfoVerOnff = false;
                         EnviarImagen();
+                        
                     }
-                }, 2500);
+                }, 1000);
             } else {
                 isCapturing = false;
                 startCaptureButton.classList.remove('btn-primary');
                 startCaptureButton.classList.add('btn-success');
+                //InfoVerOnff = true;
                 // Detener el intervalo de captura
                 clearInterval(captureInterval);
             }
@@ -159,7 +164,7 @@
                     // Enviar la imagen al servidor
                     //ConsultarApi
                     //Prueba
-                    const response = await fetch('/AProducto/Producto/Prueba', {
+                    const response = await fetch('/AProducto/Producto/ConsultarApi', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -172,10 +177,16 @@
                     }
 
                     const data = await response.json();
-                    console.log('Imagen enviada con éxito:', data);
 
                     dibujarProd(data);
                     MostrarMenu(data);
+
+                    if (!data || data.length === 0) {
+                        console.log("La lista está vacía o es nula");
+                    } else {
+                        console.log("Imagen enviada con éxito:", data);
+                        
+                    }
 
                 } catch (error) {
                     console.error('Error al enviar la imagen:', error);
@@ -288,6 +299,9 @@
     const tamInfoN = 24;
     const tamInfoV = 32;
     const CantInfo = 4;
+
+    let InfoVerOnff = true;
+
     // Ajustar el tamaño del canvas al tamaño de la ventana
     function ajustarCanvas() {
         canvas.width = window.innerWidth;
@@ -345,12 +359,28 @@
 
         posX = posX + (posX - 550) * 60 / 152;
         posY = posY + (posY + 210) * 60 / 152;
-        radio = radio + 100;
-
+        radio = radio + 200;
+        
+        IniciarCaptura();
         dibujarCorona(posX, posY, radio);
         dibujarTexto(posX, posY, radio);
-        dibujarNombre(posX, posY, radio, nombre);
+
         dibujarLinea(posX, posY, radio, listaValor);
+
+        dibujarNombre(posX, posY, radio, nombre);
+    }
+
+    function verInfoProdOnff() {
+
+        console.log(" ver opcion : " + InfoVerOnff);
+        
+        if (InfoVerOnff) {
+            InfoVerOnff = false;
+            IniciarCaptura();
+        } else {
+            InfoVerOnff = true;
+            
+        }
     }
 
     // Dibujar la corona
@@ -443,6 +473,8 @@
             ctx.restore();
         }
     }
+
+    
 
     function dibujarLinea(x, y, radius, listValor) {
 

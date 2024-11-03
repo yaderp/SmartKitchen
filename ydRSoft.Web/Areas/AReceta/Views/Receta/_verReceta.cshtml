@@ -161,7 +161,7 @@ else
 
 <script>
 
-    //hablarNombre();
+    hablarNombre();
 
     function hablarNombre() {
         var txtletra = document.getElementById("idNombre1a").value
@@ -179,11 +179,11 @@ else
     }
 
     function funAddFavorito() {
-        console.log("ingreso add favoritos x2");
+        console.log("ingresa agregar favorito ydR02");
         let iduser = document.getElementById("IdInydRc").value;
         if (iduser > 1) {
             let id = document.getElementById("idReceta1a").value
-
+            console.log(" idrecta -> " + id);
             if (id > 0) {
                 AgregarFavoritos(iduser, id);
             } else {
@@ -199,6 +199,8 @@ else
     }
 
     async function AgregarFavoritos(idu, idr) {
+
+        console.log("agregar favorito" + idu + " " + idr);
         var dataString = new FormData();
 
         dataString.append("IdUser", idu);
@@ -211,6 +213,7 @@ else
         });
         if (response.ok) {
             const data = await response.json();
+
             hablarTexto(data.Mensaje);
             console.log(data.Mensaje);
         }

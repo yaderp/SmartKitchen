@@ -105,7 +105,8 @@ CREATE TABLE sugerencias (
     nombre VARCHAR(300),
 	idreceta INT NOT NULL,
     iduser INT NOT NULL,
-	fechareg DATE
+	fechareg DATE,
+    estado INT NOT NULL
 );
 
 ALTER TABLE sugerencias

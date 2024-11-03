@@ -32,7 +32,7 @@ namespace ydRSoft.BL
                 mLista.Add(new TipoModel(6, "", "MOSTRAR CATEGORÍAS", "Mostrará las Categorias"));  
                 mLista.Add(new TipoModel(7, "", "BOTONES", "Para ver o acultar la lista de botones"));
                 //mLista.Add(new TipoModel(8, "", "BUSCAR", "Para Buscar Recetas"));
-                mLista.Add(new TipoModel(8, "", "CONFIGURACIÓN", "Para ver la Pantalla de Configuración"));
+                mLista.Add(new TipoModel(8, "", "AGREGAR FAVORITO", "Para Agregar la receta a Favoritos"));
                 //mLista.Add(new TipoModel(9, "", "REINICIAR", "Para refrescar la panatalla"));
                 mLista.Add(new TipoModel(9, "", "SALIR", "Para cerrar sesión"));
                 //mLista.Add(new TipoModel(12, "", "SIGUIENTE", "Para Mostrar la siguiente receta"));

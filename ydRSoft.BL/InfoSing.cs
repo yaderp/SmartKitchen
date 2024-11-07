@@ -43,6 +43,11 @@ namespace ydRSoft.BL
             return listaInfo.FirstOrDefault(x => x.Nombre == Nombre);
         }
 
+        public ProductoModel GetProdId(int IdProd)
+        {
+            return listaInfo.FirstOrDefault(x => x.Id == IdProd);
+        }
+
         public async Task LoadProductos()
         {
             listaInfo = await ProductoBL.ListaProducto();

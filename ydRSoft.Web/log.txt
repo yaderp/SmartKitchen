@@ -485,3 +485,41 @@
 02/11/2024 17:10:04 | ->Error al enviar la solicitud.
 02/11/2024 17:10:07 | ->Error al enviar la solicitud.
 02/11/2024 17:10:10 | ->Error al enviar la solicitud.
+03/11/2024 16:00:28 | ->Error al enviar la solicitud.
+03/11/2024 16:00:31 | ->Error al enviar la solicitud.
+03/11/2024 16:00:34 | ->Error al enviar la solicitud.
+03/11/2024 16:00:37 | ->Error al enviar la solicitud.
+03/11/2024 16:00:40 | ->Error al enviar la solicitud.
+03/11/2024 18:37:31 | ->Error al enviar la solicitud.
+03/11/2024 18:37:35 | ->Error al enviar la solicitud.
+03/11/2024 18:37:39 | ->Error al enviar la solicitud.
+03/11/2024 18:38:10 | ->Error al enviar la solicitud.
+06/11/2024 17:27:54 | ->Error al enviar la solicitud.
+06/11/2024 17:27:58 | ->Error al enviar la solicitud.
+06/11/2024 17:28:02 | ->Error al enviar la solicitud.
+06/11/2024 17:28:06 | ->Error al enviar la solicitud.
+06/11/2024 17:29:20 | ->Error al enviar la solicitud.
+06/11/2024 17:29:24 | ->Error al enviar la solicitud.
+06/11/2024 17:29:28 | ->Error al enviar la solicitud.
+06/11/2024 17:29:32 | ->Error al enviar la solicitud.
+06/11/2024 17:29:36 | ->Error al enviar la solicitud.
+06/11/2024 17:29:40 | ->Error al enviar la solicitud.
+06/11/2024 17:29:44 | ->Error al enviar la solicitud.
+06/11/2024 17:29:48 | ->Error al enviar la solicitud.
+06/11/2024 17:29:52 | ->Error al enviar la solicitud.
+06/11/2024 17:29:56 | ->Error al enviar la solicitud.
+06/11/2024 17:30:00 | ->Error al enviar la solicitud.
+06/11/2024 17:30:04 | ->Error al enviar la solicitud.
+06/11/2024 18:35:22 | Prod Act | Duplicate entry '8' for key 'producto.PRIMARY'
+06/11/2024 18:35:29 | Prod Act | Duplicate entry '8' for key 'producto.PRIMARY'
+06/11/2024 18:38:13 | Prod Act | You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'WHERE id = 38' at line 3
+06/11/2024 18:38:20 | Prod Act | You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'WHERE id = 38' at line 3
+06/11/2024 18:38:30 | Prod Act | You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'WHERE id = 38' at line 3
+06/11/2024 18:38:54 | Prod Act | You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'WHERE id = 38' at line 3
+06/11/2024 18:44:39 | ->Error al enviar la solicitud.
+06/11/2024 18:44:43 | ->Error al enviar la solicitud.
+06/11/2024 19:40:08 | ->Error al enviar la solicitud.
+06/11/2024 19:40:12 | ->Error al enviar la solicitud.
+06/11/2024 19:40:16 | ->Error al enviar la solicitud.
+06/11/2024 19:40:20 | ->Error al enviar la solicitud.
+06/11/2024 19:40:24 | ->Error al enviar la solicitud.

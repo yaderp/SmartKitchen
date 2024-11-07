@@ -1,9 +1,6 @@
 import Consultar
+import ydRSoftSK
 import base64
-import numpy as np
-import cv2
-import math
-from ultralytics import YOLO
 from flask import Flask, jsonify, request
 
 app = Flask(__name__)
@@ -11,7 +8,7 @@ app = Flask(__name__)
 # Ruta de bienvenida
 @app.route('/')
 def home():
-    return "¡Bienvenido a la API!"
+    return " <h2>¡Bienvenido a la API!</h2> <hr /> <h3>SmartKitchen P20241089</h3>"
 
 # Ruta para obtener todos los elementos
 @app.route('/productos', methods=['GET'])
@@ -36,71 +33,12 @@ def set_item():
         image_data = base64.b64decode(image_base64)
         #guardarImg(image_data)
 
-        return procesar_imagen_yolo(image_data)
+        items =  ydRSoftSK.procesar_imagen_yolo(image_data)
+        return jsonify(items)
 
     except Exception as e:
         #traceback.print_exc()  # Imprimir el stack trace completo
         return jsonify({"error": str(e)}), 500
-
-
-def procesar_imagen_yolo(image_data):
-    print("Detectando Productos ... ")
-
-    modelo = YOLO('modelo/smartkitchenv2.pt')
-
-    nparr = np.frombuffer(image_data, np.uint8)
-    imagen = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
-
-    resultados = modelo(imagen)
-
-    items = []
-
-    ids_nombres = {
-        47: "MANZANA",
-        46: "PLATANO",
-        51: "ZANAHORIA",
-        49: "NARANJA"
-    }
-
-    ids_otros = {
-        0: "MANZANA",
-        1: "PLÁTANO",
-        2: "ZANAHORIA",
-        3: "PEPINILLO",
-        4: "LIMÓN",
-        5: "MANGO",
-        6: "NARANJA",
-        7: "PAPA",
-        8: "TOMATE",
-        9: "CALABACIN"
-    }
-
-    lprod = ""
-    for resultado in resultados:
-        for deteccion in resultado.boxes.data.tolist():
-            x1, y1, x2, y2, confianza, clase = deteccion
-            px = int((x1 + x2) / 2)
-            py = int((y1 + y2) / 2)
-            radio = int(math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2) / 2)
-            print(str(modelo.names[int(clase)])+" -> "+str(int(px)))
-            if int(clase) in ids_otros:
-                nombre = ids_otros[int(clase)]
-                item = {
-                    "Id": int(clase),
-                    "Nombre": nombre,
-                    "PosX": px,
-                    "PosY": py,
-                    "Radio": radio,
-                }
-
-                #Consultar.guardarProductoTxt(item)
-                lprod = lprod + " - "+nombre+"("+str(px)+","+str(py)+ ",R"+str(radio) +") "
-                items.append(item)
-
-    print("Productos : " + lprod)
-    return jsonify(items)
-
-
 
 if __name__ == '__main__':
     app.run(debug=True)

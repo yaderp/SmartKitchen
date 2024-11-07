@@ -29,5 +29,26 @@ namespace ydRSoft.Util
 
             }
         }
+
+        public  static void SaveProd(string Texto)
+        {
+            try
+            {
+                string fileName = "logProd.txt";
+                string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+                string filePath = Path.Combine(baseDirectory, fileName);
+
+
+                using (StreamWriter streamWriter = new StreamWriter(filePath, true, Encoding.UTF8))
+                {
+                    string linea = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + " | " + Texto + "\n";
+                    streamWriter.Write(linea);
+                }
+            }
+            catch
+            {
+
+            }
+        }
     }
 }

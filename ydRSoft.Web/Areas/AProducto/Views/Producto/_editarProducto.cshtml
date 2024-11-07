@@ -1,0 +1,104 @@
+﻿@using ydRSoft.Modelo
+@model ProductoModel
+
+@{
+    ProductoModel objModel = Model != null ? Model : new ProductoModel();
+}
+
+<style>
+    .ydr-ancho40 {
+        width: 40%;
+        margin: 0 auto;
+        text-align: center;
+    }
+</style>
+<input id="edi7IdProd" value="@objModel.Id" hidden disabled/>
+
+<h3 class="ydr-ancho40">EDITAR PRODUCTO</h3>
+<hr />
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="form-group row">
+            <label class="col-md-3 text-right">ID:</label>
+            <div class="col-md-9">
+                <input id="mId7" class="form-control text-navy" autocomplete="off" placeholder="Nombre" value="@objModel.Id" />
+            </div>
+        </div>
+
+        <div class="form-group row  ydr-ancho40">
+            <button class="btn btn-success btn-ydRblock30" onclick="funCambioId()"> Cambio ID</button>
+        </div>       
+    </div>
+</div>
+
+
+<div class="panel panel-default">
+    <div class="panel-body">        
+
+        <div class="form-group row">
+            <label class="col-md-3 text-right">Nombre:</label>
+            <div class="col-md-9">
+                <input id="mNombre7" class="form-control text-navy" autocomplete="off" placeholder="Nombre" value="@objModel.Nombre" />
+            </div>
+        </div>
+
+        <div class="form-group ydr-ancho40">
+            <button class="btn btn-success btn-ydRblock30" onclick="funCambioNombre()"> Cambio Nombre</button>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<script>
+
+    async function funCambioId() {
+        var dataString = new FormData();
+        dataString.append("prodId", document.getElementById('edi7IdProd').value);
+        dataString.append("newId", document.getElementById('mId7').value);
+        const response = await fetch('/AProducto/Producto/EditarId', {
+            method: 'POST',
+            body: dataString
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            if (data.Error) {
+                console.log(data.Mensaje);
+            } else {
+                funVerL1staProd();
+                $("#vis7aEditProd").html(data.Mensaje);
+            }
+        } else {
+            console.log('Error en la respuesta: ' + response.status, response.statusText);
+        }
+
+    }
+
+    async function funCambioNombre() {
+        var dataString = new FormData();
+        dataString.append("IdProd", document.getElementById('edi7IdProd').value);
+        dataString.append("Nombre", document.getElementById('mNombre7').value);
+        const response = await fetch('/AProducto/Producto/EditarNombre', {
+            method: 'POST',
+            body: dataString
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            if (data.Error) {
+                console.log(data.Mensaje);
+            } else {
+                funVerL1staProd();
+                $("#vis7aEditProd").html(data.Mensaje);
+            }
+        } else {
+            console.log('Error en la respuesta: ' + response.status, response.statusText);
+        }
+
+    }
+
+</script>

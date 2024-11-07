@@ -13,7 +13,7 @@ namespace ydRSoft.BL
 {
     public class ProductoBL
     {
-        public static async Task<List<ProductoModel>> ConsultarApi(string image64)
+        private static async Task<List<ProductoModel>> ConsultarApi(string image64)
         {
             List<ProductoModel> mLista = new List<ProductoModel>();
 
@@ -58,29 +58,16 @@ namespace ydRSoft.BL
 
         public static async Task<List<ProductoModel>> ProdDetectados(string image64, List<ProductoModel> listaSession)
         {
-            var listaModel = new List<ProductoModel>();
+            var mLista = new List<ProductoModel>();
             try {
-                var mLista = await ConsultarApi(image64);
+                mLista = await ConsultarApi(image64);
 
-                mLista = ValidaPosXY(mLista, listaSession);
-
-                foreach (var item in mLista)
-                {
-                    var temp = InfoSing.Instance.GetProdNombre(item.Nombre);
-                    if(temp != null)
-                    {
-                        temp.PosX = item.PosX;
-                        temp.PosY = item.PosY;
-                        temp.Radio = item.Radio;
-
-                        listaModel.Add(temp);
-                    }
-                   
-                }
+                mLista = CargarProducto(mLista, listaSession);
+                
             } catch(Exception ex) {
                 await Util.LogError.SaveLog("Prod Detectados "+ex.Message);
             }
-            return listaModel;
+            return mLista;
         }
 
         //guarda un producto con su informacion nutricional
@@ -123,6 +110,34 @@ namespace ydRSoft.BL
 
             return resultado;
         }
+        public static async Task<RpstaModel> EditarNombre(int IdProd, string Nombre)
+        {
+            var resultado = await ProductoBD.EditarNombre(IdProd, Nombre);
+
+            return resultado;
+        }
+
+        public static async Task<RpstaModel> EditarId(int IdProd, int newId)
+        {
+            var resultado = await ProductoBD.EditarId(IdProd, newId);
+
+            return resultado;
+        }
+
+        public static async Task<RpstaModel> EditarProducto(ProductoModel objModel)
+        {
+            var resultado = await ProductoBD.EditarProducto(objModel);
+
+            return resultado;
+        }
+
+        public static async Task<ProductoModel> GetProductoId(int IdProd)
+        {
+            var resultado = await ProductoBD.GetProducto(IdProd);
+            
+            return resultado;
+
+        }
 
         public static async Task<ProductoModel> GetInformacionN(string Nombre)
         {
@@ -133,7 +148,6 @@ namespace ydRSoft.BL
             }
 
             return modelo;
-
         }
 
 
@@ -179,57 +193,89 @@ namespace ydRSoft.BL
             return resultado;
         }
 
-        private static List<ProductoModel> ValidaPosXY(List<ProductoModel> listaModel, List<ProductoModel> mLista)
+        private static  List<ProductoModel> CargarProducto(List<ProductoModel> listaModel, List<ProductoModel> listaSession)
         {
-            if (mLista != null)
+            List<ProductoModel> mLista = new List<ProductoModel>();
+
+            if (listaModel != null)
             {
                 try
                 {
-                    for (int i = 0; i < listaModel.Count; i++)
+                    foreach (var item in listaModel)
                     {
-                        //listaModel[i].PosX = GetPosX(listaModel[i].PosX);
-                        //listaModel[i].PosY = GetPosY(listaModel[i].PosY);
-                        //listaModel[i].Radio = listaModel[i].Radio + 90;
+                        var model  = InfoSing.Instance.GetProdId(item.Id);
+                        model.PosX = GetPosX(item.PosX);
+                        model.PosY = GetPosY(item.PosY);
+                        model.Radio = item.Radio + 70;
 
-                        var model = mLista.Where(x => x.Nombre == listaModel[i].Nombre).FirstOrDefault();
-                        if (model != null)
+                        if (listaSession != null && listaSession.Count > 0)
                         {
+                            var temp = listaSession.Where(x => x.Id == item.Id).FirstOrDefault();
 
-                            int dy = Math.Abs(model.PosY - listaModel[i].PosY);
-                            int dx = Math.Abs(model.PosX - listaModel[i].PosX);
-                            var dif = model.Radio - listaModel[i].Radio;
-                            int dr = Math.Abs((int)dif);
-
-                            if (dx < 5 && dy < 5)
+                            if (temp != null)
                             {
-                                listaModel[i].PosX = mLista[i].PosX;
-                                listaModel[i].PosY = mLista[i].PosY;
-                                listaModel[i].Radio = mLista[i].Radio;
-                                listaModel[i].Nombre = mLista[i].Nombre;
+                                int dy = Math.Abs(model.PosY - temp.PosY);
+                                int dx = Math.Abs(model.PosX - temp.PosX);
+
+                                if (dx < 5 && dy < 5)
+                                {
+                                    model = temp;
+                                }
                             }
+                        }
+                        string textop = "";
+                       if (model.Id == 7)
+                        {
+                            textop = model.Nombre + " " + model.PosX + " " + model.PosY + " " + model.Radio;
+                        }
+                        
+
+                        var duplicado = mLista.Where(x => x.Id == item.Id).FirstOrDefault();
+                        if(duplicado != null)
+                        {
+                            int dy = Math.Abs(model.PosY - item.PosY);
+                            int dx = Math.Abs(model.PosX - item.PosX);
+
+                            if (dx > 20 || dy > 20)
+                            {
+                                mLista.Add(model);
+                                Util.LogError.SaveProd("duplicado " + textop);
+                            }
+                        }
+                        else
+                        {
+                            Util.LogError.SaveProd(textop);
+                            mLista.Add(model);
                         }
                     }
                 }
-                catch
-                {
-
-                }
+                catch{}
             }           
 
-            return listaModel;
+            return mLista;
         }
         //580
         //<- 780 | 580 | 280 ->
         private static int GetPosX(int PosX)
         {
-            var difx = PosX + (PosX - 580) * 70 / 148;
+            var difx = PosX + (PosX - 750) * 50 / 152;
             return difx;
         }
         // baja 400 | 160 | 0 sube
         private static int GetPosY(int PosY)
         {
-            var dify = PosY + (PosY + 160) * 60 / 152;
+            var dify = PosY + (PosY + 200) * 45 / 152;
             return dify;
         }
+
+
     }
 }
+
+/*
+ 
+ posX = posX + (posX - 750) * 50 / 152;
+        posY = posY + (posY + 200) * 45 / 152;
+        radio = radio + 70;
+ * 
+ * */

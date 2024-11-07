@@ -1,12 +1,88 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "D:\\TP02\\SmartKitchen\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{93AA943D-18E3-4016-A188-5FF089EEF0A7}|ydRSoft.BL\\ydRSoft.BL.csproj|D:\\TP02\\SmartKitchen\\ydrsoft.bl\\productobl.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{93AA943D-18E3-4016-A188-5FF089EEF0A7}|ydRSoft.BL\\ydRSoft.BL.csproj|solutionrelative:ydrsoft.bl\\productobl.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{69C1FF2E-8799-4C15-8348-8846C91F3D4E}|ydRSoft.Web\\ydRSoft.Web.csproj|d:\\tp02\\smartkitchen\\ydrsoft.web\\areas\\aproducto\\controllers\\productocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{69C1FF2E-8799-4C15-8348-8846C91F3D4E}|ydRSoft.Web\\ydRSoft.Web.csproj|solutionrelative:ydrsoft.web\\areas\\aproducto\\controllers\\productocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{35A0DB1A-B52A-4D5C-9C8E-709EFBBC87BB}|ydRSoft.Util\\ydRSoft.Util.csproj|d:\\tp02\\smartkitchen\\ydrsoft.util\\logerror.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{35A0DB1A-B52A-4D5C-9C8E-709EFBBC87BB}|ydRSoft.Util\\ydRSoft.Util.csproj|solutionrelative:ydrsoft.util\\logerror.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{69C1FF2E-8799-4C15-8348-8846C91F3D4E}|ydRSoft.Web\\ydRSoft.Web.csproj|d:\\tp02\\smartkitchen\\ydrsoft.web\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{69C1FF2E-8799-4C15-8348-8846C91F3D4E}|ydRSoft.Web\\ydRSoft.Web.csproj|solutionrelative:ydrsoft.web\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": []
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "LogError.cs",
+              "DocumentMoniker": "D:\\TP02\\SmartKitchen\\ydRSoft.Util\\LogError.cs",
+              "RelativeDocumentMoniker": "ydRSoft.Util\\LogError.cs",
+              "ToolTip": "D:\\TP02\\SmartKitchen\\ydRSoft.Util\\LogError.cs",
+              "RelativeToolTip": "ydRSoft.Util\\LogError.cs",
+              "ViewState": "AgIAABoAAAAAAAAAAAAwwC8AAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-07T17:07:00.858Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\TP02\\SmartKitchen\\ydRSoft.Web\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "ydRSoft.Web\\Views\\Home\\Index.cshtml",
+              "ToolTip": "D:\\TP02\\SmartKitchen\\ydRSoft.Web\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "ydRSoft.Web\\Views\\Home\\Index.cshtml",
+              "ViewState": "AgIAAH4AAAAAAAAAAADwv4wAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-07T16:47:51.346Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ProductoController.cs",
+              "DocumentMoniker": "D:\\TP02\\SmartKitchen\\ydRSoft.Web\\Areas\\AProducto\\Controllers\\ProductoController.cs",
+              "RelativeDocumentMoniker": "ydRSoft.Web\\Areas\\AProducto\\Controllers\\ProductoController.cs",
+              "ToolTip": "D:\\TP02\\SmartKitchen\\ydRSoft.Web\\Areas\\AProducto\\Controllers\\ProductoController.cs",
+              "RelativeToolTip": "ydRSoft.Web\\Areas\\AProducto\\Controllers\\ProductoController.cs",
+              "ViewState": "AgIAAF8AAAAAAAAAAAAAAG4AAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-07T16:18:20.458Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ProductoBL.cs",
+              "DocumentMoniker": "D:\\TP02\\SmartKitchen\\ydRSoft.BL\\ProductoBL.cs",
+              "RelativeDocumentMoniker": "ydRSoft.BL\\ProductoBL.cs",
+              "ToolTip": "D:\\TP02\\SmartKitchen\\ydRSoft.BL\\ProductoBL.cs",
+              "RelativeToolTip": "ydRSoft.BL\\ProductoBL.cs",
+              "ViewState": "AgIAAL4AAAAAAAAAAAApwMgAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-07T00:05:08.318Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
     }
   ]
 }

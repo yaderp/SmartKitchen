@@ -329,6 +329,7 @@
     <Content Include="Areas\ASugerencia\Views\Sugerencia\_listaSugerencia.cshtml" />
     <Content Include="Content\font-awesome\webfonts\Inter-font.woff2" />
     <Content Include="Content\font-awesome\fonts\Inter-font.woff2" />
+    <Content Include="Areas\AProducto\Views\Producto\_editarProducto.cshtml" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />

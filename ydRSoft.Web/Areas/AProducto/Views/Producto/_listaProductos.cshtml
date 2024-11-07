@@ -11,6 +11,7 @@
 <table class="table">
     <thead>
         <tr>
+            <th width="1">ID</th>
             <th width="1"> # </th>
             <th class="text-navy">Producto</th>
             <th width="10%">Calorías</th>
@@ -32,7 +33,7 @@
                 Index++;
 
                 <tr class="text-navy">
-                    <td hidden>@item.Id</td>
+                    <td>@item.Id</td>
                     <td class="text-default">@Index.ToString().PadLeft(2, '0')</td>
                     <td><strong> @item.Nombre </strong> </td>
                     <td>@item.Calorias</td>
@@ -76,13 +77,30 @@
 </table>
 
 <script>
-    function funbtn1a(id) {
+    async function funbtn1a(id) {
         console.log("Editar -> " + id);
-        
+
+        var dataString = new FormData();
+        dataString.append("prodId", id);
+
+        const response = await fetch('/AProducto/Producto/EditarProducto', {
+            method: 'POST',
+            body: dataString
+        });
+
+        if (response.ok) {
+            const data = await response.text();
+            if (data.Error) {
+                $("#vis7aEditProd").html("");
+            } else {
+                $("#vis7aEditProd").html(data);
+            }
+        } else {
+            console.log('Error en la respuesta: ' + response.status, response.statusText);
+        }
     }
 
     function funbtn2a(id) {
-        console.log("eliminar -> " + id);
         funEliminaProd1g(id);
     }
 </script>

@@ -116,7 +116,7 @@
                 video.srcObject = stream;
             })
             .catch(err => {
-                alert("No se puede acceder a la cámara. Por favor, verifica que esté conectada.");
+                console.log("No se puede acceder a la cámara. Por favor, verifica que esté conectada.");
             });
 
         // Llamar a la función globalmente
@@ -138,7 +138,7 @@
                         EnviarImagen();
                         
                     }
-                }, 1000);
+                }, 3000);
             } else {
                 isCapturing = false;
                 startCaptureButton.classList.remove('btn-primary');
@@ -231,21 +231,38 @@
 </script>
 
 
-<script id="_dibjar_circulo">
-    function dibujarCirculo() {
+<script id="_dibujar_circulo">
+    function dibujarPuntosEntre() {
+        let PosInX = 0;
+        let PosInY = 0;
+        let radio = 240;
+        let color = 'rgb(64, 150, 84)';
+        for (i = 0; i < 3; i++) {
+            let posx = PosInX + 220 + i * (radio + 5) * 2;
+            for (j = 0; j < 2; j++) {
+                let posy = PosInY + 220 + j * (radio + 5) * 2;
+                dibujarPunto(posx, posy);
+                //dibujarCirculo(posx, posy, radio);
+            }
+        }
+    }
+
+
+    function dibujarPunto(xcc, ycc) {
+        var canvas = document.getElementById('canvasCorona');
+        if (canvas.getContext) {
+            ctx.beginPath();
+            ctx.arc(xcc, ycc, 2, 0, Math.PI * 2, false);
+            ctx.fillStyle = 'rgb(64, 150, 84)';
+            ctx.fill();
+        }
+    }
+
+    function dibujarCirculo(xcc, ycc, radioExterior) {
         var canvas = document.getElementById('canvasCorona');
         if (canvas.getContext) {
 
-            let xcc = 603;
-            let ycc = 652;
-
-            ycc = ycc + (ycc + 160) * 60 / 152;
-            xcc = xcc + (xcc - 503) * 60 / 160;
-
-            const RadioXY = 89;
-            const radioExterior = RadioXY + 90;
             const radioInterior = radioExterior - 50;
-            console.log("Radio " + radioExterior);
             // Dibujar círculo exterior
             ctx.beginPath();
             ctx.arc(xcc, ycc, radioExterior, 0, Math.PI * 2, false);
@@ -261,27 +278,6 @@
             // Restaurar el modo de dibujo
             ctx.globalCompositeOperation = 'source-over';
 
-
-            /*
-            //ctx.clearRect(0, 0, canvas.width, canvas.height);  // Limpiar el canvas
-
-            //ctx.beginPath();
-            //ctx.strokeStyle = 'white';
-            //ctx.lineWidth = 5;  // Ancho del borde
-            //ctx.strokeRect(0, 75, 1420, 995);  //rectangulo
-
-            //ctx.beginPath();
-            //ctx.fillStyle = 'red';
-            //ctx.fillRect(0, 70, 60, 60);
-
-            //ctx.beginPath();
-            //ctx.fillStyle = 'red';
-            //ctx.fillRect(0, 70, 10, 995);
-
-            //ctx.beginPath();
-            //ctx.fillStyle = 'red';
-            //ctx.fillRect(0, 70, 1420, 10);
-            */
         }
     }
 
@@ -307,13 +303,11 @@
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
 
-        //dibujarCirculo();
-        //dibujarMolecula(300,300);
+        //dibujarPuntosEntre();
     }
 
     async function dibujarProd(productos) {
         try {
-            console.log("dibujar prod");
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             productos.forEach(producto => {
@@ -331,7 +325,7 @@
         const vistaMenu = document.getElementById("vistaProd");
         vistaMenu.innerHTML = ""; // Limpiar contenido previo
 
-        console.log("productos : " + productos);
+        //console.log("productos : " + productos);
         // Iterar sobre la lista de productos y mostrarlos
         productos.forEach((producto, index) => {
             vistaMenu.innerHTML += `<div> <i class="fa fa-check-circle texto-verd3"></i> ${'1 '} ${producto.Nombre}</div>`;
@@ -349,7 +343,7 @@
 
         listaValor.push(producto.Calorias);
         listaValor.push(producto.Proteinas);
-        listaValor.push(producto.Colesterol);
+        listaValor.push(producto.Fibra);
         listaValor.push(producto.Carbohidratos);
         listaValor.push(producto.Fibra);
         listaValor.push(producto.Azucares);
@@ -357,37 +351,22 @@
         listaValor.push(producto.Calcio);
         listaValor.push(producto.Grasa);
 
-        posX = posX + (posX - 550) * 60 / 152;
-        posY = posY + (posY + 210) * 60 / 152;
-        radio = radio + 200;
+        //posX = posX + (posX - 750) * 50 / 152;
+        //posY = posY + (posY + 200) * 45 / 152;
+        //radio = radio + 70;
+
+        console.log(nombre + " " + posX + " | " + posY + " | " + radio);
         
-        IniciarCaptura();
         dibujarCorona(posX, posY, radio);
         dibujarTexto(posX, posY, radio);
-
         dibujarLinea(posX, posY, radio, listaValor);
-
         dibujarNombre(posX, posY, radio, nombre);
     }
-
-    function verInfoProdOnff() {
-
-        console.log(" ver opcion : " + InfoVerOnff);
-        
-        if (InfoVerOnff) {
-            InfoVerOnff = false;
-            IniciarCaptura();
-        } else {
-            InfoVerOnff = true;
-            
-        }
-    }
+       
 
     // Dibujar la corona
     function dibujarCorona(x, y, radioExterior) {
-        const radioInterior = radioExterior - anchoCorona;
-        console.log("Radio " + radioExterior);
-
+        const radioInterior = radioExterior - anchoCorona; 
         // Dibujar círculo exterior
         ctx.beginPath();
         ctx.arc(x, y, radioExterior, 0, Math.PI * 2, false);
@@ -478,7 +457,6 @@
 
     function dibujarLinea(x, y, radius, listValor) {
 
-        console.log("data -> " + listValor);
         const centerX = x;
         const centerY = y;
         const anguloInicio = 5.6;
@@ -486,7 +464,7 @@
         const totalRayos = 4
         const radioTexto = radius + 20;
 
-        const listaInfo = ["Calorias", "Proteinas", "Colesterol", "Carbohidratos", "Nutrientes"]
+        const listaInfo = ["Calorias", "Proteinas", "Fibra", "Carbohidratos", "Nutrientes"]
 
         const anguloPorRayo = (Math.PI * 2) / totalRayos * (radioBase / radius);
 
@@ -497,7 +475,6 @@
 
             const angle = anguloInicio + (anguloPorRayo * i);
 
-            console.log("rayo :" + angle);
             const x1 = centerX + (radius - 10) * Math.cos(angle);
             const y1 = centerY + (radius - 10) * Math.sin(angle);
             

@@ -79,13 +79,35 @@ namespace ydRSoft.Web.Areas.AProducto.Controllers
             return Json(resultado, JsonRequestBehavior.AllowGet);
         }
 
+        public async Task<JsonResult> EditarNombre(int IdProd, string Nombre)
+        {
+            var resultado = await ProductoBL.EditarNombre(IdProd,Nombre);
+
+            return Json(resultado, JsonRequestBehavior.AllowGet);
+        }
+
+        public async Task<JsonResult> EditarId(int prodId, int newId)
+        {
+            var resultado = await ProductoBL.EditarId(prodId, newId);
+
+            return Json(resultado, JsonRequestBehavior.AllowGet);
+        }
+
+        public async Task<ActionResult> EditarProducto(int prodId)
+        {
+            var producto = await ProductoBL.GetProductoId(prodId);
+
+            return PartialView("_editarProducto", producto);
+        }
+
 
         [HttpPost]
         public async Task<JsonResult> ConsultarApi(string image64)
         {
             List<ProductoModel> listaSession = (List<ProductoModel>)Session["ListaXY"];
-            var listaProd = await ProductoBL.ProdDetectados(image64, listaSession);
 
+            var listaProd = await ProductoBL.ProdDetectados(image64, listaSession);
+            
             Session["ListaXY"] = listaProd;
             return Json(listaProd, JsonRequestBehavior.AllowGet);
         }

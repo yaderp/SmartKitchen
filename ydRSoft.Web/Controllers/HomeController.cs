@@ -16,11 +16,11 @@ namespace ydRSoft.Web.Controllers
     {
         public async Task<ActionResult> Index()
         {
-            UsuarioModel model = (UsuarioModel)Session["objUser"];
+            var mUser = await UsuarioBL.GetUsuarioId(2);
 
-            //var mUser = await UsuarioBL.GetUsuarioId(2);
+            Session["objUser"] = mUser;
 
-            //Session["objUser"] = mUser;
+            UsuarioModel model = (UsuarioModel)Session["objUser"];         
 
             //return RedirectToAction("Index", "Configuracion", new { Area = "AConfiguracion" });
             //return RedirectToAction("About", "Home", new { Area = string.Empty });

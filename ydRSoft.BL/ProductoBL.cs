@@ -60,10 +60,10 @@ namespace ydRSoft.BL
         {
             var mLista = new List<ProductoModel>();
             try {
-                mLista = await ConsultarApi(image64);
+                var resultado  = await ConsultarApi(image64);
 
-                mLista = CargarProducto(mLista, listaSession);
-                
+                resultado = CargarProducto(resultado, listaSession);
+                mLista = resultado;
             } catch(Exception ex) {
                 await Util.LogError.SaveLog("Prod Detectados "+ex.Message);
             }
@@ -193,20 +193,58 @@ namespace ydRSoft.BL
             return resultado;
         }
 
-        private static  List<ProductoModel> CargarProducto(List<ProductoModel> listaModel, List<ProductoModel> listaSession)
+        private static List<ProductoModel> FiltrarLista(List<ProductoModel> listaModel)
+        {
+            var mLista = new List<ProductoModel>();
+
+            listaModel.RemoveAll(x => x.Radio > 160);
+
+            foreach(var item in listaModel)
+            {
+                var duplicados = listaModel.Where(p => p.Id != item.Id &&
+                                            Math.Abs(p.PosX - item.PosX) < 20 &&
+                                            Math.Abs(p.PosY - item.PosY) < 20).ToList();
+
+
+                if (duplicados.Any())
+                {
+                    var productoConMenorRadio = duplicados
+                        .Concat(new[] { item }) // Incluye el producto actual en la comparación
+                        .OrderBy(p => p.Radio)
+                        .First();
+
+                    // Agrega solo si no ha sido agregado ya (para evitar duplicados en la lista final)
+                    if (!mLista.Any(p => p.Id == productoConMenorRadio.Id))
+                    {
+                        mLista.Add(productoConMenorRadio);
+                    }
+                }
+                else
+                {
+                    // Si no hay duplicados, agregar el producto actual
+                    mLista.Add(item);
+                }
+            }
+
+            return mLista;
+
+        }
+
+        public static  List<ProductoModel> CargarProducto(List<ProductoModel> listaModel, List<ProductoModel> listaSession)
         {
             List<ProductoModel> mLista = new List<ProductoModel>();
-
             if (listaModel != null)
             {
+                listaModel = FiltrarLista(listaModel);
+
                 try
                 {
                     foreach (var item in listaModel)
                     {
-                        var model  = InfoSing.Instance.GetProdId(item.Id);
-                        model.PosX = GetPosX(item.PosX);
-                        model.PosY = GetPosY(item.PosY);
-                        model.Radio = item.Radio + 70;
+                        ProductoModel mprod7 = InfoSing.Instance.GetProdId(item.Id).Clone();
+                        mprod7.PosX = GetPosX(item.PosX);
+                        mprod7.PosY = GetPosY(item.PosY);
+                        mprod7.Radio = item.Radio + 70;
 
                         if (listaSession != null && listaSession.Count > 0)
                         {
@@ -214,39 +252,17 @@ namespace ydRSoft.BL
 
                             if (temp != null)
                             {
-                                int dy = Math.Abs(model.PosY - temp.PosY);
-                                int dx = Math.Abs(model.PosX - temp.PosX);
+                                int dy = Math.Abs(mprod7.PosY - temp.PosY);
+                                int dx = Math.Abs(mprod7.PosX - temp.PosX);
 
-                                if (dx < 5 && dy < 5)
+                                if (dx < 25 && dy < 25)
                                 {
-                                    model = temp;
+                                    mprod7 = temp;                                    
                                 }
                             }
                         }
-                        string textop = "";
-                       if (model.Id == 7)
-                        {
-                            textop = model.Nombre + " " + model.PosX + " " + model.PosY + " " + model.Radio;
-                        }
-                        
 
-                        var duplicado = mLista.Where(x => x.Id == item.Id).FirstOrDefault();
-                        if(duplicado != null)
-                        {
-                            int dy = Math.Abs(model.PosY - item.PosY);
-                            int dx = Math.Abs(model.PosX - item.PosX);
-
-                            if (dx > 20 || dy > 20)
-                            {
-                                mLista.Add(model);
-                                Util.LogError.SaveProd("duplicado " + textop);
-                            }
-                        }
-                        else
-                        {
-                            Util.LogError.SaveProd(textop);
-                            mLista.Add(model);
-                        }
+                        mLista.Add(mprod7);
                     }
                 }
                 catch{}

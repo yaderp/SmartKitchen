@@ -41,7 +41,7 @@ namespace ydRSoft.Util
 
                 using (StreamWriter streamWriter = new StreamWriter(filePath, true, Encoding.UTF8))
                 {
-                    string linea = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + " | " + Texto + "\n";
+                    string linea =  Texto + "\n";
                     streamWriter.Write(linea);
                 }
             }

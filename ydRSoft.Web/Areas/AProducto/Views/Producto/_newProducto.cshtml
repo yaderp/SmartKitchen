@@ -11,7 +11,9 @@
 
     <h3> @mprod.Nombre.ToUpper()</h3>
     <hr />
-
+    <div>
+        <input id="nomProd78" value="@mprod.Nombre"/>
+    </div>
     <div class="form-group row">
         <label class="col-md-3 text-right"> Calorias :</label>
         <span class="col-md-9 text-navy"> @mprod.Calorias</span>
@@ -60,7 +62,7 @@ else
         console.log("guadra info");
 
         var dataString = new FormData();
-        dataString.append("Nombre", '@mprod.Nombre');
+        dataString.append("Nombre", document.getElementById('nomProd78').value);
         dataString.append("Calorias", '@mprod.Calorias');
         dataString.append("Proteinas", '@mprod.Proteinas');
         dataString.append("Colesterol", '@mprod.Colesterol');
@@ -70,6 +72,7 @@ else
         dataString.append("Sodio", '@mprod.Sodio');
         dataString.append("Calcio", '@mprod.Calcio');
         dataString.append("Grasa", '@mprod.Grasa');
+        console.log("waaa");
 
         const response = await fetch('/AProducto/Producto/GuardarInfoN', {
             method: 'POST',
@@ -79,12 +82,12 @@ else
         if (response.ok) {
             const data = await response.json();
             if (data.Error) {
-                alert(data.Mensaje);
+                console.log(data.Mensaje);
             } else {
                 funVistaProductos();
             }
         } else {
-            alert('Error en la respuesta: ' + response.status, response.statusText);
+            console.log('Error en la respuesta: ' + response.status, response.statusText);
         }
 
         document.getElementById("btnSave1nfo").innerHTML = " Guardar <i class='fa fa-save'></i>";

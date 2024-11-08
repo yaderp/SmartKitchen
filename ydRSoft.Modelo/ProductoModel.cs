@@ -44,5 +44,27 @@ namespace ydRSoft.Modelo
             this.Radio = Radio;
             Info = new InfoModel();
         }
+
+        public ProductoModel Clone()
+        {
+            return new ProductoModel
+            {
+                Id = this.Id,
+                Nombre = this.Nombre,
+                Calorias = this.Calorias,
+                Proteinas = this.Proteinas,
+                Colesterol = this.Colesterol,
+                Carbohidratos = this.Carbohidratos,
+                Fibra = this.Fibra,
+                Azucares = this.Azucares,
+                Sodio = this.Sodio,
+                Calcio = this.Calcio,
+                Grasa = this.Grasa,
+                PosX = this.PosX,
+                PosY = this.PosY,
+                Radio = this.Radio,
+                Estado = this.Estado
+            };
+        }
     }
 }

@@ -16,9 +16,9 @@ namespace ydRSoft.Web.Controllers
     {
         public async Task<ActionResult> Index()
         {
-            var mUser = await UsuarioBL.GetUsuarioId(2);
+            //var mUser = await UsuarioBL.GetUsuarioId(2);
 
-            Session["objUser"] = mUser;
+            //Session["objUser"] = mUser;
 
             UsuarioModel model = (UsuarioModel)Session["objUser"];         
 
@@ -31,7 +31,7 @@ namespace ydRSoft.Web.Controllers
             }
 
             await InfoSing.Instance.LoadProductos();
-            await SugerenciaBL.LoadSugerencia(model.Id);
+            //await SugerenciaBL.LoadSugerencia(model.Id);
 
             return View(model);
         }

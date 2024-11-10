@@ -81,13 +81,17 @@
         });
 
         console.log("response");
-        if (response.ok) {
-            const data = await response.text();
-            console.log("muestra data");
-            $("#viewReceta").html(data);
-        } else {
-            divResult.innerHTML = '<h3> Ninguna receta Disponible </h3>';
-        }
+
+        setTimeout(async function () {
+            if (response.ok) {
+                const data = await response.text();
+                console.log("muestra data");
+                $("#viewReceta").html(data);
+            } else {
+                divResult.innerHTML = '<h3> Ninguna receta Disponible </h3>';
+            }
+        }, 1000);
+
     }
 
     function funPagina(boton, pagina) {

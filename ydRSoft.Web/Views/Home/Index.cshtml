@@ -23,6 +23,11 @@
         line-height: 1.2;
     }
 
+    .ydR-bordeDer {
+        border-left: 4px solid rgb(49, 49, 49); /* Grosor y color de la línea */
+       
+    }
+
     .ydR-subtitulo1f {
         font-family: 'Inter 18pt 18pt';
         font-size: 20px;
@@ -52,7 +57,7 @@
         <div class="ydR-titulo1f" id="idLoad1" hidden>
             
         </div>
-        <div id="viewReceta"> </div>
+        <div id="viewReceta" class="ydR-bordeDer"> </div>
     </div>
     <div class="col-md-9">
         <canvas id="canvasCorona"></canvas>
@@ -207,7 +212,8 @@
 
 <script id="_fun_Obtener_recetas">
 
-    async function funRecetas() {        
+    async function funRecetas() {
+        IniciarCaptura();
         $("#viewPaginas").html("");
         setOcultar("idLoad1", false);
         document.getElementById("idLoad1").innerHTML = "<i class='fa fa-spinner'> Cargando Recetas ...</i>";
@@ -353,6 +359,9 @@
 
         //posX = posX + (posX - 750) * 50 / 152;
         //posY = posY + (posY + 200) * 45 / 152;
+
+        //posX = posX + (posX - 620) * 70 / 152;
+        //posY = posY + (posY + 200) * 60 / 152;
         //radio = radio + 70;
 
         console.log(nombre + " " + posX + " | " + posY + " | " + radio);

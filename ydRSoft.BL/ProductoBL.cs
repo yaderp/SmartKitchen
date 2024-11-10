@@ -242,27 +242,30 @@ namespace ydRSoft.BL
                     foreach (var item in listaModel)
                     {
                         ProductoModel mprod7 = InfoSing.Instance.GetProdId(item.Id).Clone();
-                        mprod7.PosX = GetPosX(item.PosX);
-                        mprod7.PosY = GetPosY(item.PosY);
-                        mprod7.Radio = item.Radio + 70;
-
-                        if (listaSession != null && listaSession.Count > 0)
+                        if (mprod7.Id >=0)
                         {
-                            var temp = listaSession.Where(x => x.Id == item.Id).FirstOrDefault();
+                            mprod7.PosX = GetPosX(item.PosX);
+                            mprod7.PosY = GetPosY(item.PosY);
+                            mprod7.Radio = item.Radio + 70;
 
-                            if (temp != null)
+                            if (listaSession != null && listaSession.Count > 0)
                             {
-                                int dy = Math.Abs(mprod7.PosY - temp.PosY);
-                                int dx = Math.Abs(mprod7.PosX - temp.PosX);
+                                var temp = listaSession.Where(x => x.Id == item.Id).FirstOrDefault();
 
-                                if (dx < 25 && dy < 25)
+                                if (temp != null)
                                 {
-                                    mprod7 = temp;                                    
+                                    int dy = Math.Abs(mprod7.PosY - temp.PosY);
+                                    int dx = Math.Abs(mprod7.PosX - temp.PosX);
+
+                                    if (dx < 25 && dy < 25)
+                                    {
+                                        mprod7 = temp;
+                                    }
                                 }
                             }
-                        }
 
-                        mLista.Add(mprod7);
+                            mLista.Add(mprod7);
+                        }
                     }
                 }
                 catch{}
@@ -274,16 +277,18 @@ namespace ydRSoft.BL
         //<- 780 | 580 | 280 ->
         private static int GetPosX(int PosX)
         {
-            var difx = PosX + (PosX - 750) * 50 / 152;
+            var difx = PosX + (PosX - 620) * 70 / 152;
             return difx;
         }
         // baja 400 | 160 | 0 sube
         private static int GetPosY(int PosY)
         {
-            var dify = PosY + (PosY + 200) * 45 / 152;
+            var dify = PosY + (PosY + 200) * 60 / 152;
             return dify;
         }
 
+        //posX = posX + (posX - 620) * 70 / 152;
+        //posY = posY + (posY + 200) * 60 / 152;
 
     }
 }

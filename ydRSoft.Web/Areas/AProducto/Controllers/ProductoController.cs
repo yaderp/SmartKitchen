@@ -110,12 +110,6 @@ namespace ydRSoft.Web.Areas.AProducto.Controllers
             
             Session["ListaXY"] = listaProd;
 
-            foreach(var item in listaProd)
-            {
-                Util.LogError.SaveProd("Session : " + item.PosX + " , " + item.PosY + " , " + item.Radio);
-            }
-
-            Util.LogError.SaveProd("-----------------");
             return Json(listaProd, JsonRequestBehavior.AllowGet);
         }
     }

@@ -22,8 +22,8 @@ namespace ydRSoft.Web.Areas.AReceta.Controllers
 
         public async Task<ActionResult> ObtenerRecetas()
         {
-            //string txtNombre = TxtProductos();
-            string txtNombre = "";
+            string txtNombre = TxtProductos();
+            //string txtNombre = "";
             var model = new RecetaModel();
             if (txtNombre.Count() > 0)
             {
@@ -32,7 +32,7 @@ namespace ydRSoft.Web.Areas.AReceta.Controllers
             else
             {
                 model = await RecetaBL.GetRecetaId(29);
-                model.ListaId = new List<int> { 29, 30,31};
+                model.ListaId = new List<int> { 29, 30};
             }
 
             return PartialView("_verPagina", model);

@@ -27,7 +27,7 @@ namespace ydRSoft.Modelo
         public InfoModel Info { get; set; }
 
         public ProductoModel() {
-            Id = 0;
+            Id = -1;
             Nombre = "";
             PosX = 0;
             PosY = 0;
